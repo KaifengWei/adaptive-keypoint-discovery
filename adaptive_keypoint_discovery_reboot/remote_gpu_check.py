@@ -48,8 +48,13 @@ def torch_report() -> dict[str, Any]:
         "torch_cuda_build": torch.version.cuda,
         "cuda_available": bool(torch.cuda.is_available()),
         "device_count": int(torch.cuda.device_count()),
-        "cudnn_version": torch.backends.cudnn.version(),
     }
+    try:
+        report["cudnn_version"] = torch.backends.cudnn.version()
+        report["cudnn_error"] = None
+    except Exception as exc:
+        report["cudnn_version"] = None
+        report["cudnn_error"] = repr(exc)
     devices: list[dict[str, Any]] = []
     for index in range(torch.cuda.device_count()):
         prop = torch.cuda.get_device_properties(index)
@@ -62,6 +67,21 @@ def torch_report() -> dict[str, Any]:
             }
         )
     report["devices"] = devices
+
+    if report["cuda_available"] and report["cudnn_error"] is None:
+        try:
+            sample = torch.zeros((1, 3, 32, 32), device="cuda")
+            kernel = torch.zeros((4, 3, 3, 3), device="cuda")
+            torch.nn.functional.conv2d(sample, kernel)
+            torch.cuda.synchronize()
+            report["cuda_conv_smoke"] = True
+            report["cuda_conv_error"] = None
+        except Exception as exc:
+            report["cuda_conv_smoke"] = False
+            report["cuda_conv_error"] = repr(exc)
+    else:
+        report["cuda_conv_smoke"] = False
+        report["cuda_conv_error"] = "skipped because CUDA or cuDNN is unavailable"
     return report
 
 
@@ -91,8 +111,12 @@ def main() -> None:
         print("\n[结论] GPU 驱动可检查，但当前 Python 环境尚未成功导入 PyTorch。")
     elif not torch_info.get("cuda_available"):
         print("\n[结论] 当前 PyTorch 不能使用 CUDA；常见原因是装了 CPU 版 PyTorch或环境不对。")
+    elif torch_info.get("cudnn_error"):
+        print("\n[结论] CUDA 可见，但 cuDNN 初始化失败；先处理动态库版本冲突，不能开始训练。")
+    elif not torch_info.get("cuda_conv_smoke"):
+        print("\n[结论] CUDA 可见，但最小卷积测试失败；不能开始训练。")
     else:
-        print("\n[结论] 当前 Python 环境能够调用 CUDA，可进入训练前依赖检查。")
+        print("\n[结论] 当前 Python 环境能够调用 CUDA/cuDNN，最小卷积测试通过，可进入训练前依赖检查。")
 
 
 if __name__ == "__main__":
