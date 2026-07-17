@@ -1,0 +1,17 @@
+{
+  "phase": "smoke",
+  "model": "dinov2_vits14_reg",
+  "device": "cpu",
+  "sizes": [
+    518
+  ],
+  "layers": [
+    "last4avg"
+  ],
+  "transforms": "smoke_core",
+  "attention_extraction_modes": {
+    "exact_last_block_cls_attention": 8
+  },
+  "hdbscan_available": true,
+  "elapsed_seconds": 6.257721662521362
+}

@@ -1,0 +1,230 @@
+{
+  "518|last|cls_to_patch_attention": {
+    "tau": 0.996,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last",
+      "method": "cls_to_patch_attention",
+      "tau": 0.996,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 3.5,
+      "candidate_count_iqr": 1.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 1.0,
+      "median_repeatability_f1": 0.823561507936508,
+      "median_localization_error_bbox_diag": 0.011360009033377276,
+      "median_photometric_count_difference": 0.0,
+      "calibration_utility": 1.2150415011614748
+    }
+  },
+  "518|last|feature_hdbscan_medoid": {
+    "tau": 0.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last",
+      "method": "feature_hdbscan_medoid",
+      "tau": 0.0,
+      "image_count": 20,
+      "noncollapse_rate": 0.9,
+      "median_candidate_count": 7.5,
+      "candidate_count_iqr": 5.5,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.2403846153846154,
+      "median_repeatability_f1": 0.26448128199772936,
+      "median_localization_error_bbox_diag": 0.022654688323309878,
+      "median_photometric_count_difference": 1.75,
+      "calibration_utility": 0.4425864196014008
+    }
+  },
+  "518|last|feature_local_contrast": {
+    "tau": 7.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last",
+      "method": "feature_local_contrast",
+      "tau": 7.0,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 11.5,
+      "candidate_count_iqr": 10.25,
+      "safety_cap_hit_rate": 0.05,
+      "median_plant_hit_ratio": 0.3333333333333333,
+      "median_repeatability_f1": 0.6227767330708507,
+      "median_localization_error_bbox_diag": 0.01250622026210299,
+      "median_photometric_count_difference": 1.25,
+      "calibration_utility": 0.8342304012076068
+    }
+  },
+  "518|last4avg|cls_to_patch_attention": {
+    "tau": 0.996,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "cls_to_patch_attention",
+      "tau": 0.996,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 3.5,
+      "candidate_count_iqr": 1.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 1.0,
+      "median_repeatability_f1": 0.823561507936508,
+      "median_localization_error_bbox_diag": 0.011360009033377276,
+      "median_photometric_count_difference": 0.0,
+      "calibration_utility": 1.2150415011614748
+    }
+  },
+  "518|last4avg|feature_hdbscan_medoid": {
+    "tau": 0.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "feature_hdbscan_medoid",
+      "tau": 0.0,
+      "image_count": 20,
+      "noncollapse_rate": 0.9,
+      "median_candidate_count": 7.0,
+      "candidate_count_iqr": 3.25,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.36507936507936506,
+      "median_repeatability_f1": 0.2887765667854677,
+      "median_localization_error_bbox_diag": 0.018365033428755694,
+      "median_photometric_count_difference": 0.75,
+      "calibration_utility": 0.5012726329837423
+    }
+  },
+  "518|last4avg|feature_local_contrast": {
+    "tau": 6.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "feature_local_contrast",
+      "tau": 6.0,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 20.0,
+      "candidate_count_iqr": 10.25,
+      "safety_cap_hit_rate": 0.25,
+      "median_plant_hit_ratio": 0.375,
+      "median_repeatability_f1": 0.7191580956548342,
+      "median_localization_error_bbox_diag": 0.010199016424182004,
+      "median_photometric_count_difference": 1.25,
+      "calibration_utility": 0.8927588333366978
+    }
+  },
+  "728|last|cls_to_patch_attention": {
+    "tau": 0.996,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last",
+      "method": "cls_to_patch_attention",
+      "tau": 0.996,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 4.5,
+      "candidate_count_iqr": 1.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 1.0,
+      "median_repeatability_f1": 0.7902756965256965,
+      "median_localization_error_bbox_diag": 0.010359320081233244,
+      "median_photometric_count_difference": 0.5,
+      "calibration_utility": 1.1825062064647716
+    }
+  },
+  "728|last|feature_hdbscan_medoid": {
+    "tau": 0.0,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last",
+      "method": "feature_hdbscan_medoid",
+      "tau": 0.0,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 5.0,
+      "candidate_count_iqr": 3.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.30952380952380953,
+      "median_repeatability_f1": 0.3277483239799416,
+      "median_localization_error_bbox_diag": 0.022690302644658288,
+      "median_photometric_count_difference": 1.0,
+      "calibration_utility": 0.5381115493774002
+    }
+  },
+  "728|last|feature_local_contrast": {
+    "tau": 10.0,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last",
+      "method": "feature_local_contrast",
+      "tau": 10.0,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 25.5,
+      "candidate_count_iqr": 17.25,
+      "safety_cap_hit_rate": 0.35,
+      "median_plant_hit_ratio": 0.4166666666666667,
+      "median_repeatability_f1": 0.6591574899593768,
+      "median_localization_error_bbox_diag": 0.0098993171250958,
+      "median_photometric_count_difference": 0.75,
+      "calibration_utility": 0.8183996687822216
+    }
+  },
+  "728|last4avg|cls_to_patch_attention": {
+    "tau": 0.996,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last4avg",
+      "method": "cls_to_patch_attention",
+      "tau": 0.996,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 4.5,
+      "candidate_count_iqr": 1.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 1.0,
+      "median_repeatability_f1": 0.7902756965256965,
+      "median_localization_error_bbox_diag": 0.010359320081233244,
+      "median_photometric_count_difference": 0.5,
+      "calibration_utility": 1.1825062064647716
+    }
+  },
+  "728|last4avg|feature_hdbscan_medoid": {
+    "tau": 0.0,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last4avg",
+      "method": "feature_hdbscan_medoid",
+      "tau": 0.0,
+      "image_count": 20,
+      "noncollapse_rate": 0.8,
+      "median_candidate_count": 5.0,
+      "candidate_count_iqr": 2.25,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.29166666666666663,
+      "median_repeatability_f1": 0.35085227272727276,
+      "median_localization_error_bbox_diag": 0.020640861546020788,
+      "median_photometric_count_difference": 0.5,
+      "calibration_utility": 0.5282882932344238
+    }
+  },
+  "728|last4avg|feature_local_contrast": {
+    "tau": 10.0,
+    "calibration_metrics": {
+      "size": 728,
+      "layer_mode": "last4avg",
+      "method": "feature_local_contrast",
+      "tau": 10.0,
+      "image_count": 20,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 26.0,
+      "candidate_count_iqr": 8.25,
+      "safety_cap_hit_rate": 0.4,
+      "median_plant_hit_ratio": 0.4666666666666667,
+      "median_repeatability_f1": 0.727432285271671,
+      "median_localization_error_bbox_diag": 0.009343946393185053,
+      "median_photometric_count_difference": 1.25,
+      "calibration_utility": 0.887090992143449
+    }
+  }
+}

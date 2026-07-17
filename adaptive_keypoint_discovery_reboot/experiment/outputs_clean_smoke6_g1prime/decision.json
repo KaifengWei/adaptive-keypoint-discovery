@@ -1,0 +1,35 @@
+{
+  "method_parameters_changed": false,
+  "training_used": false,
+  "keypoint_labels_read": false,
+  "locked14_run": false,
+  "metrics": {
+    "images": 6,
+    "median_candidate_count": 14.5,
+    "candidate_count_iqr": 2.5,
+    "safety_cap_hit_rate": 0.0,
+    "median_white_mask_hit_ratio": 1.0,
+    "median_repeatability_f1": 0.9160043984605388,
+    "median_localization_error_bbox_diag": 0.0,
+    "median_photometric_count_difference": 0.5,
+    "median_skeleton_coverage": 0.9959459459459459,
+    "median_longitudinal_span_ratio": 0.885801570594928
+  },
+  "machine_gates": {
+    "safety_cap_hit_rate_eq_0": true,
+    "repeatability_f1_gte_0_60": true,
+    "photometric_count_difference_lte_1": true,
+    "white_mask_hit_ratio_gte_0_80": true
+  },
+  "qualitative_review": {
+    "review_type": "phenotype_oriented_domain_review",
+    "reviewed_images": 6,
+    "phenotype_support_point_interpretation_pass": true,
+    "former_sparse_event_gate": "withdrawn_as_misaligned_with_research_objective",
+    "positive_observation": "The points stably cover stems and leaves and are potentially useful as adaptive control or sampling points for curve fitting.",
+    "remaining_limitation": "The points have not yet been ordered and grouped into plant paths, and downstream phenotype accuracy has not yet been tested."
+  },
+  "next_gate": "ordered_path_reconstruction_and_phenotype_utility_validation",
+  "decision": "pass_g1prime_smoke_advance_to_phenotype_bridge",
+  "elapsed_seconds": 22.436322689056396
+}

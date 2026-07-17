@@ -1,0 +1,6 @@
+﻿path,error
+D:\kp\数据集图片\..秧苗素质-扫描系统采集\0502 A1 1-13 17-19\0506\test00009.tif,ValueError('image data are not memory-mappable')
+D:\kp\数据集图片\..秧苗素质-扫描系统采集\传感器A1-B4 苗\A3-13-土-0417\0512\test00134.tif,ValueError('image data are not memory-mappable')
+D:\kp\数据集图片\..秧苗素质-扫描系统采集\扫描仪9.5\9.11-5.9\062500014.tif,ValueError('image data are not memory-mappable')
+D:\kp\数据集图片\..秧苗素质-扫描系统采集\扫描仪9.5\9.6-5.4\062500003.tif,ValueError('image data are not memory-mappable')
+D:\kp\数据集图片\..秧苗素质-扫描系统采集\扫描仪9.5\9.6-5.4\062500006.tif,ValueError('image data are not memory-mappable')

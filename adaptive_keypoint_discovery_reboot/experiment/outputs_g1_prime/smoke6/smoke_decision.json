@@ -1,0 +1,58 @@
+{
+  "metrics": {
+    "images": 6,
+    "median_candidate_count": 14.5,
+    "candidate_count_iqr": 3.25,
+    "noncollapse_ratio": 1.0,
+    "safety_cap_hit_ratio": 0.16666666666666666,
+    "median_g0_audit_mask_agreement": 1.0,
+    "median_repeatability_f1": 0.8863955119214586,
+    "median_localization_error_bbox_diag": 0.0041188783820061,
+    "median_photometric_count_difference": 1.0,
+    "median_skeleton_coverage": 1.0,
+    "median_longitudinal_span_ratio": 0.8754207141582326
+  },
+  "machine_gates": {
+    "noncollapse_ratio_gte_0_83": true,
+    "repeatability_f1_gte_0_60": true,
+    "localization_error_lte_0_05": true,
+    "photometric_count_difference_lte_1": true,
+    "safety_cap_hit_ratio_eq_0": false,
+    "skeleton_coverage_gte_0_55": true,
+    "longitudinal_span_gte_0_65": true
+  },
+  "pending_independent_gates": {
+    "support_accuracy": "not_available; G0 audit mask is not independent and leaked into gray backgrounds",
+    "human_structural_meaning": "not_run because a machine gate already failed"
+  },
+  "decision": "revise_or_stop_before_calibration20",
+  "method": "automatic vegetation support + skeleton topology + frozen DINOv2 evidence",
+  "training_used": false,
+  "legacy_keypoint_labels_read": false,
+  "device": "cpu",
+  "input_size": 518,
+  "images": [
+    "akd_0279",
+    "akd_0120",
+    "akd_0227",
+    "akd_0346",
+    "akd_0222",
+    "akd_0394"
+  ],
+  "transforms": [
+    "identity",
+    "flip_horizontal",
+    "rotate_10",
+    "brightness_075"
+  ],
+  "candidate_type_counts": {
+    "endpoint": 43,
+    "shape_corner": 40,
+    "dino_distinctive": 7
+  },
+  "attention_modes": {
+    "exact_last_block_cls_attention": 24
+  },
+  "elapsed_seconds": 25.429489850997925,
+  "audit_note": "G0 mask agreement is retained only for traceability. It is not an independent accuracy measure: visual review found that the recall-oriented G0 audit proposal leaks into low-saturation gray backgrounds. The mask is never read by candidate generation."
+}

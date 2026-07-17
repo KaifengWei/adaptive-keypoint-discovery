@@ -1,0 +1,12 @@
+﻿dataset_id,source_name,stage_label,split,relative_path,candidate_count,path_count,base_score_margin,人工_基部是否正确_是或否,人工_路径数量是否正确_是或否,人工_是否漏叶或串线_说明,人工_是否可进入表型误差计算_是或否,人工_备注
+stagev3_0002,1.jpg,gt2,test,images\test\stagev3_0002.png,15,1,0.2808761324286157,,,,,
+stagev3_0003,18-18.jpg,gt2,test,images\test\stagev3_0003.png,23,2,0.052457811388879,,,,,
+stagev3_0004,19-19.jpg,gt2,test,images\test\stagev3_0004.png,17,2,0.0012907768838272,,,,,
+stagev3_0009,44-44.jpg,gt2,val,images\val\stagev3_0009.png,16,4,0.0786762543771868,,,,,
+stagev3_0011,10-10.jpg,leaf1_to_2,test,images\test\stagev3_0011.png,19,3,0.4568509582747524,,,,,
+stagev3_0015,27-27.jpg,leaf1_to_2,test,images\test\stagev3_0015.png,17,2,0.0676585539463885,,,,,
+stagev3_0018,32-32.jpg,leaf1_to_2,val,images\val\stagev3_0018.png,18,3,0.0319445017701067,,,,,
+stagev3_0019,33-33.jpg,leaf1_to_2,val,images\val\stagev3_0019.png,17,2,0.0282632557901032,,,,,
+stagev3_0027,100047(1).png,lt1_needle,val,images\val\stagev3_0027.png,11,1,0.4126968720199577,,,,,
+stagev3_0028,100047(2).png,lt1_needle,val,images\val\stagev3_0028.png,13,1,0.3226620795355014,,,,,
+stagev3_0030,100098(2).png,lt1_needle,test,images\test\stagev3_0030.png,17,1,0.0025543556847665,,,,,

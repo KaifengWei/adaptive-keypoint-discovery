@@ -1,0 +1,4 @@
+﻿size,layer_mode,method,tau,image_count,noncollapse_rate,median_candidate_count,candidate_count_iqr,safety_cap_hit_rate,median_plant_hit_ratio,median_repeatability_f1,median_localization_error_bbox_diag,median_photometric_count_difference,calibration_utility
+518,last4avg,cls_to_patch_attention,0.996,60,0.95,3.0,1.25,0.0,1.0,0.7482142857142857,0.01281727074825752,0.5,1.1311013326530928
+518,last4avg,feature_local_contrast,6.0,60,1.0,19.0,10.25,0.2,0.4409722222222222,0.7290850870517045,0.01131888356325061,1.5,0.9308389799348221
+728,last,feature_hdbscan_medoid,0.0,60,0.9333333333333333,5.0,2.0,0.0,0.3333333333333333,0.36791078610931555,0.020579473821042575,0.5,0.575809514076867

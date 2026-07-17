@@ -1,0 +1,16 @@
+{
+  "images": 3,
+  "training_usable_images": 3,
+  "usable_rate": 1.0,
+  "teacher_variant": "full",
+  "consistency_filter_used": true,
+  "keypoint_labels_read": false,
+  "manual_keypoint_annotations_created": false,
+  "median_accepted_count": 14.0,
+  "stage_counts": {
+    "gt2": 3
+  },
+  "device": "cpu",
+  "elapsed_seconds": 13.169195175170898,
+  "interpretation": "automatic teacher targets for self-training; not phenotype ground truth"
+}

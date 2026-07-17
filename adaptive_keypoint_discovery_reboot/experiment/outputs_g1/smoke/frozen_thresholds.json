@@ -1,0 +1,59 @@
+{
+  "518|last4avg|cls_to_patch_attention": {
+    "tau": 0.985,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "cls_to_patch_attention",
+      "tau": 0.985,
+      "image_count": 2,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 9.5,
+      "candidate_count_iqr": 1.5,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 1.0,
+      "median_repeatability_f1": 0.8217660519585408,
+      "median_localization_error_bbox_diag": 0.0017515770598135307,
+      "median_photometric_count_difference": 0.5,
+      "calibration_utility": 1.2204523691636806
+    }
+  },
+  "518|last4avg|feature_hdbscan_medoid": {
+    "tau": 0.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "feature_hdbscan_medoid",
+      "tau": 0.0,
+      "image_count": 2,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 7.5,
+      "candidate_count_iqr": 0.5,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.26785714285714285,
+      "median_repeatability_f1": 0.3817307692307692,
+      "median_localization_error_bbox_diag": 0.008949686194455263,
+      "median_photometric_count_difference": 0.5,
+      "calibration_utility": 0.5919827902992135
+    }
+  },
+  "518|last4avg|feature_local_contrast": {
+    "tau": 6.0,
+    "calibration_metrics": {
+      "size": 518,
+      "layer_mode": "last4avg",
+      "method": "feature_local_contrast",
+      "tau": 6.0,
+      "image_count": 2,
+      "noncollapse_rate": 1.0,
+      "median_candidate_count": 22.5,
+      "candidate_count_iqr": 1.5,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio": 0.5357142857142857,
+      "median_repeatability_f1": 0.7981593142053918,
+      "median_localization_error_bbox_diag": 0.0017515770598135307,
+      "median_photometric_count_difference": 3.5,
+      "calibration_utility": 1.080774202839103
+    }
+  }
+}

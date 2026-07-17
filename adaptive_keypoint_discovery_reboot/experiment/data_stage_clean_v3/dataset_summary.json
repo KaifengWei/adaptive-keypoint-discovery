@@ -1,0 +1,29 @@
+{
+  "dataset_version": "stage-clean-v3-final",
+  "target_scope": "rice seedling shoot phenotypes",
+  "images": 98,
+  "excluded_images": 3,
+  "excluded_reason_counts": {
+    "detached_true_leaf_after_standardization": 2,
+    "duplicate_of_stagev3_0015": 1
+  },
+  "keypoint_labels_used": false,
+  "split_counts": {
+    "train": 19,
+    "test": 6,
+    "val": 5,
+    "auxiliary": 68
+  },
+  "stage_counts": {
+    "gt2": 65,
+    "leaf1_to_2": 10,
+    "lt1_needle": 10,
+    "unknown": 13
+  },
+  "primary_stage_verified_images": 30,
+  "auxiliary_unverified_stage_images": 68,
+  "foreground_crop_near_pairs_dhash_le_6": 13,
+  "near_pair_review": "contact-sheet reviewed as different visible structures; confirmed duplicate was removed before this audit",
+  "training_rule": "train plus auxiliary may be used for unsupervised/self-supervised learning; val/test remain user-stage-metadata only",
+  "stage_caveat": "filename-proxy and unknown stages are auxiliary only until user confirmation"
+}

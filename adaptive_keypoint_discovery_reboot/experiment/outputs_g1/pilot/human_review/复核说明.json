@@ -1,0 +1,15 @@
+{
+  "review_images": 30,
+  "scope": "Qualitative failure analysis only; automatic G1 gates already failed.",
+  "instruction": "Two reviewers work independently. A point set is structure-related only if it follows plant morphology rather than background/cutout texture. Coverage judges whether different visible organs and junctions are represented, not just the base region.",
+  "allowed_dominant_region_terms": [
+    "base",
+    "main_axis",
+    "leaf_body",
+    "leaf_tip",
+    "junction",
+    "root",
+    "background",
+    "mixed"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "unique_images": 60,
+  "rows": 180,
+  "background_counts": {
+    "gray_plain": 32,
+    "light_plain": 22,
+    "mixed": 6
+  },
+  "limits": [
+    "G0 quality scores and masks are automatic audit proposals, not independent human ground truth.",
+    "The tests identify association, not causality.",
+    "Repeatability does not measure structural meaning or organ coverage."
+  ]
+}

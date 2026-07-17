@@ -1,0 +1,63 @@
+{
+  "training_used": false,
+  "keypoint_labels_read": false,
+  "device": "cpu",
+  "images_run": 6,
+  "locked14_run": false,
+  "configurations_unchanged_from_g1": true,
+  "summary": [
+    {
+      "method": "cls_to_patch_attention",
+      "images": 6,
+      "median_candidate_count": 2.5,
+      "candidate_count_iqr": 1.0,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio_white_mask": 1.0,
+      "median_repeatability_f1": 0.8777777777777778,
+      "median_localization_error_bbox_diag": 0.0022497874292880336,
+      "median_photometric_count_difference": 0.0
+    },
+    {
+      "method": "feature_local_contrast",
+      "images": 6,
+      "median_candidate_count": 16.0,
+      "candidate_count_iqr": 8.5,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio_white_mask": 0.4444444444444444,
+      "median_repeatability_f1": 0.718605337822908,
+      "median_localization_error_bbox_diag": 0.0022497874292880336,
+      "median_photometric_count_difference": 4.0
+    },
+    {
+      "method": "feature_hdbscan_medoid",
+      "images": 6,
+      "median_candidate_count": 3.0,
+      "candidate_count_iqr": 2.75,
+      "safety_cap_hit_rate": 0.0,
+      "median_plant_hit_ratio_white_mask": 0.375,
+      "median_repeatability_f1": 0.3434389140271493,
+      "median_localization_error_bbox_diag": 0.002220622323328475,
+      "median_photometric_count_difference": 0.5
+    }
+  ],
+  "original_pilot_reference": {
+    "cls_to_patch_attention": {
+      "plant_hit": 1.0,
+      "repeatability_f1": 0.7482,
+      "candidate_count": 3.0
+    },
+    "feature_local_contrast": {
+      "plant_hit": 0.441,
+      "repeatability_f1": 0.7291,
+      "candidate_count": 19.0,
+      "safety_cap_hit_rate": 0.2
+    },
+    "feature_hdbscan_medoid": {
+      "plant_hit": 0.3333,
+      "repeatability_f1": 0.3679,
+      "candidate_count": 5.0
+    }
+  },
+  "interpretation_rule": "A clean-background improvement supports a data-quality contribution, but does not prove structural keypoint meaning.",
+  "elapsed_seconds": 49.392531871795654
+}

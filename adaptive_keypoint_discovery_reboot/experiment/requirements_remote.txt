@@ -1,0 +1,10 @@
+# Install a CUDA-enabled PyTorch build separately after checking the server.
+# Do not put torch here: a generic pip install can silently choose a CPU build.
+numpy>=1.26,<3
+pandas>=2.0,<3
+scipy>=1.11,<2
+opencv-python-headless>=4.8,<5
+Pillow>=10,<13
+matplotlib>=3.8,<4
+scikit-image>=0.22,<1
+tqdm>=4.66,<5

@@ -1,0 +1,19 @@
+{
+  "method": "G1-prime candidates -> rooted skeleton graph -> adaptive RDP support -> spline phenotypes",
+  "images": 11,
+  "stages": {
+    "gt2": 4,
+    "leaf1_to_2": 4,
+    "lt1_needle": 3
+  },
+  "training_used": false,
+  "keypoint_labels_read": false,
+  "device": "cpu",
+  "median_candidate_count": 17.0,
+  "median_path_count": 2.0,
+  "connected_graph_success_rate": 1.0,
+  "safety_cap_hit_rate": 0.0,
+  "physical_units_available": false,
+  "interpretation_gate": "visual path correctness and manual phenotype reference are still required",
+  "elapsed_seconds": 19.47160792350769
+}

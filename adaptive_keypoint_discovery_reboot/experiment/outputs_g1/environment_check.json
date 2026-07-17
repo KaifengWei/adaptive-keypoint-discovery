@@ -1,0 +1,28 @@
+{
+  "python": "3.11.0 (main, Oct 24 2022, 18:26:48) [MSC v.1933 64 bit (AMD64)]",
+  "torch": "2.9.1+cpu",
+  "cuda_available": false,
+  "cuda_device_count": 0,
+  "requested_sizes": [
+    518,
+    728
+  ],
+  "sizes_divisible_by_patch14": true,
+  "calibration_images": 20,
+  "pilot_images": 60,
+  "missing_crops": [],
+  "hdbscan_available": true,
+  "local_repo_valid": true,
+  "weights_valid": true,
+  "weights_integrity": {
+    "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\third_party\\checkpoints\\dinov2_vits14_reg4_pretrain.pth",
+    "bytes": 88291785,
+    "sha256": "f433177089a681826f849f194ece3bb48f4d63fb38d32fc837e3dc7a4e5641fb",
+    "zip_crc_ok": true,
+    "zip_entries": 178,
+    "zip_crc_failure": null
+  },
+  "weights_integrity_error": null,
+  "ready_for_model_run": true,
+  "note": "CPU can verify logic; the full 80-image multi-transform run is intended for CUDA."
+}

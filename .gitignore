@@ -1,0 +1,50 @@
+# This repository intentionally tracks the current adaptive-keypoint project only.
+# Everything else in D:\kp is treated as local source material or legacy work.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/20260629 19点版本.docx
+!/adaptive_keypoint_survey_report.base.docx
+!/关于新方案的一些沟通改进.md
+!/秧苗器官关键点检测及表型提取新方案.md
+!/adaptive_keypoint_discovery_reboot/
+
+# Secrets and machine-local state
+**/.env
+**/.env.*
+!**/.env.example
+**/.idea/
+**/.vscode/
+**/__pycache__/
+**/*.py[cod]
+**/.ipynb_checkpoints/
+**/Thumbs.db
+**/.DS_Store
+
+# Upstream sources, downloaded checkpoints, training products, and quarantine
+/adaptive_keypoint_discovery_reboot/_do_not_package/
+/adaptive_keypoint_discovery_reboot/experiment/third_party/
+/adaptive_keypoint_discovery_reboot/experiment/training_outputs/
+**/wandb/
+**/runs/
+**/checkpoints/
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.onnx
+**/*.pack
+**/*.idx
+**/*.do_not_use
+**/*.zip
+
+# Superseded or reconstructable image collections.
+# The compact, reviewed V3 dataset remains tracked for reproducibility.
+/adaptive_keypoint_discovery_reboot/experiment/data_g0/
+/adaptive_keypoint_discovery_reboot/experiment/stage_source_extracted/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v1/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v2/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_candidate/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_incomplete_timeout/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_pre_component_cleanup/
+

@@ -1,0 +1,5 @@
+{
+  "518|last4avg|cls_to_patch_attention": 0.996,
+  "518|last4avg|feature_local_contrast": 6.0,
+  "728|last|feature_hdbscan_medoid": 0.0
+}

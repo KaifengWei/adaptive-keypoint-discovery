@@ -1,0 +1,4 @@
+﻿method,images,median_candidate_count,candidate_count_iqr,safety_cap_hit_rate,median_plant_hit_ratio_white_mask,median_repeatability_f1,median_localization_error_bbox_diag,median_photometric_count_difference
+cls_to_patch_attention,6,2.5,1.0,0.0,1.0,0.8777777777777778,0.0022497874292880336,0.0
+feature_local_contrast,6,16.0,8.5,0.0,0.4444444444444444,0.718605337822908,0.0022497874292880336,4.0
+feature_hdbscan_medoid,6,3.0,2.75,0.0,0.375,0.3434389140271493,0.002220622323328475,0.5

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>四类自适应候选点方法：关键技术与真实效果对比</title>
+  <style>
+    :root { --ink:#142033; --muted:#607086; --line:#dbe3ed; --blue:#2563eb; --green:#168a55; --bg:#f4f7fb; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif; line-height:1.65; }
+    main { max-width:1500px; margin:0 auto; padding:28px; }
+    h1 { margin:0 0 8px; font-size:32px; }
+    h2 { margin:34px 0 14px; font-size:24px; }
+    h3 { margin:0; font-size:20px; }
+    .lead,.note { color:var(--muted); }
+    .banner { background:#eaf3ff; border:1px solid #a8c8ff; border-radius:14px; padding:14px 18px; margin:18px 0 24px; }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .card,.case,.table-wrap { background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:0 3px 16px rgba(20,32,51,.05); }
+    .card { padding:17px; }
+    .card .tag { display:inline-block; color:#fff; background:var(--blue); padding:2px 9px; border-radius:999px; font-size:12px; margin-bottom:8px; }
+    .card.g1 .tag { background:var(--green); }
+    .card ul { margin:8px 0 0; padding-left:20px; }
+    table { width:100%; border-collapse:collapse; background:#fff; }
+    th,td { border-bottom:1px solid var(--line); padding:11px 12px; text-align:left; vertical-align:top; }
+    th { background:#eef4fb; }
+    .table-wrap { overflow:auto; }
+    .case { padding:18px; margin:18px 0; }
+    .case-head { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+    .pill { display:inline-block; background:#eef3f8; color:#38485c; border-radius:999px; padding:3px 9px; margin:2px; font-size:12px; }
+    .visual-grid { display:grid; grid-template-columns:1.45fr 1fr; gap:14px; align-items:start; }
+    figure { margin:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; }
+    figure img { width:100%; height:auto; display:block; }
+    figcaption { padding:8px 12px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); }
+    .legend { display:flex; flex-wrap:wrap; gap:12px; margin-top:10px; font-size:13px; color:var(--muted); }
+    .dot { width:11px; height:11px; border-radius:50%; display:inline-block; margin-right:5px; border:1px solid #263238; }
+    .cyan{background:#00d4ff}.red{background:#ff3b30}.yellow{background:#ffd60a}.purple{background:#bf5af2}
+    .verdict { border-left:4px solid var(--green); padding:8px 12px; background:#effaf4; margin-top:14px; }
+    code { background:#edf1f6; border-radius:4px; padding:1px 5px; }
+    @media (max-width:1050px) { .cards{grid-template-columns:repeat(2,1fr)} .visual-grid{grid-template-columns:1fr} }
+    @media (max-width:650px) { main{padding:14px} .cards{grid-template-columns:1fr} h1{font-size:25px} }
+  </style>
+</head>
+<body>
+<main>
+  <h1>四类自适应候选点方法：关键技术与真实效果对比</h1>
+  <p class="lead">同一批6张干净背景秧苗；全部为冻结推理，无关键点标签、无反向传播。每个案例左图同时展示前三类方法，右图展示G1′的自动支撑、骨架与融合候选点。</p>
+  <div class="banner"><strong>口径修订：</strong>G1′沿茎叶分布的较密点不再被判为失败。面向表型提取时，它们可以作为样条控制点或路径采样点。当前需要继续验证的是点的分支归属、顺序以及由此计算的表型精度。</div>
+
+  <h2>一、四类方法分别用了什么技术</h2>
+  <section class="cards">
+    <article class="card">
+      <span class="tag">方法1</span><h3>DINOv2注意力响应</h3>
+      <ul>
+        <li>DINOv2 ViT-S/14-Reg冻结编码器，输入518×518。</li>
+        <li>提取CLS到patch的注意力响应。</li>
+        <li>保留99.6%高分位局部极大值并做空间去重。</li>
+        <li>优点是稳定、前景命中高；缺点是点少，常关注基部或显著区域，曲线覆盖不足。</li>
+      </ul>
+    </article>
+    <article class="card">
+      <span class="tag">方法2</span><h3>DINOv2局部对比峰</h3>
+      <ul>
+        <li>使用DINOv2最后4层平均的patch特征。</li>
+        <li>计算每个patch与3×3邻域平均特征的余弦差异。</li>
+        <li>以“中位数+6倍MAD尺度”选峰，再做局部极大值和去重。</li>
+        <li>能给出较多点，但对叶缘、插值和局部纹理过敏，背景命中和光度稳定性较差。</li>
+      </ul>
+    </article>
+    <article class="card">
+      <span class="tag">方法3</span><h3>DINOv2特征HDBSCAN</h3>
+      <ul>
+        <li>使用728×728输入下DINOv2最后层patch特征。</li>
+        <li>特征L2归一化后，经PCA压到最多16维。</li>
+        <li>加入权重0.30的二维位置坐标，用HDBSCAN自动决定簇数。</li>
+        <li>每个簇输出medoid。它代表特征区域中心，不保证位于秧苗骨架上。</li>
+      </ul>
+    </article>
+    <article class="card g1">
+      <span class="tag">方法4｜当前最佳</span><h3>G1′结构支持融合候选</h3>
+      <ul>
+        <li>HSV饱和度与Excess Green自适应阈值产生前景，经形态学和连通域净化。</li>
+        <li>骨架化后提取端点、持续分叉点，并用Shi–Tomasi角点补充形状支撑。</li>
+        <li>加入DINOv2局部特征峰和CLS注意力作为视觉证据。</li>
+        <li>结构先验+DINOv2特征对比+注意力加权融合，按植株尺度做空间去重；20点仅为安全上限。</li>
+      </ul>
+    </article>
+  </section>
+
+  <h2>二、6张图的总体结果</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>方法</th><th>点数中位数</th><th>白底前景命中率</th><th>重复性F1</th><th>光度扰动点数差</th><th>面向表型的判断</th></tr></thead>
+    <tbody>
+      <tr><td>DINOv2注意力响应</td><td>2.5</td><td>1.000</td><td>0.878</td><td>0.0</td><td>稳定但覆盖偏少，可作显著性基线。</td></tr>
+      <tr><td>DINOv2局部对比峰</td><td>16.0</td><td>0.444</td><td>0.719</td><td>4.0</td><td>点多但有效结构命中不足，不宜直接构造表型路径。</td></tr>
+      <tr><td>DINOv2特征HDBSCAN</td><td>3.0</td><td>0.375</td><td>0.343</td><td>0.5</td><td>区域聚类中心与骨架路径不一致。</td></tr>
+      <tr><td>G1′结构支持融合候选</td><td>14.5</td><td>1.000</td><td>0.916</td><td>0.5</td><td><strong>当前最佳，适合进入路径排序与表型验证。</strong></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>三、逐图真实效果</h2>
+  <p class="note">前三列颜色由各基线图标题区分；G1′颜色含义：<span class="dot cyan"></span>端点，<span class="dot red"></span>分叉点，<span class="dot yellow"></span>形状角点，<span class="dot purple"></span>DINOv2独特响应点。</p>
+
+  <section class="case"><div class="case-head"><h3>clean_002｜leaf3 (49).jpg</h3><div><span class="pill">注意力3点</span><span class="pill">局部对比14点</span><span class="pill">HDBSCAN 2点</span><span class="pill">G1′ 14点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_002.png" alt="clean_002 three baselines"><figcaption>从左到右：注意力响应、局部对比峰、HDBSCAN medoid。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_002.png" alt="clean_002 G1 prime"><figcaption>左：自动前景与骨架；右：G1′融合候选。</figcaption></figure></div></section>
+  <section class="case"><div class="case-head"><h3>clean_011｜leaf3 (9).jpg</h3><div><span class="pill">注意力2点</span><span class="pill">局部对比18点</span><span class="pill">HDBSCAN 4点</span><span class="pill">G1′ 15点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_011.png" alt="clean_011 three baselines"><figcaption>前三类基线在同一原图上的输出。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_011.png" alt="clean_011 G1 prime"><figcaption>G1′沿细长结构提供较连续的曲线支撑。</figcaption></figure></div></section>
+  <section class="case"><div class="case-head"><h3>clean_013｜92.jpg</h3><div><span class="pill">注意力2点</span><span class="pill">局部对比23点</span><span class="pill">HDBSCAN 5点</span><span class="pill">G1′ 19点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_013.png" alt="clean_013 three baselines"><figcaption>注意力覆盖不足；局部对比点多但含无效位置；聚类中心偏离植株。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_013.png" alt="clean_013 G1 prime"><figcaption>G1′覆盖主轴、叶片与端部，适合检验分支排序和样条拟合。</figcaption></figure></div></section>
+  <section class="case"><div class="case-head"><h3>clean_014｜leaf3 (3).jpg</h3><div><span class="pill">注意力1点</span><span class="pill">局部对比11点</span><span class="pill">HDBSCAN 2点</span><span class="pill">G1′ 13点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_014.png" alt="clean_014 three baselines"><figcaption>前三类基线在同一原图上的输出。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_014.png" alt="clean_014 G1 prime"><figcaption>G1′为长而弯曲的茎叶路径提供连续支撑。</figcaption></figure></div></section>
+  <section class="case"><div class="case-head"><h3>clean_019｜leaf3 (11).jpg</h3><div><span class="pill">注意力4点</span><span class="pill">局部对比13点</span><span class="pill">HDBSCAN 2点</span><span class="pill">G1′ 14点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_019.png" alt="clean_019 three baselines"><figcaption>前三类基线在同一原图上的输出。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_019.png" alt="clean_019 G1 prime"><figcaption>G1′覆盖多叶结构；下一步需要把点正确归入各条分支。</figcaption></figure></div></section>
+  <section class="case"><div class="case-head"><h3>clean_020｜31-31.jpg</h3><div><span class="pill">注意力3点</span><span class="pill">局部对比27点</span><span class="pill">HDBSCAN 7点</span><span class="pill">G1′ 17点</span></div></div><div class="visual-grid"><figure><img src="outputs_clean_smoke6_baselines/overlays/clean_020.png" alt="clean_020 three baselines"><figcaption>前三类基线在同一原图上的输出。</figcaption></figure><figure><img src="outputs_clean_smoke6_g1prime/overlays/clean_020.png" alt="clean_020 G1 prime"><figcaption>较复杂分支下，G1′仍保持较好的植株覆盖。</figcaption></figure></div></section>
+
+  <div class="verdict"><strong>当前判断：</strong>若目标是支撑样条曲线和表型计算，G1′是四类方法中最值得继续推进的方案。接下来不应再用“点是否足够少”筛选，而应验证这些点能否被正确连成主轴/叶片路径，以及由它们得到的长度、角度、曲率和宽度是否准确稳定。</div>
+</main>
+</body>
+</html>

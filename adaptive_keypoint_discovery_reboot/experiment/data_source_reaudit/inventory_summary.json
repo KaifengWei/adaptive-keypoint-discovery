@@ -1,0 +1,17 @@
+{
+  "total_images": 2239,
+  "inventory_rows": 2234,
+  "read_errors": 5,
+  "source_family_counts": {
+    "scanner_collection": 634,
+    "images_400": 400,
+    "kp_dataset_augmented": 1200
+  },
+  "background_class_counts_eligible": {
+    "white_removed_candidate": 97,
+    "white_with_large_residual": 58,
+    "natural_or_mixed": 879
+  },
+  "preselection_count": 80,
+  "important_rule": "kp_dataset_augmented is inventoried but excluded from independent sample selection"
+}

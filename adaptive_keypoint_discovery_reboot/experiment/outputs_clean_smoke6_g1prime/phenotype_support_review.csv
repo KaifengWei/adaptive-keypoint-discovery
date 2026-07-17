@@ -1,0 +1,7 @@
+clean_id,candidate_count,foreground_and_structure_coverage,stability,phenotype_support_stage_pass,next_required_test
+clean_002,14,good,good,1,"order points and compare spline-derived length/curvature"
+clean_011,15,good,good,1,"order points and test whether dense sampling reduces curve error"
+clean_013,19,good,good,1,"separate stem/leaf paths before phenotype calculation"
+clean_014,13,good,good,1,"compare reconstructed curve with pixel skeleton reference"
+clean_019,14,good,acceptable,1,"resolve branch topology and test path-wise phenotypes"
+clean_020,17,good,good,1,"resolve multiple branches and test phenotype consistency"

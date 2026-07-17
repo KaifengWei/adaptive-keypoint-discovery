@@ -1,0 +1,28 @@
+{
+  "phase": "pilot",
+  "model": "dinov2_vits14_reg",
+  "device": "cpu",
+  "sizes": [
+    518,
+    728
+  ],
+  "layers": [
+    "last",
+    "last4avg"
+  ],
+  "transforms": "full",
+  "attention_extraction_modes": {
+    "exact_last_block_cls_attention": 1080
+  },
+  "hdbscan_available": true,
+  "elapsed_seconds": 1056.0412237644196,
+  "gate_status": "stop_or_revise_g1",
+  "official_repository_commit": "7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+  "weights_integrity": {
+    "bytes": 88291785,
+    "sha256": "f433177089a681826f849f194ece3bb48f4d63fb38d32fc837e3dc7a4e5641fb",
+    "zip_entries": 178,
+    "zip_crc_ok": true
+  },
+  "integrity_note": "The run initially used a resumed container whose 176 loaded tensors were later proven bit-identical to the verified checkpoint; max absolute tensor difference was 0.0."
+}

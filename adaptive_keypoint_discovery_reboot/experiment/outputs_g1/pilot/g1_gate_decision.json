@@ -1,0 +1,47 @@
+{
+  "status": "stop_or_revise_g1",
+  "best_feature_configuration": {
+    "size": 518,
+    "layer_mode": "last4avg",
+    "method": "feature_local_contrast",
+    "tau": 6.0,
+    "image_count": 60,
+    "noncollapse_rate": 1.0,
+    "median_candidate_count": 19.0,
+    "candidate_count_iqr": 10.25,
+    "safety_cap_hit_rate": 0.2,
+    "median_plant_hit_ratio": 0.4409722222222222,
+    "median_repeatability_f1": 0.7290850870517045,
+    "median_localization_error_bbox_diag": 0.01131888356325061,
+    "median_photometric_count_difference": 1.5,
+    "calibration_utility": 0.9308389799348221
+  },
+  "best_attention_baseline": {
+    "size": 518,
+    "layer_mode": "last4avg",
+    "method": "cls_to_patch_attention",
+    "tau": 0.996,
+    "image_count": 60,
+    "noncollapse_rate": 0.95,
+    "median_candidate_count": 3.0,
+    "candidate_count_iqr": 1.25,
+    "safety_cap_hit_rate": 0.0,
+    "median_plant_hit_ratio": 1.0,
+    "median_repeatability_f1": 0.7482142857142857,
+    "median_localization_error_bbox_diag": 0.01281727074825752,
+    "median_photometric_count_difference": 0.5,
+    "calibration_utility": 1.1311013326530928
+  },
+  "automatic_checks": {
+    "noncollapse_rate_at_least_0.80": true,
+    "median_plant_hit_ratio_at_least_0.50": false,
+    "safety_cap_hit_rate_at_most_0.10": false,
+    "candidate_count_iqr_at_least_1": true,
+    "feature_f1_advantage_at_least_0.10": false,
+    "localization_error_at_most_0.05_bbox_diag": true,
+    "photometric_count_difference_at_most_1": false,
+    "two_reviewer_structure_check": null
+  },
+  "hdbscan_available": true,
+  "interpretation_boundary": "Passing automatic checks would show stable structure-related candidates, not biological landmark validity."
+}

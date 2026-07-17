@@ -1,0 +1,10 @@
+﻿method,group_variable,group,n,median_repeatability_f1,median_candidate_count,safety_cap_hit_rate,median_g0_mask_agreement
+cls_to_patch_attention,background_class,gray_plain,32,0.7408459595959596,4.0,0.0,1.0
+cls_to_patch_attention,background_class,light_plain,22,0.7600694444444445,3.0,0.0,0.875
+cls_to_patch_attention,background_class,mixed,6,0.7319444444444445,4.0,0.0,1.0
+feature_hdbscan_medoid,background_class,gray_plain,32,0.3874739843489843,5.0,0.0,0.3875
+feature_hdbscan_medoid,background_class,light_plain,22,0.29339280967570436,4.0,0.0,0.29166666666666663
+feature_hdbscan_medoid,background_class,mixed,6,0.3108141858141858,5.5,0.0,0.2361111111111111
+feature_local_contrast,background_class,gray_plain,32,0.7525034359774171,18.0,0.0,0.4210526315789473
+feature_local_contrast,background_class,light_plain,22,0.672120664547775,19.5,0.2727272727272727,0.5531674208144797
+feature_local_contrast,background_class,mixed,6,0.6648847130181181,30.0,1.0,0.41666666666666663

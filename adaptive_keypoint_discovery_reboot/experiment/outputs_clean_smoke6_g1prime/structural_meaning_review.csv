@@ -1,0 +1,7 @@
+clean_id,candidate_count,previous_sparse_event_judgment,revision_status,phenotype_oriented_interpretation
+clean_002,14,failed,withdrawn,"good axis coverage; evaluate as spline control or sampling points"
+clean_011,15,failed,withdrawn,"dense stem support can improve length and curvature estimation"
+clean_013,19,failed,withdrawn,"stem and leaf coverage is useful once points are split and ordered by branch"
+clean_014,13,failed,withdrawn,"regular axis samples are acceptable if they reduce curve and phenotype error"
+clean_019,14,failed,withdrawn,"multi-leaf coverage is promising; topology assignment remains unresolved"
+clean_020,17,failed,withdrawn,"multi-branch samples are promising; branch grouping and phenotype validation are required"

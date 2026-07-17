@@ -1,0 +1,4 @@
+﻿dataset_id,stage_label,split,identity_candidate_count,accepted_count,rejected_count,training_usable,median_confidence,median_presence,median_localization_error,safety_cap_hit
+stagev3_0001,gt2,train,16,9,7,1,0.6897150320943607,1.0,0.0008231994235389854,0
+stagev3_0005,gt2,train,17,14,3,1,0.5725493277989866,1.0,0.0012107069895588476,0
+stagev3_0006,gt2,train,16,14,2,1,0.6291991223438083,1.0,0.001808145310106367,0
