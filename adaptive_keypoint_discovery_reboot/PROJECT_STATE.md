@@ -49,6 +49,6 @@
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 远程：已通过 VS Code Remote-SSH 连接；硬件命令确认 GPU 为 NVIDIA GeForce RTX 3090（24576 MiB），驱动 560.35.05。
-- 当前 `kf` 环境中的 `import torch` 可执行，但该模块缺少标准的 `__version__` 属性；在确认模块来源并使 `torch.cuda.is_available()` 返回 `true` 前，不启动正式训练。
-- 当前 Codex 只识别到本地项目，不能假定同账号会自动复制本机文件和本地记忆。
+- 当前在远程家目录执行 `import torch` 时，导入对象缺少标准的 `__version__` 属性。远程家目录恰有一个 `~/torch` 目录，首要怀疑是当前目录同名遮蔽；应切换到项目目录后核对 `torch.__file__`，并在 `torch.cuda.is_available()` 返回 `true` 前不启动正式训练。
+- `D:\kp` 已初始化为 Git 仓库并完成首个本地提交；待 GitHub CLI 授权后推送到独立私有仓库，再在远程克隆为匹配项目。
 - 已取消启动 ZIP；以 `AGENTS.md`、本文件和实际项目目录同步作为跨设备交接依据。

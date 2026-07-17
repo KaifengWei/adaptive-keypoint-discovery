@@ -35,6 +35,15 @@ python -m pip show torch
 nvcc --version
 ```
 
+如果出现 `module 'torch' has no attribute '__version__'`，先不要重装 CUDA。当前远程家目录存在一个 `~/torch` 目录；在 `~` 下启动 Python 时，它可能优先遮蔽 Conda 环境中的正式 PyTorch。先切换到不含同名目录的项目路径并核对实际导入位置：
+
+```bash
+cd ~/kp
+python -c "import torch; print('file=', torch.__file__); print('version=', torch.__version__); print('cuda=', torch.cuda.is_available()); print('cuda_build=', torch.version.cuda); print('gpu=', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'unavailable')"
+```
+
+若 `torch.__file__` 仍指向 `~/torch`，再检查 `PYTHONPATH`；若改为 Conda 环境的 `site-packages/torch/__init__.py`，说明只是同名目录遮蔽，不是显卡或驱动故障。
+
 `nvcc` 不存在不等于 PyTorch 不能训练；以 `torch.cuda.is_available()` 为最终环境判断。完整 CUDA Toolkit 只在编译自定义 CUDA 扩展时才是硬要求。
 
 ## 二、同一账号能否让当前工作“完全自动迁移”
