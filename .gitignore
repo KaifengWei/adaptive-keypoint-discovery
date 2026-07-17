@@ -26,6 +26,7 @@
 /adaptive_keypoint_discovery_reboot/_do_not_package/
 /adaptive_keypoint_discovery_reboot/experiment/third_party/
 /adaptive_keypoint_discovery_reboot/experiment/training_outputs/
+/adaptive_keypoint_discovery_reboot/experiment/evaluation_outputs/threshold_sweep_val/
 **/wandb/
 **/runs/
 **/checkpoints/
@@ -47,4 +48,3 @@
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_candidate/
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_incomplete_timeout/
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_pre_component_cleanup/
-
