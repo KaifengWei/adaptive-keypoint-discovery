@@ -50,5 +50,7 @@
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 远程：已通过 VS Code Remote-SSH 连接；硬件命令确认 GPU 为 NVIDIA GeForce RTX 3090（24576 MiB），驱动 560.35.05。
 - 远程 `kf` 环境已实测：Python 位于 `/media/neaucs2/evs/envs/kf`，PyTorch 为 `2.9.1+cu128`，`torch.cuda.is_available()` 为 `true`，可识别 NVIDIA GeForce RTX 3090。先前截图报错来自版本属性拼写问题，并非 CUDA 或模块遮蔽故障。
-- `D:\kp` 已初始化为 Git 仓库并完成首个本地提交；待 GitHub CLI 授权后推送到独立私有仓库，再在远程克隆为匹配项目。
+- 本机到远程 `cv` 的 ED25519 密钥登录已完成，Windows `ssh-agent` 已设为自动启动，`ssh -o BatchMode=yes cv` 已验证成功。
+- 远程 Codex CLI 已通过 VS Code 扩展自带二进制接入登录 shell，但 OAuth 令牌交换被远端出口地区以 `403 Country, region, or territory not supported` 拒绝；在获得合规的受支持地区网络出口前，不能进行 Codex 跨主机任务接管。
+- `D:\kp` 已初始化为 Git 仓库并完成本地提交；GitHub CLI 已安装但仍待一次本机网页登录授权。授权后应创建独立私有仓库，再在远程克隆为匹配项目。
 - 已取消启动 ZIP；以 `AGENTS.md`、本文件和实际项目目录同步作为跨设备交接依据。
