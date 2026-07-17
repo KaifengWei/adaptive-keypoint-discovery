@@ -55,4 +55,5 @@
 - 本机到远程 `cv` 的 ED25519 密钥登录已完成，Windows `ssh-agent` 已设为自动启动，`ssh -o BatchMode=yes cv` 已验证成功。
 - 远程 Codex CLI 已通过 VS Code 扩展自带二进制接入登录 shell，但 OAuth 令牌交换被远端出口地区以 `403 Country, region, or territory not supported` 拒绝；在获得合规的受支持地区网络出口前，不能进行 Codex 跨主机任务接管。
 - GitHub 私有仓库已建立并推送：`KaifengWei/adaptive-keypoint-discovery`。远程使用仓库专用 deploy key，工作副本为 `/home/neaucs2/kp/adaptive-keypoint-discovery`。
+- 跨账号和跨任务接续必须先读 `ACCOUNT_HANDOFF.md`；账号专属 Skills、人格或聊天记忆不得覆盖 `AGENTS.md` 和本文件记录的事实。
 - 已取消启动 ZIP；以 `AGENTS.md`、本文件和实际项目目录同步作为跨设备交接依据。
