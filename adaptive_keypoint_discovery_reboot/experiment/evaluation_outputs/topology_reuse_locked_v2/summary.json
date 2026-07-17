@@ -1,0 +1,15 @@
+{
+  "images": 11,
+  "splits": [
+    "val",
+    "test"
+  ],
+  "detector_predictions_reused": true,
+  "median_path_count": 2.0,
+  "graph_success_rate": 1.0,
+  "total_spur_pixels_removed": 81,
+  "maximum_spline_to_skeleton_length_ratio": 0.975702009241544,
+  "median_spline_to_skeleton_error_px": 0.7937221929907279,
+  "manual_keypoint_labels_used": false,
+  "phenotype_accuracy_status": "pending_manual_measurement_reference"
+}

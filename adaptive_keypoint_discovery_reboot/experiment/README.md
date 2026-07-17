@@ -10,6 +10,8 @@
 4. `generate_g1prime_pseudolabels.py`：跨翻转、旋转和亮度变换筛选稳定点，生成数量可变的自动伪标签。
 5. `adaptive_point_model.py` 与 `train_adaptive_point_detector.py`：冻结 DINOv2，训练动态热图头；不设置固定槽位数。
 6. `evaluate_adaptive_point_detector.py`：在锁定 val/test 上评估重复性、前景命中、路径和表型输出。
+7. `reevaluate_topology_from_points.py`：固定已保存的检测点，只重评骨架清理、路径连接和样条，避免把检测器变化混入拓扑对比。
+8. `test_topology_bridge.py`：短骨架毛刺清理与形状保持样条的确定性回归测试。
 
 ## 已确认的边界
 

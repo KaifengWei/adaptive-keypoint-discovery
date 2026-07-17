@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-from scipy.interpolate import splprep, splev
+from scipy.interpolate import PchipInterpolator
 from scipy.spatial import cKDTree
 
 HERE = Path(__file__).resolve().parent
@@ -93,6 +93,59 @@ def skeleton_graph(skeleton: np.ndarray) -> tuple[np.ndarray, list[list[tuple[in
                 if other >= 0:
                     adjacency[index].append((other, math.sqrt(2.0) if dx and dy else 1.0))
     return coords, adjacency
+
+
+def prune_short_terminal_spurs(
+    skeleton: np.ndarray, maximum_length: float, maximum_iterations: int = 20
+) -> tuple[np.ndarray, dict[str, Any]]:
+    """Remove short medial-axis hairs while preserving their junction pixel.
+
+    Thick leaf tips and small mask notches often create several one-pixel terminal
+    branches.  Treating the last junction on each of those hairs as an organ
+    attachment makes a real leaf appear artificially short.  Iterative pruning
+    collapses only terminal paths that end at a junction and are shorter than a
+    scale-normalized limit; isolated shoots and genuine endpoint-to-endpoint
+    paths are never deleted.
+    """
+    pruned = skeleton.astype(bool).copy()
+    removed_pixels = 0
+    iterations = 0
+    for _ in range(maximum_iterations):
+        coords, adjacency = skeleton_graph(pruned)
+        if len(coords) < 2:
+            break
+        remove_nodes: set[int] = set()
+        for endpoint, neighbors in enumerate(adjacency):
+            if len(neighbors) != 1:
+                continue
+            path = [endpoint]
+            previous = -1
+            current = endpoint
+            length = 0.0
+            while True:
+                choices = [(node, weight) for node, weight in adjacency[current] if node != previous]
+                if len(choices) != 1:
+                    break
+                next_node, weight = choices[0]
+                length += float(weight)
+                path.append(next_node)
+                previous, current = current, next_node
+                if len(adjacency[current]) != 2:
+                    break
+            if len(adjacency[current]) >= 3 and length < maximum_length:
+                remove_nodes.update(path[:-1])
+        if not remove_nodes:
+            break
+        for node in remove_nodes:
+            x, y = coords[node].astype(int)
+            pruned[y, x] = False
+        removed_pixels += len(remove_nodes)
+        iterations += 1
+    return pruned, {
+        "spur_prune_maximum_length_px": float(maximum_length),
+        "spur_prune_removed_pixels": int(removed_pixels),
+        "spur_prune_iterations": int(iterations),
+    }
 
 
 def dijkstra(adjacency: Sequence[Sequence[tuple[int, float]]], source: int) -> tuple[np.ndarray, np.ndarray]:
@@ -308,14 +361,15 @@ def spline_curve(support_points: np.ndarray, samples: int = 240) -> np.ndarray:
     cumulative = np.concatenate([[0.0], np.cumsum(np.linalg.norm(np.diff(points, axis=0), axis=1))])
     if cumulative[-1] <= 1e-9:
         return points
-    u = cumulative / cumulative[-1]
+    target = np.linspace(0.0, cumulative[-1], samples)
     try:
-        k = min(3, len(points) - 1)
-        tck, _ = splprep([points[:, 0], points[:, 1]], u=u, s=max(0.0, 0.12 * len(points)), k=k)
-        evaluated = splev(np.linspace(0.0, 1.0, samples), tck)
-        return np.column_stack(evaluated)
+        # Coordinate-wise PCHIP is shape preserving: unlike an unconstrained
+        # cubic B-spline it cannot overshoot a support-point interval and form
+        # a phenotype-destroying loop outside the observed skeleton route.
+        return np.column_stack(
+            [PchipInterpolator(cumulative, points[:, axis])(target) for axis in range(2)]
+        )
     except (TypeError, ValueError):
-        target = np.linspace(0.0, cumulative[-1], samples)
         return np.column_stack([np.interp(target, cumulative, points[:, axis]) for axis in range(2)])
 
 
@@ -375,16 +429,23 @@ def extract_paths(
     candidates: Sequence[dict[str, Any]],
     bbox_diag: float,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    coords, adjacency = skeleton_graph(skeleton)
+    spur_limit = max(4.0, 0.012 * bbox_diag)
+    topology_skeleton, spur_diagnostics = prune_short_terminal_spurs(skeleton, spur_limit)
+    coords, adjacency = skeleton_graph(topology_skeleton)
     if len(coords) < 2:
-        return [], {"failure": "skeleton_too_small", "skeleton_nodes": int(len(coords))}
-    components = cv2.connectedComponents(skeleton.astype(np.uint8), 8)[0] - 1
+        return [], {"failure": "skeleton_too_small", "skeleton_nodes": int(len(coords)), **spur_diagnostics}
+    components = cv2.connectedComponents(topology_skeleton.astype(np.uint8), 8)[0] - 1
     base, base_diagnostics = choose_base(coords, adjacency, support, image_rgb)
     distance, parent = dijkstra(adjacency, base)
     endpoints = [index for index, neighbors in enumerate(adjacency) if len(neighbors) == 1 and index != base]
     reachable_endpoints = [index for index in endpoints if np.isfinite(distance[index])]
     if not reachable_endpoints:
-        return [], {"failure": "no_reachable_tip", "skeleton_nodes": int(len(coords)), **base_diagnostics}
+        return [], {
+            "failure": "no_reachable_tip",
+            "skeleton_nodes": int(len(coords)),
+            **spur_diagnostics,
+            **base_diagnostics,
+        }
     main_tip = max(reachable_endpoints, key=lambda index: distance[index])
     junction_nodes = {index for index, neighbors in enumerate(adjacency) if len(neighbors) >= 3}
     paths: list[dict[str, Any]] = []
@@ -437,6 +498,7 @@ def extract_paths(
         "base_xy": coords[base].tolist(),
         "main_tip_xy": coords[main_tip].tolist(),
         "path_count": len(paths),
+        **spur_diagnostics,
         **base_diagnostics,
     }
     return paths, diagnostics
