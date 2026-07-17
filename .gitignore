@@ -4,10 +4,7 @@
 !/.gitignore
 !/.gitattributes
 !/README.md
-!/20260629 19点版本.docx
 !/adaptive_keypoint_survey_report.base.docx
-!/关于新方案的一些沟通改进.md
-!/秧苗器官关键点检测及表型提取新方案.md
 !/adaptive_keypoint_discovery_reboot/
 
 # Secrets and machine-local state
