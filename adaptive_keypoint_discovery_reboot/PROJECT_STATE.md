@@ -31,27 +31,28 @@
 
 1. 已完成 V3 数据集、G1′候选坐标、骨架路径、自适应样条和像素/归一化表型输出。
 2. 已在 11 张独立 val/test 上运行：候选数中位数 17、路径数中位数 2、连通图成功 11/11；但存在基部错判与漏叶，尚未通过语义门槛。
-3. 已完成跨增强共识伪标签生成器；3 张 CPU 冒烟均可用，正式 87 张 train+auxiliary 待远程生成。
-4. 已完成 DINOv2 动态热图模型、训练、checkpoint 与训练后评估；CPU 已通过 dry-run、真实单步反向传播和失败可见性检查。
-5. 下一步在远程 GPU 运行 `experiment/run_remote_core.sh`，先完成核心一个种子。
-6. 填写 `outputs_g1_prime_v3/phenotype_primary11/路径视觉复核表_待填写.csv`，解决基部歧义与漏叶后再计算人工表型误差。
-7. 核心通过后执行几何教师、去一致性、固定 K、解冻后两层消融和五随机种子。
+3. 正式 87 张 train+auxiliary 已在 RTX 3090 完成跨增强共识伪标签：87/87 可训练，点数中位数 9，未读取或创建人工关键点标签。
+4. DINOv2 动态热图模型已完成核心种子 `20260717` 的 80 轮训练：73 张训练、14 张内部验证、1520 步，最佳验证损失 0.3600。
+5. 锁定 val/test 共 11 张的初评已完成：点数中位数 5、重复性 F1 中位数 0.858、前景命中率中位数 1.0、图构建成功率 1.0。
+6. val-only 阈值扫描表明降低阈值会增加点数，但不增加路径数，并降低前景命中或重复性；当前漏叶主要是下游拓扑连接问题，不是简单阈值过高。
+7. 下一步先逐张复核 `experiment/evaluation_outputs/core_dinov2/overlays/`，修正分支连接与漏叶；在此之前不报告表型准确率，也不把当前核心结果称为最终通过。
+8. 路径语义门槛通过后，再执行几何教师、去一致性、固定 K、解冻后两层消融和五随机种子。
 
 ## 五、训练门槛
 
 - V3 自动处理图已经过接触表复核；正式集为 98 张。
 - 同一采集组不跨数据划分，精确重复为 0，近重复已人工确认。
 - CPU 已对 11 张独立图完成“候选点 → 路径 → 表型 JSON/CSV/叠加图”。
-- 远程 `python remote_gpu_check.py` 显示 `torch.cuda.is_available() == true`。
+- 远程项目独立环境已通过 CUDA/cuDNN 最小卷积、DINOv2 权重前向、训练 dry-run 和真实单步反向传播。
 - 11 张路径视觉语义尚待人工复核；在此之前不得报告表型准确率。
 
 ## 六、设备与接续
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 远程：已通过 VS Code Remote-SSH 连接；硬件命令确认 GPU 为 NVIDIA GeForce RTX 3090（24576 MiB），驱动 560.35.05。
-- 远程 `kf` 环境已实测：Python 位于 `/media/neaucs2/evs/envs/kf`，PyTorch 为 `2.9.1+cu128`，`torch.cuda.is_available()` 为 `true`，可识别 NVIDIA GeForce RTX 3090。先前截图报错来自版本属性拼写问题，并非 CUDA 或模块遮蔽故障。
+- 远程项目独立环境位于 `/media/neaucs2/evs/envs/adaptive_kp`：Python 3.12.13、PyTorch `2.9.1+cu128`、CUDA 12.8、cuDNN 9.10.2，可识别 NVIDIA GeForce RTX 3090。共享 `kf` 环境未被修改。
 - 训练前检查发现继承的 `LD_LIBRARY_PATH` 会优先加载系统 CUDA 11.4/cuDNN 9.4，与 PyTorch wheel 不兼容；清除该变量后 cuDNN 9.10.2 和最小 CUDA 卷积均通过。修复已固化在 `experiment/run_remote_core.sh`，不修改服务器全局环境。
 - 本机到远程 `cv` 的 ED25519 密钥登录已完成，Windows `ssh-agent` 已设为自动启动，`ssh -o BatchMode=yes cv` 已验证成功。
 - 远程 Codex CLI 已通过 VS Code 扩展自带二进制接入登录 shell，但 OAuth 令牌交换被远端出口地区以 `403 Country, region, or territory not supported` 拒绝；在获得合规的受支持地区网络出口前，不能进行 Codex 跨主机任务接管。
-- `D:\kp` 已初始化为 Git 仓库并完成本地提交；GitHub CLI 已安装但仍待一次本机网页登录授权。授权后应创建独立私有仓库，再在远程克隆为匹配项目。
+- GitHub 私有仓库已建立并推送：`KaifengWei/adaptive-keypoint-discovery`。远程使用仓库专用 deploy key，工作副本为 `/home/neaucs2/kp/adaptive-keypoint-discovery`。
 - 已取消启动 ZIP；以 `AGENTS.md`、本文件和实际项目目录同步作为跨设备交接依据。

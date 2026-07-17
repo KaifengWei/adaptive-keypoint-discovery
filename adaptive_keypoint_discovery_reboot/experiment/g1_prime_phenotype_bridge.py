@@ -451,6 +451,7 @@ def save_overlay(
     paths: Sequence[dict[str, Any]],
     diagnostics: dict[str, Any],
     title: str,
+    candidate_label: str = "G1′ candidates",
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     figure, axes = plt.subplots(1, 2, figsize=(12, 6), dpi=150)
@@ -459,7 +460,7 @@ def save_overlay(
     axes[0].imshow(np.ma.masked_where(~skeleton, skeleton), cmap="magma", alpha=0.85)
     for item in candidates:
         axes[0].scatter(item["x"], item["y"], s=34, c="#00b7ff", edgecolors="black", linewidths=0.5)
-    axes[0].set_title(f"G1′ candidates n={len(candidates)}")
+    axes[0].set_title(f"{candidate_label} n={len(candidates)}")
 
     axes[1].imshow(image)
     colors = plt.cm.tab10(np.linspace(0.0, 1.0, max(1, len(paths))))

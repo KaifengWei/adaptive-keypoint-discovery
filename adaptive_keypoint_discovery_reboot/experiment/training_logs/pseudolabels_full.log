@@ -1,0 +1,112 @@
+/home/neaucs2/kp/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment/third_party/dinov2_git/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/neaucs2/kp/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment/third_party/dinov2_git/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/neaucs2/kp/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment/third_party/dinov2_git/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+[1/87] stagev3_0001 accepted=8 rejected=8
+[2/87] stagev3_0005 accepted=8 rejected=9
+[3/87] stagev3_0006 accepted=10 rejected=6
+[4/87] stagev3_0007 accepted=12 rejected=6
+[5/87] stagev3_0008 accepted=12 rejected=8
+[6/87] stagev3_0010 accepted=10 rejected=4
+[7/87] stagev3_0012 accepted=12 rejected=9
+[8/87] stagev3_0013 accepted=10 rejected=7
+[9/87] stagev3_0014 accepted=11 rejected=11
+[10/87] stagev3_0016 accepted=9 rejected=4
+[11/87] stagev3_0017 accepted=9 rejected=6
+[12/87] stagev3_0020 accepted=14 rejected=9
+[13/87] stagev3_0021 accepted=9 rejected=6
+[14/87] stagev3_0022 accepted=10 rejected=10
+[15/87] stagev3_0023 accepted=7 rejected=8
+[16/87] stagev3_0024 accepted=9 rejected=10
+[17/87] stagev3_0025 accepted=11 rejected=6
+[18/87] stagev3_0026 accepted=8 rejected=5
+[19/87] stagev3_0029 accepted=7 rejected=6
+[20/87] stagev3_0031 accepted=8 rejected=5
+[21/87] stagev3_0032 accepted=8 rejected=7
+[22/87] stagev3_0033 accepted=9 rejected=11
+[23/87] stagev3_0034 accepted=11 rejected=3
+[24/87] stagev3_0035 accepted=9 rejected=3
+[25/87] stagev3_0036 accepted=8 rejected=10
+[26/87] stagev3_0037 accepted=7 rejected=9
+[27/87] stagev3_0038 accepted=8 rejected=7
+[28/87] stagev3_0039 accepted=10 rejected=8
+[29/87] stagev3_0040 accepted=15 rejected=7
+[30/87] stagev3_0041 accepted=6 rejected=10
+[31/87] stagev3_0042 accepted=8 rejected=6
+[32/87] stagev3_0043 accepted=9 rejected=5
+[33/87] stagev3_0044 accepted=11 rejected=9
+[34/87] stagev3_0046 accepted=8 rejected=10
+[35/87] stagev3_0047 accepted=8 rejected=9
+[36/87] stagev3_0048 accepted=8 rejected=5
+[37/87] stagev3_0049 accepted=8 rejected=9
+[38/87] stagev3_0050 accepted=9 rejected=6
+[39/87] stagev3_0051 accepted=9 rejected=8
+[40/87] stagev3_0052 accepted=12 rejected=10
+[41/87] stagev3_0053 accepted=8 rejected=4
+[42/87] stagev3_0054 accepted=7 rejected=7
+[43/87] stagev3_0055 accepted=8 rejected=10
+[44/87] stagev3_0056 accepted=8 rejected=10
+[45/87] stagev3_0057 accepted=9 rejected=5
+[46/87] stagev3_0058 accepted=9 rejected=7
+[47/87] stagev3_0059 accepted=5 rejected=12
+[48/87] stagev3_0060 accepted=11 rejected=3
+[49/87] stagev3_0061 accepted=6 rejected=5
+[50/87] stagev3_0062 accepted=8 rejected=7
+[51/87] stagev3_0063 accepted=8 rejected=11
+[52/87] stagev3_0064 accepted=10 rejected=8
+[53/87] stagev3_0065 accepted=10 rejected=6
+[54/87] stagev3_0066 accepted=9 rejected=2
+[55/87] stagev3_0067 accepted=9 rejected=7
+[56/87] stagev3_0068 accepted=11 rejected=5
+[57/87] stagev3_0069 accepted=12 rejected=3
+[58/87] stagev3_0070 accepted=11 rejected=7
+[59/87] stagev3_0071 accepted=9 rejected=6
+[60/87] stagev3_0072 accepted=10 rejected=5
+[61/87] stagev3_0073 accepted=11 rejected=4
+[62/87] stagev3_0074 accepted=10 rejected=6
+[63/87] stagev3_0075 accepted=6 rejected=8
+[64/87] stagev3_0076 accepted=11 rejected=6
+[65/87] stagev3_0077 accepted=14 rejected=1
+[66/87] stagev3_0078 accepted=13 rejected=6
+[67/87] stagev3_0079 accepted=11 rejected=9
+[68/87] stagev3_0080 accepted=8 rejected=5
+[69/87] stagev3_0081 accepted=9 rejected=8
+[70/87] stagev3_0082 accepted=11 rejected=8
+[71/87] stagev3_0083 accepted=11 rejected=9
+[72/87] stagev3_0085 accepted=10 rejected=10
+[73/87] stagev3_0086 accepted=8 rejected=6
+[74/87] stagev3_0087 accepted=8 rejected=7
+[75/87] stagev3_0088 accepted=15 rejected=8
+[76/87] stagev3_0089 accepted=13 rejected=4
+[77/87] stagev3_0091 accepted=9 rejected=9
+[78/87] stagev3_0092 accepted=10 rejected=6
+[79/87] stagev3_0093 accepted=9 rejected=6
+[80/87] stagev3_0094 accepted=7 rejected=8
+[81/87] stagev3_0095 accepted=8 rejected=8
+[82/87] stagev3_0096 accepted=10 rejected=4
+[83/87] stagev3_0097 accepted=7 rejected=9
+[84/87] stagev3_0098 accepted=11 rejected=7
+[85/87] stagev3_0099 accepted=10 rejected=6
+[86/87] stagev3_0100 accepted=11 rejected=7
+[87/87] stagev3_0101 accepted=9 rejected=9
+{
+  "images": 87,
+  "training_usable_images": 87,
+  "usable_rate": 1.0,
+  "teacher_variant": "full",
+  "consistency_filter_used": true,
+  "keypoint_labels_read": false,
+  "manual_keypoint_annotations_created": false,
+  "median_accepted_count": 9.0,
+  "stage_counts": {
+    "gt2": 61,
+    "leaf1_to_2": 6,
+    "lt1_needle": 7,
+    "unknown": 13
+  },
+  "device": "cuda",
+  "elapsed_seconds": 102.54522705078125,
+  "interpretation": "automatic teacher targets for self-training; not phenotype ground truth"
+}

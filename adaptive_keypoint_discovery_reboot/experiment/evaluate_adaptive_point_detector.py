@@ -202,6 +202,7 @@ def run(args: argparse.Namespace) -> None:
             paths,
             graph_diagnostics,
             f"{row['dataset_id']} | learned adaptive points",
+            candidate_label="learned adaptive points",
         )
         print(f"[{row_number}/{len(frame)}] {row['dataset_id']} points={len(reference['points'])} paths={len(paths)}", flush=True)
 
