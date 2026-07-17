@@ -6,12 +6,13 @@
 
 在提出新方案、修改代码或启动训练前，依次完成：
 
-1. 阅读本目录的 `AGENTS.md`；
-2. 阅读 `PROJECT_STATE.md`；
-3. 阅读 `experiment/远程核心训练首轮结果_20260717.md`；
-4. 检查当前分支、`git status` 和最近 5 条提交；
-5. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
-6. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
+1. 阅读仓库根目录的 `AGENTS.md`；
+2. 阅读本目录的 `AGENTS.md`；
+3. 阅读 `PROJECT_STATE.md`；
+4. 阅读 `experiment/远程核心训练首轮结果_20260717.md`；
+5. 检查当前分支、`git status` 和最近 5 条提交；
+6. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
+7. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
 
 完成后，先用自己的话复述以下六项，再开始行动：
 
@@ -40,7 +41,7 @@
 
 将下面文字原样发送给新账号中的 Codex：
 
-> 这是一个已有实验记录的持续项目。请先完整阅读当前工作区的 `adaptive_keypoint_discovery_reboot/AGENTS.md`、`ACCOUNT_HANDOFF.md`、`PROJECT_STATE.md`、`experiment/远程核心训练首轮结果_20260717.md`，再检查 Git 最近 5 条提交和两个核心 summary JSON。请先复述唯一研究问题、锁定边界、数据划分、已完成结果、当前瓶颈和下一步验证门槛；在我确认前不要重新设计研究路线。后续工作遵守 AGENTS.md，即使当前账号没有安装 Superpowers，也执行同等的先审计、再方案、再验证、再记录流程。
+> 这是一个已有实验记录的持续项目。请先完整阅读仓库根目录 `AGENTS.md`，以及 `adaptive_keypoint_discovery_reboot/AGENTS.md`、`ACCOUNT_HANDOFF.md`、`PROJECT_STATE.md`、`experiment/远程核心训练首轮结果_20260717.md`，再检查 Git 最近 5 条提交和两个核心 summary JSON。请先复述唯一研究问题、锁定边界、数据划分、已完成结果、当前瓶颈和下一步验证门槛；在我确认前不要重新设计研究路线。后续工作遵守 AGENTS.md，即使当前账号没有安装 Superpowers，也执行同等的先审计、再方案、再验证、再记录流程。
 
 ## 四、哪些内容不会随账号自动迁移
 

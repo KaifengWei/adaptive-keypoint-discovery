@@ -4,6 +4,7 @@
 
 ## 主入口
 
+- `AGENTS.md`：仓库根级自动约束，确保新账号或新任务先恢复研究边界。
 - `adaptive_keypoint_discovery_reboot/AGENTS.md`：研究边界与不可偏离的口径。
 - `adaptive_keypoint_discovery_reboot/ACCOUNT_HANDOFF.md`：跨账号、跨设备和新任务的强制接续顺序。
 - `adaptive_keypoint_discovery_reboot/PROJECT_STATE.md`：当前数据、代码、结果和下一步状态。

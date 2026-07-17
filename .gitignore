@@ -3,6 +3,7 @@
 /*
 !/.gitignore
 !/.gitattributes
+!/AGENTS.md
 !/README.md
 !/adaptive_keypoint_survey_report.base.docx
 !/adaptive_keypoint_discovery_reboot/
