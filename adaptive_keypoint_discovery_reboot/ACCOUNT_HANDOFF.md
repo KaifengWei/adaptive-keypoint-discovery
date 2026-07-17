@@ -13,6 +13,7 @@
 5. 检查当前分支、`git status` 和最近 5 条提交；
 6. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
 7. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
+8. 若工作涉及下一轮数据或训练，阅读 `experiment/V4数据集构建与锁定说明_20260717.md` 和 `experiment/data_stage_clean_v4_candidate/candidate_audit_summary.json`，确认 V4 test 是否已有最终锁定标记。
 
 完成后，先用自己的话复述以下六项，再开始行动：
 
@@ -20,6 +21,7 @@
 - 已废弃且不得恢复的方向；
 - DINOv2、G1′自动教师和学习型检测器各自的角色；
 - V3 数据划分及 test 使用限制；
+- V4 候选集状态及“锁定前不得运行 V4 test”的限制；
 - 已经得到的核心结果；
 - 当前真正瓶颈和仍为 `pending` 的结论。
 

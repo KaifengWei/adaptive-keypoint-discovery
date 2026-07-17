@@ -47,3 +47,9 @@
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_candidate/
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_incomplete_timeout/
 /adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v3_pre_component_cleanup/
+
+# Local V4 construction trials and superseded candidate gates.
+/adaptive_keypoint_discovery_reboot/experiment/_scratch_v4_*/
+/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v4_candidate_pre_*/
+/adaptive_keypoint_discovery_reboot/experiment/data_source_reaudit/inspect*.jpg
+/adaptive_keypoint_discovery_reboot/experiment/data_source_reaudit/scanner_group_audit.jpg
