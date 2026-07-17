@@ -1,0 +1,22 @@
+{
+  "images": 11,
+  "splits": [
+    "val",
+    "test"
+  ],
+  "stage_counts": {
+    "gt2": 4,
+    "leaf1_to_2": 4,
+    "lt1_needle": 3
+  },
+  "fixed_k": 0,
+  "threshold": 0.35,
+  "median_point_count": 5.0,
+  "median_repeatability_f1": 0.8579545454545454,
+  "median_foreground_hit_ratio": 1.0,
+  "graph_success_rate": 1.0,
+  "safety_cap_hit_rate": 0.0,
+  "manual_keypoint_labels_used": false,
+  "phenotype_accuracy_status": "pending_manual_measurement_reference",
+  "elapsed_seconds": 6.411114692687988
+}

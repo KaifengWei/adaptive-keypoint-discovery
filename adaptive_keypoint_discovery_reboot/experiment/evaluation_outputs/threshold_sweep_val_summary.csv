@@ -1,0 +1,7 @@
+threshold,median_point_count,median_path_count,median_repeatability_f1,median_foreground_hit_ratio,graph_success_rate,safety_cap_hit_rate
+0.15,11.0,2.0,0.783,0.875,1.0,0.0
+0.20,10.0,2.0,0.743,0.818,1.0,0.0
+0.25,6.0,2.0,0.764,1.000,1.0,0.0
+0.30,5.0,2.0,0.785,1.000,1.0,0.0
+0.35,4.0,2.0,0.849,1.000,1.0,0.0
+0.40,4.0,2.0,0.875,1.000,1.0,0.0
