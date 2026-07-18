@@ -26,6 +26,7 @@
 /adaptive_keypoint_discovery_reboot/experiment/training_outputs/
 /adaptive_keypoint_discovery_reboot/experiment/evaluation_outputs/threshold_sweep_val/
 /adaptive_keypoint_discovery_reboot/experiment/evaluation_outputs/topology_reuse_val_v2/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_fullplant/overlays/
 **/wandb/
 **/runs/
 **/checkpoints/

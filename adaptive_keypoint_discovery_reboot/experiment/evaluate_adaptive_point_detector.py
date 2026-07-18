@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Evaluate the learned variable-count detector on locked V3 splits."""
+"""Evaluate the learned variable-count detector on explicitly selected splits."""
 
 from __future__ import annotations
 
@@ -29,7 +29,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--dataset", type=Path, default=HERE / "data_stage_clean_v3")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--splits", nargs="+", default=["val", "test"])
+    parser.add_argument("--splits", nargs="+", default=["val"])
+    parser.add_argument(
+        "--allow-test",
+        action="store_true",
+        help="Required when --splits contains test; prevents accidental access to a locked test set.",
+    )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--full-transforms", action="store_true")
@@ -80,6 +85,11 @@ def predict(
 
 def run(args: argparse.Namespace) -> None:
     started = time.time()
+    if "test" in args.splits and not args.allow_test:
+        raise RuntimeError(
+            "Refusing to evaluate the test split without --allow-test. "
+            "Use val for development; add --allow-test only after the test gate is explicitly released."
+        )
     device = torch.device(args.device)
     if device.type == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("CUDA requested but torch.cuda.is_available() is false")
