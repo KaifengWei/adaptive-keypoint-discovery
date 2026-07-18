@@ -63,5 +63,5 @@
   "pending_cross_split_near_duplicate_reviews": 0,
   "keypoint_labels_used": false,
   "model_outputs_used_for_selection": false,
-  "lock_status": "candidate only; test remains pending human raw/shoot/full contact-sheet review"
+  "lock_status": "full-plant visual review accepted for preservation; test remains model-locked"
 }

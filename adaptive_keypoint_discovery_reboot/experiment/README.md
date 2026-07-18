@@ -4,37 +4,42 @@
 
 ## 当前主线
 
-1. `data_stage_clean_v3`：98 张地上部纯净图；30 张用户时期元数据图用于独立划分，68 张时期未确认图只作辅助自监督训练。
-2. `g1_prime_structural_support.py`：G1′候选器，融合前景、骨架端点/分叉/曲率候选和冻结 DINOv2 证据。
-3. `g1_prime_phenotype_bridge.py`：把候选点连接、排序为茎叶路径，生成自适应样条与像素/归一化表型。
-4. `generate_g1prime_pseudolabels.py`：跨翻转、旋转和亮度变换筛选稳定点，生成数量可变的自动伪标签。
+1. `data_stage_clean_v4_fullplant_candidate`：当前唯一 V4 图像集，300 张整株白底图及三类器官掩膜；test 已通过视觉复核，但仍禁止模型读取。
+2. `v4_fullplant_source_manifest.csv`：当前 V4 的样本身份、来源与冻结划分，不再依赖 shoot-only 数据目录。
+3. `build_stage_clean_v4_fullplant.py` 与 `audit_stage_clean_v4_fullplant_candidate.py`：整株重建和数据审计入口。
+4. `g1_prime_structural_support.py`：G1′自动教师候选器；V4 后续只对 train 生成教师目标。
 5. `adaptive_point_model.py` 与 `train_adaptive_point_detector.py`：冻结 DINOv2，训练动态热图头；不设置固定槽位数。
-6. `evaluate_adaptive_point_detector.py`：在锁定 val/test 上评估重复性、前景命中、路径和表型输出。
-7. `reevaluate_topology_from_points.py`：固定已保存的检测点，只重评骨架清理、路径连接和样条，避免把检测器变化混入拓扑对比。
-8. `test_topology_bridge.py`：短骨架毛刺清理与形状保持样条的确定性回归测试。
+6. `g1_prime_phenotype_bridge.py` 与 `reevaluate_topology_from_points.py`：路径、样条和表型桥接；当前瓶颈仍是部分叶片连接语义。
+
+## 目录怎么找
+
+- 当前数据：只看 `data_stage_clean_v4_fullplant_candidate`。
+- 当前事实：先看上级 `PROJECT_STATE.md`。
+- 当前数据说明：看 `V4数据集构建与锁定说明_20260717.md`。
+- 既有 GPU 训练产物：看 `training_outputs` 和 `evaluation_outputs`。
+- V3 只用于复现已记录的首轮结果，不再作为下一轮数据入口。
+
+旧 shoot-only、V1/V2、V3 临时候选、V4 pre-gate、smoke 和 full-plant failed 目录均已清理；失败结论只保留在 Markdown 和 Git 历史中。
 
 ## 已确认的边界
 
-- V1/V2 是失败或候选审计版本，不用于正式训练。
 - G1′点候选可以进入自动伪标签与可学习模型阶段。
 - 路径阶段仍存在少量基部歧义和漏叶，不得宣称表型精度已验证。
 - 当前没有物理尺度，长度只能输出像素或包围框归一化值。
-- CPU 单步训练只证明代码可运行，不是实验结果。
+- V4 test 仅完成视觉复核并保存，尚未授权模型评价。
 
 ## 先读
 
 - `..\AGENTS.md`
 - `..\PROJECT_STATE.md`
-- `G1prime_V3阶段验证结论.md`
+- `V4数据集构建与锁定说明_20260717.md`
 - `远程3090训练执行说明.md`
 
-## 本机已通过的检查
+## 当前数据检查
 
 ```powershell
-python .\g1_prime_phenotype_bridge.py --limit 0 --splits val test --device cpu --output .\outputs_g1_prime_v3\phenotype_primary11
-python .\generate_g1prime_pseudolabels.py --limit 3 --device cpu --output .\pseudo_labels_g1prime_v3_smoke3
-python .\train_adaptive_point_detector.py --config .\configs\train_cpu_smoke3.json --dry-run
-python .\train_adaptive_point_detector.py --config .\configs\train_cpu_smoke3.json --max-steps 1
+python .\audit_stage_clean_v4_fullplant_candidate.py
+python .\build_stage_clean_v4_fullplant.py --refresh-contact-sheets-only
 ```
 
-正式训练不要使用 `train_cpu_smoke3.json`，它只用于入口检查。
+在 V4 训练入口完成适配前，不直接套用旧 V3 配置；任何模型命令都不得包含 V4 test。

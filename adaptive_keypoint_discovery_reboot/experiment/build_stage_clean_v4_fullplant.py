@@ -27,20 +27,56 @@ from PIL import Image, ImageDraw, ImageOps
 
 from audit_dataset_images import audit_pixels, strict_green_mask
 from build_stage_clean_dataset import font, write_rgb
-from build_stage_clean_v4_candidate import read_full_rgb, resize_maximum, sha256_file
 
 
 HERE = Path(__file__).resolve().parent
-DEFAULT_INPUT = HERE / "data_stage_clean_v4_candidate"
+DEFAULT_SELECTION_MANIFEST = HERE / "v4_fullplant_source_manifest.csv"
 DEFAULT_OUTPUT = HERE / "data_stage_clean_v4_fullplant_candidate"
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def read_full_rgb(path: Path) -> np.ndarray:
+    try:
+        array = np.asarray(tifffile.memmap(path))
+    except Exception:
+        array = np.asarray(tifffile.imread(path))
+    if array.ndim == 2:
+        array = np.repeat(array[:, :, None], 3, axis=2)
+    if array.ndim != 3:
+        raise ValueError(f"Unsupported source shape: {array.shape}")
+    if array.shape[2] > 3:
+        array = array[:, :, :3]
+    if array.dtype != np.uint8:
+        if np.issubdtype(array.dtype, np.integer):
+            maximum = float(np.iinfo(array.dtype).max)
+            array = np.clip(array.astype(np.float32) * (255.0 / maximum), 0, 255).astype(np.uint8)
+        else:
+            array = np.clip(array.astype(np.float32), 0, 255).astype(np.uint8)
+    return array
+
+
+def resize_maximum(rgb: np.ndarray, maximum: int) -> np.ndarray:
+    height, width = rgb.shape[:2]
+    scale = min(1.0, maximum / max(height, width))
+    if scale >= 1.0:
+        return rgb.copy()
+    return cv2.resize(rgb, (round(width * scale), round(height * scale)), interpolation=cv2.INTER_AREA)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--manifest", type=Path, default=DEFAULT_SELECTION_MANIFEST)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--ids", nargs="*", default=[])
     parser.add_argument("--max-output-side", type=int, default=1600)
+    parser.add_argument("--refresh-contact-sheets-only", action="store_true")
     return parser.parse_args()
 
 
@@ -279,15 +315,15 @@ def contact_sheet(rows: list[dict[str, Any]], output: Path, title: str) -> None:
     body = font(11)
     for index, row in enumerate(rows):
         x0, y0 = (index % columns) * tile_w, header + (index // columns) * tile_h
-        paths = (row["raw_review_path"], row["shoot_only_path"], row["output_path"])
-        labels = ("raw", "shoot-only", "full-plant")
+        paths = (row["raw_review_path"], row["output_path"])
+        labels = ("raw", "full-plant")
         for column, (path, label) in enumerate(zip(paths, labels)):
             with Image.open(path) as opened:
                 image = ImageOps.exif_transpose(opened).convert("RGB")
-                image.thumbnail((tile_w // 3 - 10, 245), Image.Resampling.LANCZOS)
-            left = x0 + column * (tile_w // 3) + ((tile_w // 3) - image.width) // 2
+                image.thumbnail((tile_w // 2 - 10, 245), Image.Resampling.LANCZOS)
+            left = x0 + column * (tile_w // 2) + ((tile_w // 2) - image.width) // 2
             canvas.paste(image, (left, y0 + 5 + (245 - image.height) // 2))
-            draw.text((x0 + column * (tile_w // 3) + 6, y0 + 252), label, fill="#374151", font=body)
+            draw.text((x0 + column * (tile_w // 2) + 6, y0 + 252), label, fill="#374151", font=body)
         caption = (
             f"{row['dataset_id']} | {row['split']} | nonshoot/shoot={float(row['nonshoot_to_shoot_area_ratio']):.3f}\n"
             f"{Path(str(row['source_path'])).name}"
@@ -297,16 +333,34 @@ def contact_sheet(rows: list[dict[str, Any]], output: Path, title: str) -> None:
     canvas.save(output, quality=93)
 
 
+def write_contact_sheets(frame: pd.DataFrame, output: Path) -> None:
+    rows_by_id = {str(row["dataset_id"]): row for row in frame.to_dict("records")}
+    for split in ("train", "val", "test"):
+        rows = [rows_by_id[dataset_id] for dataset_id in frame[frame["split"] == split]["dataset_id"].astype(str)]
+        for start in range(0, len(rows), 18):
+            page = rows[start : start + 18]
+            contact_sheet(
+                page,
+                output / "contact_sheets" / f"raw_full_{split}_{start // 18 + 1:02d}.jpg",
+                f"V4 full-plant candidate: {split} {start + 1}-{start + len(page)} | raw / full-plant",
+            )
+
+
 def main() -> None:
     args = parse_args()
-    input_root = args.input.resolve()
     output = args.output.resolve()
+    if args.refresh_contact_sheets_only:
+        frame = pd.read_csv(output / "manifests" / "all.csv", low_memory=False).sort_values("dataset_id")
+        (output / "contact_sheets").mkdir(parents=True, exist_ok=True)
+        write_contact_sheets(frame, output)
+        print(f"refreshed contact sheets: {output / 'contact_sheets'}")
+        return
     if output.exists() and any(path.is_file() for path in output.rglob("*")):
         raise RuntimeError(f"Refusing to overwrite non-empty output: {output}")
     for folder in ("images", "masks", "raw_review", "contact_sheets", "manifests"):
         (output / folder).mkdir(parents=True, exist_ok=True)
 
-    manifest = pd.read_csv(input_root / "manifests" / "all.csv", low_memory=False)
+    manifest = pd.read_csv(args.manifest.resolve(), low_memory=False)
     if args.ids:
         manifest = manifest[manifest["dataset_id"].astype(str).isin(set(args.ids))].copy()
         missing = sorted(set(args.ids) - set(manifest["dataset_id"].astype(str)))
@@ -353,13 +407,16 @@ def main() -> None:
             {
                 **record,
                 "source_crop_box_fullplant": json.dumps(source_box),
-                "shoot_only_path": str(record["output_path"]),
                 "output_path": str(image_path),
                 "relative_path": str(image_path.relative_to(output)),
                 "raw_review_path": str(raw_path),
+                "raw_review_relative_path": str(raw_path.relative_to(output)),
                 "shoot_mask_path": str(shoot_path),
+                "shoot_mask_relative_path": str(shoot_path.relative_to(output)),
                 "seed_base_root_mask_path": str(root_path),
+                "seed_base_root_mask_relative_path": str(root_path.relative_to(output)),
                 "full_plant_mask_path": str(full_path),
+                "full_plant_mask_relative_path": str(full_path.relative_to(output)),
                 "output_sha256": sha256_file(image_path),
                 "whole_seedling_preserved": 1,
                 "normalization_version": "v4_fullplant_classical_pixel_v2",
@@ -377,16 +434,7 @@ def main() -> None:
     for split in ("train", "val", "test"):
         frame[frame["split"] == split].to_csv(output / "manifests" / f"{split}.csv", index=False, encoding="utf-8-sig")
 
-    rows_by_id = {str(row["dataset_id"]): row for row in output_rows}
-    for split in ("train", "val", "test"):
-        rows = [rows_by_id[dataset_id] for dataset_id in frame[frame["split"] == split]["dataset_id"].astype(str)]
-        for start in range(0, len(rows), 18):
-            page = rows[start : start + 18]
-            contact_sheet(
-                page,
-                output / "contact_sheets" / f"raw_shoot_full_{split}_{start // 18 + 1:02d}.jpg",
-                f"V4 full-plant candidate: {split} {start + 1}-{start + len(page)} | raw / shoot-only / full-plant",
-            )
+    write_contact_sheets(frame, output)
 
     summary = {
         "dataset_version": "stage-clean-v4-fullplant-candidate",
@@ -402,7 +450,7 @@ def main() -> None:
             "median": float(frame["nonshoot_to_shoot_area_ratio"].median()),
             "max": float(frame["nonshoot_to_shoot_area_ratio"].max()),
         },
-        "status": "candidate_pending_visual_review",
+        "status": "candidate_visual_review_accepted_test_model_locked",
     }
     (output / "dataset_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))

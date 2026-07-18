@@ -14,17 +14,46 @@ import pandas as pd
 from PIL import Image, ImageOps
 
 from audit_dataset_images import dhash64
-from build_stage_clean_v4_candidate import foreground_crop, hamming, phash64
 
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE / "data_stage_clean_v4_candidate"
+SOURCE_MANIFEST = HERE / "v4_fullplant_source_manifest.csv"
 DATASET = HERE / "data_stage_clean_v4_fullplant_candidate"
 MANUAL_NEAR_PAIR_DECISIONS = {
     frozenset({"v4_val_0014", "v4_train_new_0036"}): (
         "different_visible_structure_not_duplicate_codex_visual_review_20260717"
     )
 }
+
+
+def phash64(rgb: np.ndarray) -> str:
+    gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
+    small = cv2.resize(gray, (32, 32), interpolation=cv2.INTER_AREA).astype(np.float32)
+    values = cv2.dct(small)[:8, :8].reshape(-1)
+    threshold = float(np.median(values[1:]))
+    value = 0
+    for bit in values > threshold:
+        value = (value << 1) | int(bit)
+    return f"{value:016x}"
+
+
+def foreground_crop(rgb: np.ndarray) -> np.ndarray:
+    mask = np.any(rgb < 248, axis=2)
+    if not np.any(mask):
+        return rgb
+    ys, xs = np.where(mask)
+    y0, y1 = int(ys.min()), int(ys.max()) + 1
+    x0, x1 = int(xs.min()), int(xs.max()) + 1
+    margin_y = max(2, round((y1 - y0) * 0.05))
+    margin_x = max(2, round((x1 - x0) * 0.05))
+    return rgb[
+        max(0, y0 - margin_y) : min(rgb.shape[0], y1 + margin_y),
+        max(0, x0 - margin_x) : min(rgb.shape[1], x1 + margin_x),
+    ]
+
+
+def hamming(left: str, right: str) -> int:
+    return (int(left, 16) ^ int(right, 16)).bit_count()
 
 
 def read_mask(path: Path) -> np.ndarray:
@@ -42,8 +71,17 @@ def image_hashes(path: Path) -> tuple[str, str]:
     return dhash64(crop), phash64(crop)
 
 
+def dataset_path(row: dict[str, object], absolute_key: str, relative_key: str) -> Path:
+    relative_value = str(row.get(relative_key, "")).strip()
+    if relative_value and relative_value.lower() != "nan":
+        candidate = DATASET / relative_value
+        if candidate.exists():
+            return candidate
+    return Path(str(row[absolute_key]))
+
+
 def main() -> None:
-    source = pd.read_csv(SOURCE / "manifests" / "all.csv", low_memory=False)
+    source = pd.read_csv(SOURCE_MANIFEST, low_memory=False)
     manifest = pd.read_csv(DATASET / "manifests" / "all.csv", low_memory=False)
     errors: list[str] = []
     expected_counts = {"train": 220, "val": 40, "test": 40}
@@ -80,10 +118,10 @@ def main() -> None:
     hash_rows: list[dict[str, str]] = []
     for row in manifest.to_dict("records"):
         dataset_id = str(row["dataset_id"])
-        image_path = Path(str(row["output_path"]))
-        shoot_path = Path(str(row["shoot_mask_path"]))
-        root_path = Path(str(row["seed_base_root_mask_path"]))
-        full_path = Path(str(row["full_plant_mask_path"]))
+        image_path = dataset_path(row, "output_path", "relative_path")
+        shoot_path = dataset_path(row, "shoot_mask_path", "shoot_mask_relative_path")
+        root_path = dataset_path(row, "seed_base_root_mask_path", "seed_base_root_mask_relative_path")
+        full_path = dataset_path(row, "full_plant_mask_path", "full_plant_mask_relative_path")
         paths = [image_path, shoot_path, root_path, full_path]
         missing = [str(path) for path in paths if not path.exists()]
         if missing:
@@ -216,7 +254,7 @@ def main() -> None:
         "pending_cross_split_near_duplicate_reviews": pending_pairs,
         "keypoint_labels_used": False,
         "model_outputs_used_for_selection": False,
-        "lock_status": "candidate only; test remains pending human raw/shoot/full contact-sheet review",
+        "lock_status": "full-plant visual review accepted for preservation; test remains model-locked",
     }
     (DATASET / "candidate_audit_summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
