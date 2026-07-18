@@ -1,0 +1,24 @@
+{
+  "dataset_version": "stage-clean-v4-fullplant-candidate",
+  "images": 300,
+  "split_counts": {
+    "train": 220,
+    "test": 40,
+    "val": 40
+  },
+  "sample_identities_and_splits_changed": false,
+  "whole_seedling_preserved": true,
+  "organ_masks": [
+    "shoot",
+    "seed_base_root",
+    "full_plant"
+  ],
+  "model_outputs_used": false,
+  "keypoint_labels_used": false,
+  "nonshoot_to_shoot_area_ratio": {
+    "min": 0.0,
+    "median": 0.10660044745561473,
+    "max": 1.0428589760041063
+  },
+  "status": "candidate_pending_visual_review"
+}
