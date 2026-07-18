@@ -1,0 +1,20 @@
+{
+  "images": 220,
+  "training_usable_images": 220,
+  "usable_rate": 1.0,
+  "teacher_variant": "full",
+  "consistency_filter_used": true,
+  "keypoint_labels_read": false,
+  "manual_keypoint_annotations_created": false,
+  "median_accepted_count": 9.0,
+  "stage_counts": {
+    "gt2": 65,
+    "leaf1_to_2": 10,
+    "lt1_needle": 10,
+    "unknown": 13,
+    "unassigned": 122
+  },
+  "device": "cuda",
+  "elapsed_seconds": 301.6016685962677,
+  "interpretation": "automatic teacher targets for self-training; not phenotype ground truth"
+}

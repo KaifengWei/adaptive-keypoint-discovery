@@ -1,0 +1,29 @@
+{
+  "images": 40,
+  "splits": [
+    "val"
+  ],
+  "points": 266,
+  "median_legacy_auto_support_hit_ratio": 0.788888888888889,
+  "median_shoot_mask_hit_ratio": 0.42857142857142855,
+  "median_full_plant_mask_hit_ratio": 0.8,
+  "total_root_base_only_ratio": 0.3533834586466165,
+  "total_full_plant_hit_ratio": 0.7857142857142857,
+  "total_background_miss_ratio": 0.21428571428571427,
+  "images_with_background_miss": 31,
+  "worst_full_plant_hit_ids": [
+    "v4_val_0024",
+    "v4_val_0004",
+    "v4_val_0032",
+    "v4_val_0040",
+    "v4_val_0001",
+    "v4_val_0037",
+    "v4_val_0038",
+    "v4_val_0039",
+    "v4_val_0015",
+    "v4_val_0007"
+  ],
+  "manual_keypoint_labels_used": false,
+  "model_rerun": false,
+  "interpretation": "diagnostic organ-region accounting; automatic masks are not manual phenotype ground truth"
+}

@@ -1,0 +1,31 @@
+{
+  "status": "dry_run_ok",
+  "device": "cuda",
+  "batch_ids": [
+    "v4_train_new_0111",
+    "v4_legacy_0043",
+    "v4_legacy_0056",
+    "v4_legacy_0010"
+  ],
+  "image_shape": [
+    4,
+    3,
+    518,
+    518
+  ],
+  "target_shape": [
+    4,
+    1,
+    129,
+    129
+  ],
+  "logit_shape": [
+    4,
+    1,
+    129,
+    129
+  ],
+  "train_images": 186,
+  "validation_images": 34,
+  "trainable_parameters": 830401
+}

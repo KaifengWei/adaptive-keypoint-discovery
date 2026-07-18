@@ -1,0 +1,11 @@
+{
+  "status": "complete",
+  "epochs_completed": 80,
+  "global_steps": 3760,
+  "best_validation_loss": 0.35080475608507794,
+  "training_images": 186,
+  "validation_images": 34,
+  "manual_keypoint_labels_used": false,
+  "target_source": "cross-transform G1-prime automatic consensus",
+  "elapsed_seconds": 105.68749976158142
+}
