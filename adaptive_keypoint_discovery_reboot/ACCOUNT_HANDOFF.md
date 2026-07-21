@@ -14,6 +14,7 @@
 6. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
 7. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
 8. 若工作涉及下一轮数据或训练，阅读 `experiment/V4数据集构建与锁定说明_20260717.md` 和 `experiment/data_stage_clean_v4_fullplant_candidate/candidate_audit_summary.json`，确认 V4 full-plant test 是否已解除模型锁定。
+9. 若工作涉及路径、拓扑或表型，阅读 `experiment/关键点条件结构图重建_v1验证报告_20260721.md` 与 `experiment/evaluation_outputs/point_conditioned_graph_v1_val/summary.json`，确认当前已经进入点条件图而不是旧骨架先验路径基线。
 
 完成后，先用自己的话复述以下六项，再开始行动：
 
@@ -36,6 +37,7 @@
 - G1′是规则、结构和表征融合的自动教师/候选基线，不是假装已经成熟的端到端模型；
 - 学习型动态热图检测器负责学习自动教师目标；
 - 当前检测点已能学习，但部分叶片路径仍连接错误；
+- 关键点条件结构图已经完成 val-only 首轮验证，零点对照不再产生路径；
 - 表型准确率尚未通过人工参考验证；
 - 跨作物迁移已经封存，不得主动扩展。
 
