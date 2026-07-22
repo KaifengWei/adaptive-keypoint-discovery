@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "epochs_completed": 80,
+  "global_steps": 3680,
+  "best_validation_loss": 0.28449777762095135,
+  "training_images": 182,
+  "validation_images": 34,
+  "manual_keypoint_labels_used": false,
+  "target_source": "cross-transform G1-prime automatic consensus",
+  "input_domain": "phenotype_roi_v1",
+  "elapsed_seconds": 104.00674748420715
+}

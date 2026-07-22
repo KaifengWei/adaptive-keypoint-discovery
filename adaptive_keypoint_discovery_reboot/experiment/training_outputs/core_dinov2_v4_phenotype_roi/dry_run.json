@@ -1,0 +1,33 @@
+{
+  "status": "dry_run_ok",
+  "device": "cuda",
+  "batch_ids": [
+    "v4_legacy_0077",
+    "v4_train_new_0101",
+    "v4_train_new_0023",
+    "v4_train_new_0106"
+  ],
+  "image_shape": [
+    4,
+    3,
+    518,
+    518
+  ],
+  "target_shape": [
+    4,
+    1,
+    129,
+    129
+  ],
+  "logit_shape": [
+    4,
+    1,
+    129,
+    129
+  ],
+  "train_images": 182,
+  "validation_images": 34,
+  "trainable_parameters": 830401,
+  "input_domain": "phenotype_roi_v1",
+  "manual_keypoint_labels_used": false
+}

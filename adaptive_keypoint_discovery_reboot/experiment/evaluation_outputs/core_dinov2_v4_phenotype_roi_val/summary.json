@@ -1,0 +1,24 @@
+{
+  "images": 40,
+  "splits": [
+    "val"
+  ],
+  "stage_counts": {
+    "unassigned": 40
+  },
+  "fixed_k": 0,
+  "threshold": 0.35,
+  "input_domain": "phenotype_roi_v1",
+  "median_point_count": 4.0,
+  "median_repeatability_f1": 0.9169146825396826,
+  "median_foreground_hit_ratio": 1.0,
+  "median_phenotype_roi_hit_ratio": 0.25,
+  "median_phenotype_roi_hit_ratio_tolerant": 0.8166666666666667,
+  "median_excluded_seed_root_hit_ratio": 0.0,
+  "median_seed_root_neighborhood_hit_ratio": 0.3333333333333333,
+  "graph_success_rate": 0.95,
+  "safety_cap_hit_rate": 0.0,
+  "manual_keypoint_labels_used": false,
+  "phenotype_accuracy_status": "pending_manual_measurement_reference",
+  "elapsed_seconds": 22.969587087631226
+}
