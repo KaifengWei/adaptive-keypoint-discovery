@@ -27,6 +27,9 @@
 /adaptive_keypoint_discovery_reboot/experiment/evaluation_outputs/threshold_sweep_val/
 /adaptive_keypoint_discovery_reboot/experiment/evaluation_outputs/topology_reuse_val_v2/
 /adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_fullplant/overlays/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/focused_inputs/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/overlays/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/pseudo_labels.jsonl
 **/wandb/
 **/runs/
 **/checkpoints/
