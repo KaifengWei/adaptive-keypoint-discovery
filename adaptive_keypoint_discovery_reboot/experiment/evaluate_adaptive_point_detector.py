@@ -58,6 +58,19 @@ def tensor_from_rgb(image: np.ndarray, device: torch.device) -> torch.Tensor:
     return torch.from_numpy(normalized).permute(2, 0, 1).unsqueeze(0).float().to(device)
 
 
+def point_mask_hit_ratio(points: np.ndarray, mask: np.ndarray) -> float:
+    """Exact mask membership without the generic foreground tolerance dilation."""
+    if not len(points):
+        return 0.0
+    height, width = mask.shape
+    hits = 0
+    for x, y in points:
+        xx = int(np.clip(round(x), 0, width - 1))
+        yy = int(np.clip(round(y), 0, height - 1))
+        hits += int(bool(mask[yy, xx]))
+    return hits / len(points)
+
+
 @torch.no_grad()
 def predict(
     model: AdaptivePointDetector,
@@ -229,9 +242,22 @@ def run(args: argparse.Namespace) -> None:
                 "phenotype_roi_hit_ratio": (
                     float("nan")
                     if roi_result is None
+                    else point_mask_hit_ratio(reference["points"], roi_result["phenotype_roi_model"])
+                ),
+                "phenotype_roi_hit_ratio_tolerant": (
+                    float("nan")
+                    if roi_result is None
                     else g1.plant_hit_ratio(reference["points"], roi_result["phenotype_roi_model"])
                 ),
-                "seed_root_hit_ratio": (
+                "excluded_seed_root_hit_ratio": (
+                    float("nan")
+                    if roi_result is None
+                    else point_mask_hit_ratio(
+                        reference["points"],
+                        roi_result["seed_base_root_model"] & ~roi_result["phenotype_roi_model"],
+                    )
+                ),
+                "seed_root_neighborhood_hit_ratio": (
                     float("nan")
                     if roi_result is None
                     else g1.plant_hit_ratio(reference["points"], roi_result["seed_base_root_model"])
@@ -287,8 +313,18 @@ def run(args: argparse.Namespace) -> None:
             if input_domain == "phenotype_roi_v1" and image_rows
             else float("nan")
         ),
-        "median_seed_root_hit_ratio": (
-            float(np.nanmedian([row["seed_root_hit_ratio"] for row in image_rows]))
+        "median_phenotype_roi_hit_ratio_tolerant": (
+            float(np.nanmedian([row["phenotype_roi_hit_ratio_tolerant"] for row in image_rows]))
+            if input_domain == "phenotype_roi_v1" and image_rows
+            else float("nan")
+        ),
+        "median_excluded_seed_root_hit_ratio": (
+            float(np.nanmedian([row["excluded_seed_root_hit_ratio"] for row in image_rows]))
+            if input_domain == "phenotype_roi_v1" and image_rows
+            else float("nan")
+        ),
+        "median_seed_root_neighborhood_hit_ratio": (
+            float(np.nanmedian([row["seed_root_neighborhood_hit_ratio"] for row in image_rows]))
             if input_domain == "phenotype_roi_v1" and image_rows
             else float("nan")
         ),
