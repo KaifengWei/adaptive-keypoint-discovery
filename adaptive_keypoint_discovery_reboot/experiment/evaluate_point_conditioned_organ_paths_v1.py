@@ -88,6 +88,11 @@ def make_review_html(output: Path, rows: list[dict[str, Any]]) -> None:
     for index, row in enumerate(rows):
         dataset_id = html.escape(str(row["dataset_id"]))
         card_class = "card active" if index == 0 else "card"
+        original_src = (
+            "../../data_stage_clean_v4_fullplant_candidate/images/val/"
+            f"{dataset_id}.png"
+        )
+        overlay_src = f"overlays/{dataset_id}.png"
         metrics = html.escape(
             f"points {row['accepted_node_count']}/{row['input_point_count']} | "
             f"paths {row['decoded_path_count']} | coverage {row['skeleton_coverage_ratio']:.3f} | "
@@ -96,7 +101,15 @@ def make_review_html(output: Path, rows: list[dict[str, Any]]) -> None:
         cards.append(
             f'''<section class="{card_class}" data-index="{index}" data-id="{dataset_id}">
 <h2>{dataset_id}</h2><p>{metrics}</p>
-<img src="overlays/{dataset_id}.png" alt="{dataset_id}">
+<p class="review-hint">先看左侧无标注原图确认真实苗体，再检查中间的学习点结构和右侧的最终路径是否贴合真实茎叶。</p>
+<div class="comparison">
+<figure class="original-panel"><figcaption>① 标准化原图（无任何点、线或掩膜）</figcaption>
+<a href="{original_src}" target="_blank" rel="noopener"><img src="{original_src}" alt="{dataset_id} 标准化原图"></a>
+<small>用于判断算法曲线是否确实覆盖真实苗体；点击图片可查看原尺寸。</small></figure>
+<figure class="result-panel"><figcaption>② 学习点结构图　　③ 最终器官路径</figcaption>
+<a href="{overlay_src}" target="_blank" rel="noopener"><img src="{overlay_src}" alt="{dataset_id} 学习点结构图与器官路径"></a>
+<small>结果图左半为学习点结构图，右半为解码路径；点击图片可查看原尺寸。</small></figure>
+</div>
 <div class="fields">
 <label>路径语义 <select data-field="manual_path_semantics"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
 <label>漏叶 <select data-field="manual_missing_organ"><option></option><option>no</option><option>yes</option><option>uncertain</option></select></label>
@@ -111,8 +124,14 @@ body{{font-family:Segoe UI,Microsoft YaHei,sans-serif;margin:0;background:#f3f4f
 header{{position:sticky;top:0;background:white;padding:10px 18px;box-shadow:0 2px 8px #0002;z-index:2}}
 button{{margin-right:8px;padding:7px 12px}}main{{max-width:1500px;margin:auto;padding:16px}}
 .card{{display:none;background:white;border-radius:10px;padding:14px}}.card.active{{display:block}}
-img{{width:100%;max-height:72vh;object-fit:contain;background:white}}.fields{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}}
+.review-hint{{margin:8px 0 12px;padding:9px 12px;border-left:4px solid #2563eb;background:#eff6ff;color:#1e3a5f}}
+.comparison{{display:grid;grid-template-columns:minmax(300px,.82fr) minmax(650px,1.7fr);gap:12px;align-items:stretch}}
+figure{{margin:0;padding:9px;border:1px solid #d1d5db;border-radius:8px;background:white;display:flex;flex-direction:column}}
+figcaption{{font-weight:650;margin:0 0 7px}}.comparison a{{display:flex;flex:1;min-height:0}}
+.comparison img{{width:100%;height:58vh;min-height:360px;object-fit:contain;background:white}}
+small{{display:block;margin-top:6px;color:#6b7280}}.fields{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}}
 label{{display:flex;gap:8px;align-items:center}}select,input{{flex:1;padding:6px}}.note{{grid-column:1/-1}}
+@media(max-width:1050px){{.comparison{{grid-template-columns:1fr}}.comparison img{{height:auto;min-height:0;max-height:58vh}}.fields{{grid-template-columns:1fr 1fr}}}}
 </style></head><body><header><button id="prev">上一张</button><button id="next">下一张</button><button id="export">导出CSV</button><span id="position"></span></header>
 <main>{''.join(cards)}</main><script>
 var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
