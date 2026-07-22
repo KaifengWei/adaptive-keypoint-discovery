@@ -1,0 +1,383 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>地上部表型有效域与基部过渡区复核</title><style>
+body{font-family:Segoe UI,Microsoft YaHei,sans-serif;margin:0;background:#f3f4f6;color:#111827}
+header{position:sticky;top:0;background:white;padding:10px 18px;box-shadow:0 2px 8px #0002;z-index:2}
+button{margin-right:8px;padding:7px 12px}main{max-width:1700px;margin:auto;padding:16px}
+.card{display:none;background:white;border-radius:10px;padding:14px}.card.active{display:block}
+.hint{padding:9px 12px;border-left:4px solid #16a34a;background:#f0fdf4}.old-audit{color:#475569}
+img{width:100%;max-height:70vh;object-fit:contain;background:white;border:1px solid #d1d5db}
+.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+label{display:flex;gap:8px;align-items:center}select,input{flex:1;padding:6px}.note{grid-column:1/-1}
+@media(max-width:900px){.fields{grid-template-columns:1fr}}
+</style></head><body><header><button id="prev">上一张</button><button id="next">下一张</button><button id="export">导出CSV</button><span id="position"></span></header>
+<main><section class="card active" data-index="0" data-id="v4_val_0001">
+<h2>v4_val_0001</h2><p>shoot retention 0.997 | root/base overlap 0.009 | learned points kept 3/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=blank, base=wrong · 2点有误应再偏左上一点；1/3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0001.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0001.png" alt="v4_val_0001 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="1" data-id="v4_val_0002">
+<h2>v4_val_0002</h2><p>shoot retention 0.995 | root/base overlap 0.000 | learned points kept 3/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=correct · 0/3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0002.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0002.png" alt="v4_val_0002 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="2" data-id="v4_val_0003">
+<h2>v4_val_0003</h2><p>shoot retention 0.998 | root/base overlap 0.002 | learned points kept 4/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 4点有误应再偏下一点；2/3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0003.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0003.png" alt="v4_val_0003 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="3" data-id="v4_val_0004">
+<h2>v4_val_0004</h2><p>shoot retention 0.993 | root/base overlap 0.019 | learned points kept 1/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 种子部位非根基部，点1的判断应向上移动，2为根须舍去。</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0004.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0004.png" alt="v4_val_0004 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="4" data-id="v4_val_0005">
+<h2>v4_val_0005</h2><p>shoot retention 0.942 | root/base overlap 0.000 | learned points kept 2/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 下方小片叶漏叶，0点基部点应再下移，2/3/4点为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0005.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0005.png" alt="v4_val_0005 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="5" data-id="v4_val_0006">
+<h2>v4_val_0006</h2><p>shoot retention 0.999 | root/base overlap 0.186 | learned points kept 3/6 | proposed anchor p04</p><p class="old-audit">previous manual audit: path=pass, base=correct · 将1点（根须）舍去即可</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0006.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0006.png" alt="v4_val_0006 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="6" data-id="v4_val_0007">
+<h2>v4_val_0007</h2><p>shoot retention 0.991 | root/base overlap 0.019 | learned points kept 1/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 0点有误应再偏下；1/3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0007.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0007.png" alt="v4_val_0007 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="7" data-id="v4_val_0008">
+<h2>v4_val_0008</h2><p>shoot retention 0.947 | root/base overlap 0.029 | learned points kept 1/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 点4根部判断有误应向下移，1和2为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0008.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0008.png" alt="v4_val_0008 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="8" data-id="v4_val_0009">
+<h2>v4_val_0009</h2><p>shoot retention 0.998 | root/base overlap 0.000 | learned points kept 4/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=correct · </p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0009.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0009.png" alt="v4_val_0009 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="9" data-id="v4_val_0010">
+<h2>v4_val_0010</h2><p>shoot retention 0.995 | root/base overlap 0.027 | learned points kept 5/11 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=blank, base=wrong · 2，7，8为根须，不予考虑，根系基部（6）错误，应为相邻区域位于苗上位置</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0010.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0010.png" alt="v4_val_0010 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="10" data-id="v4_val_0011">
+<h2>v4_val_0011</h2><p>shoot retention 0.944 | root/base overlap 0.000 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 基部点2判断错误，应在种子上方或旁边为根部点，此外点3 仍为根须，应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0011.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0011.png" alt="v4_val_0011 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="11" data-id="v4_val_0012">
+<h2>v4_val_0012</h2><p>shoot retention 0.999 | root/base overlap 0.000 | learned points kept 1/3 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=correct · </p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0012.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0012.png" alt="v4_val_0012 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="12" data-id="v4_val_0013">
+<h2>v4_val_0013</h2><p>shoot retention 0.970 | root/base overlap 0.019 | learned points kept 5/9 | proposed anchor p03</p><p class="old-audit">previous manual audit: path=pass, base=correct · 两条可见叶片均已恢复，主叶和下方侧叶连接关系正确，根须不在考虑范围内，点3舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0013.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0013.png" alt="v4_val_0013 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="13" data-id="v4_val_0014">
+<h2>v4_val_0014</h2><p>shoot retention 0.987 | root/base overlap 0.002 | learned points kept 4/8 | proposed anchor p08</p><p class="old-audit">previous manual audit: path=pass, base=blank · 1,2,4,5为种子及根须点应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0014.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0014.png" alt="v4_val_0014 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="14" data-id="v4_val_0015">
+<h2>v4_val_0015</h2><p>shoot retention 0.944 | root/base overlap 0.014 | learned points kept 3/9 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 4基部点定义有误，应再下移一些，1、2、3、7点皆为根须，应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0015.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0015.png" alt="v4_val_0015 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="15" data-id="v4_val_0016">
+<h2>v4_val_0016</h2><p>shoot retention 0.928 | root/base overlap 0.001 | learned points kept 2/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=blank · 1，4，5为根须，应舍去，根部（3）判断有偏差</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0016.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0016.png" alt="v4_val_0016 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="16" data-id="v4_val_0017">
+<h2>v4_val_0017</h2><p>shoot retention 0.907 | root/base overlap 0.002 | learned points kept 3/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=blank, base=wrong · 3点有误应再偏左上一点；2为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0017.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0017.png" alt="v4_val_0017 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="17" data-id="v4_val_0018">
+<h2>v4_val_0018</h2><p>shoot retention 0.954 | root/base overlap 0.030 | learned points kept 4/10 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 6点有误；3/4/5为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0018.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0018.png" alt="v4_val_0018 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="18" data-id="v4_val_0019">
+<h2>v4_val_0019</h2><p>shoot retention 0.950 | root/base overlap 0.100 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 小叶片未被检测到，基部根系应为种子上方或旁边，而非下方的0点位置，根须不应在路径考虑范围内</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0019.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0019.png" alt="v4_val_0019 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="19" data-id="v4_val_0020">
+<h2>v4_val_0020</h2><p>shoot retention 0.910 | root/base overlap 0.014 | learned points kept 3/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 根基部点5错误，3、4、6点为根须舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0020.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0020.png" alt="v4_val_0020 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="20" data-id="v4_val_0021">
+<h2>v4_val_0021</h2><p>shoot retention 0.977 | root/base overlap 0.000 | learned points kept 1/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 3再偏下一点的位置才应为根基部点，4点有误；2为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0021.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0021.png" alt="v4_val_0021 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="21" data-id="v4_val_0022">
+<h2>v4_val_0022</h2><p>shoot retention 0.979 | root/base overlap 0.000 | learned points kept 1/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 1点有误；2、3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0022.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0022.png" alt="v4_val_0022 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="22" data-id="v4_val_0023">
+<h2>v4_val_0023</h2><p>shoot retention 0.994 | root/base overlap 0.000 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 0点有误应再偏下一点；2为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0023.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0023.png" alt="v4_val_0023 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="23" data-id="v4_val_0024">
+<h2>v4_val_0024</h2><p>shoot retention 0.980 | root/base overlap 0.002 | learned points kept 1/4 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 0点有误应再偏上一点；3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0024.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0024.png" alt="v4_val_0024 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="24" data-id="v4_val_0025">
+<h2>v4_val_0025</h2><p>shoot retention 0.997 | root/base overlap 0.014 | learned points kept 3/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 1，2，4为根须，舍去。点6基部判断错误，应为1附近的点</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0025.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0025.png" alt="v4_val_0025 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="25" data-id="v4_val_0026">
+<h2>v4_val_0026</h2><p>shoot retention 0.989 | root/base overlap 0.038 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 点4应在点1旁边才应符合根部，1和3为根须不考虑</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0026.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0026.png" alt="v4_val_0026 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="26" data-id="v4_val_0027">
+<h2>v4_val_0027</h2><p>shoot retention 0.981 | root/base overlap 0.000 | learned points kept 3/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 5点有误应再偏上一点；1/3为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0027.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0027.png" alt="v4_val_0027 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="27" data-id="v4_val_0028">
+<h2>v4_val_0028</h2><p>shoot retention 0.909 | root/base overlap 0.000 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 2点有误应再偏左上；0/1为根须应舍去，路径有问题，3,和4点下方分叉的叶片着生位置太靠上方了</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0028.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0028.png" alt="v4_val_0028 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="28" data-id="v4_val_0029">
+<h2>v4_val_0029</h2><p>shoot retention 0.903 | root/base overlap 0.000 | learned points kept 2/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=correct · 0点仍为根须，不予考虑</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0029.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0029.png" alt="v4_val_0029 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="29" data-id="v4_val_0030">
+<h2>v4_val_0030</h2><p>shoot retention 1.000 | root/base overlap 0.024 | learned points kept 2/7 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 上方小叶子漏叶，2，4根系错误，根系基部（0）错误</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0030.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0030.png" alt="v4_val_0030 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="30" data-id="v4_val_0031">
+<h2>v4_val_0031</h2><p>shoot retention 0.909 | root/base overlap 0.000 | learned points kept 4/8 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=wrong · 1，4，6点错误，基部根系应在种子上方开始计算，不考虑根须</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0031.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0031.png" alt="v4_val_0031 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="31" data-id="v4_val_0032">
+<h2>v4_val_0032</h2><p>shoot retention 0.903 | root/base overlap 0.008 | learned points kept 0/6 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 根基部应在点1下方位置，2判断错误，3和4为根须舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0032.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0032.png" alt="v4_val_0032 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="32" data-id="v4_val_0033">
+<h2>v4_val_0033</h2><p>shoot retention 0.962 | root/base overlap 0.099 | learned points kept 5/9 | proposed anchor p05</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 错连根须，2，5，6应舍去。根部判断错误，应为点2旁边的位置</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0033.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0033.png" alt="v4_val_0033 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="33" data-id="v4_val_0034">
+<h2>v4_val_0034</h2><p>shoot retention 0.966 | root/base overlap 0.002 | learned points kept 3/7 | proposed anchor p06</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 3点有误；0和2为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0034.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0034.png" alt="v4_val_0034 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="34" data-id="v4_val_0035">
+<h2>v4_val_0035</h2><p>shoot retention 0.987 | root/base overlap 0.012 | learned points kept 4/10 | proposed anchor p09</p><p class="old-audit">previous manual audit: path=pass, base=correct · 1、2、4、7为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0035.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0035.png" alt="v4_val_0035 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="35" data-id="v4_val_0036">
+<h2>v4_val_0036</h2><p>shoot retention 0.976 | root/base overlap 0.045 | learned points kept 5/9 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=correct · 路径基本正确，但2，5，7点不应存在，他们都是根系结构，基本不在考虑范围内</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0036.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0036.png" alt="v4_val_0036 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="36" data-id="v4_val_0037">
+<h2>v4_val_0037</h2><p>shoot retention 0.986 | root/base overlap 0.000 | learned points kept 1/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=blank, base=wrong · 2点有误应再偏下一点；1为根须应舍去</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0037.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0037.png" alt="v4_val_0037 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="37" data-id="v4_val_0038">
+<h2>v4_val_0038</h2><p>shoot retention 0.996 | root/base overlap 0.142 | learned points kept 0/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=pass, base=wrong · 点1在向下一点移到苗内为最适宜，0为根须，舍去即可</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0038.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0038.png" alt="v4_val_0038 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="38" data-id="v4_val_0039">
+<h2>v4_val_0039</h2><p>shoot retention 0.983 | root/base overlap 0.006 | learned points kept 1/5 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=correct · 0，2为根须，不考虑</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0039.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0039.png" alt="v4_val_0039 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section><section class="card" data-index="39" data-id="v4_val_0040">
+<h2>v4_val_0040</h2><p>shoot retention 0.998 | root/base overlap 0.016 | learned points kept 1/4 | proposed anchor missing</p><p class="old-audit">previous manual audit: path=fail, base=correct · 器官路径没有连接完全，2前仍然有一部分未被识别，左侧较长叶片段及叶尖未恢复，路径只覆盖到叶片中部，此外1为根须点，不予考虑（算在错连中了）</p>
+<p class="hint">绿区是拟用于地上部关键点与路径的有效域；黄区是自动定位的shoot侧过渡带。红叉点将被排除，黄色星号只能从现有学习点中选择。</p>
+<a href="overlays/v4_val_0040.png" target="_blank" rel="noopener"><img src="overlays/v4_val_0040.png" alt="v4_val_0040 phenotype ROI audit"></a>
+<div class="fields">
+<label>地上部是否完整 <select data-field="manual_roi_completeness"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>颖果根须是否排除 <select data-field="manual_seed_root_exclusion"><option>pending</option><option>pass</option><option>fail</option><option>uncertain</option></select></label>
+<label>黄色过渡区 <select data-field="manual_basal_transition"><option>pending</option><option>correct</option><option>wrong</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="manual_note"></label>
+</div></section></main><script>
+var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
+var key='phenotype-roi-review-v1';var current=0;var saved={};
+try{saved=JSON.parse(window.localStorage.getItem(key)||'{}')||{};}catch(error){saved={};}
+function persist(){try{window.localStorage.setItem(key,JSON.stringify(saved));}catch(error){}}
+function show(i){if(!cards.length)return;current=(i+cards.length)%cards.length;cards.forEach(function(card,index){card.classList.toggle('active',index===current);});document.querySelector('#position').textContent=' '+(current+1)+' / '+cards.length+' · '+cards[current].getAttribute('data-id');}
+cards.forEach(function(card){Array.prototype.slice.call(card.querySelectorAll('[data-field]')).forEach(function(input){var id=card.getAttribute('data-id');var field=input.getAttribute('data-field');if(saved[id]&&saved[id][field]!==undefined)input.value=saved[id][field];input.onchange=function(){if(!saved[id])saved[id]={};saved[id][field]=input.value;persist();};});});
+document.querySelector('#prev').onclick=function(){show(current-1);};document.querySelector('#next').onclick=function(){show(current+1);};
+document.onkeydown=function(event){if(event.key==='ArrowLeft')show(current-1);if(event.key==='ArrowRight')show(current+1);};
+document.querySelector('#export').onclick=function(){var fields=['dataset_id','manual_roi_completeness','manual_seed_root_exclusion','manual_basal_transition','manual_note'];var lines=[fields.join(',')];cards.forEach(function(card){var id=card.getAttribute('data-id');var row=saved[id]||{};var values=[id];fields.slice(1).forEach(function(field){values.push(row[field]||'');});values=values.map(function(value){return '"'+String(value).replace(/"/g,'""')+'"';});lines.push(values.join(','));});var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv'});var link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='manual_phenotype_roi_review_completed.csv';link.click();};show(0);
+</script></body></html>

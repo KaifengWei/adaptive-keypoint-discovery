@@ -14,7 +14,7 @@
 6. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
 7. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
 8. 若工作涉及下一轮数据或训练，阅读 `experiment/V4数据集构建与锁定说明_20260717.md` 和 `experiment/data_stage_clean_v4_fullplant_candidate/candidate_audit_summary.json`，确认 V4 full-plant test 是否已解除模型锁定。
-9. 若工作涉及路径、拓扑或表型，依次阅读 `experiment/关键点条件结构图重建_v1验证报告_20260721.md`、`experiment/关键点条件器官路径解码_v1验证报告_20260721.md` 及两个对应的 `summary.json`，确认当前已经进入点条件图与候选器官路径解码，而不是旧骨架先验路径基线。
+9. 若工作涉及路径、拓扑或表型，依次阅读 `experiment/关键点条件结构图重建_v1验证报告_20260721.md`、`experiment/关键点条件器官路径解码_v1验证报告_20260721.md`、`experiment/人工路径审计与地上部基部重定义建议_20260722.md`、`experiment/地上部表型有效域与基部过渡区_v1验证报告_20260722.md` 及对应 `summary.json`，确认当前已经进入点条件图、候选器官路径和地上部有效域人工复核，而不是旧骨架先验路径基线。
 
 完成后，先用自己的话复述以下六项，再开始行动：
 
@@ -38,7 +38,7 @@
 - 学习型动态热图检测器负责学习自动教师目标；
 - 当前检测点已能学习，但部分叶片路径仍连接错误；
 - 关键点条件结构图已经完成 val-only 首轮验证，零点对照不再产生路径；
-- 关键点条件器官路径解码已在 val 输出65条候选路径，但人工语义与表型参考仍为 `pending`；
+- 关键点条件器官路径解码已在 val 输出65条候选路径；40张人工路径审计已提交并暴露出系统性根须/基部干扰，地上部有效域与人工表型参考仍为 `pending`；
 - 表型准确率尚未通过人工参考验证；
 - 跨作物迁移已经封存，不得主动扩展。
 
