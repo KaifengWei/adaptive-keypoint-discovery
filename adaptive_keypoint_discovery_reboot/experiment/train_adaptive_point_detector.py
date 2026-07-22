@@ -78,7 +78,14 @@ class PseudoPointDataset(Dataset[tuple[torch.Tensor, torch.Tensor, torch.Tensor,
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, str]:
         row = self.rows[index]
-        if row.get("image_relative_path"):
+        input_domain = str(self.config.get("input_domain", "full_plant"))
+        if input_domain == "phenotype_roi_v1":
+            if not row.get("input_image_relative_path"):
+                raise RuntimeError(f"Missing focused input path for {row.get('dataset_id')}")
+            image_path = Path(str(self.config["pseudo_labels_root"])) / Path(
+                str(row["input_image_relative_path"]).replace("\\", "/")
+            )
+        elif row.get("image_relative_path"):
             portable_relative = str(row["image_relative_path"]).replace("\\", "/")
             image_path = Path(str(self.config["dataset_root"])) / Path(portable_relative)
         else:
@@ -220,9 +227,20 @@ def run(args: argparse.Namespace) -> None:
     device = torch.device(requested_device)
 
     pseudo_path = Path(str(config["pseudo_labels_jsonl"]))
+    config["pseudo_labels_root"] = str(pseudo_path.parent.resolve())
     rows = [row for row in load_jsonl(pseudo_path) if int(row.get("training_usable", 0)) == 1]
     if not rows:
         raise RuntimeError(f"No training-usable pseudo labels in {pseudo_path}")
+    input_domain = str(config.get("input_domain", "full_plant"))
+    mismatched_domains = [
+        str(row.get("dataset_id"))
+        for row in rows
+        if str(row.get("input_domain", "full_plant")) != input_domain
+    ]
+    if mismatched_domains:
+        raise RuntimeError(
+            f"Pseudo-label input domain does not match config {input_domain}: {mismatched_domains[:5]}"
+        )
     train_rows, validation_rows = deterministic_split(rows, float(config.get("validation_fraction", 0.15)), seed)
     train_dataset = PseudoPointDataset(train_rows, config, augment=True)
     validation_dataset = PseudoPointDataset(validation_rows, config, augment=False)
@@ -283,6 +301,8 @@ def run(args: argparse.Namespace) -> None:
             "train_images": len(train_rows),
             "validation_images": len(validation_rows),
             "trainable_parameters": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad),
+            "input_domain": input_domain,
+            "manual_keypoint_labels_used": False,
         }
         (output / "dry_run.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -346,6 +366,7 @@ def run(args: argparse.Namespace) -> None:
         "validation_images": len(validation_rows),
         "manual_keypoint_labels_used": False,
         "target_source": "cross-transform G1-prime automatic consensus",
+        "input_domain": input_domain,
         "elapsed_seconds": time.time() - started,
     }
     (output / "training_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")

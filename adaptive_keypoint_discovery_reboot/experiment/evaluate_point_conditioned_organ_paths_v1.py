@@ -35,6 +35,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--image-size", type=int, default=518)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--allow-test", action="store_true")
+    parser.add_argument(
+        "--input-domain",
+        choices=["auto", "full_plant", "phenotype_roi_v1"],
+        default="auto",
+    )
     return parser.parse_args()
 
 
@@ -152,6 +157,13 @@ def run(args: argparse.Namespace) -> None:
     if set(per_image["split"].astype(str)) != {"val"} and not args.allow_test:
         raise RuntimeError("Refusing non-val saved predictions without --allow-test")
     points = pd.read_csv(args.evaluation / "points.csv")
+    saved_domains = set(per_image.get("input_domain", pd.Series(["full_plant"])).astype(str))
+    if len(saved_domains) != 1:
+        raise RuntimeError(f"Saved predictions contain mixed input domains: {sorted(saved_domains)}")
+    saved_domain = next(iter(saved_domains))
+    input_domain = saved_domain if args.input_domain == "auto" else args.input_domain
+    if input_domain != saved_domain:
+        raise RuntimeError(f"Path input domain {input_domain} does not match saved predictions {saved_domain}")
     manifest = pd.read_csv(args.dataset / "manifests" / "val.csv", low_memory=False).sort_values("dataset_id")
     manifest = manifest[manifest["dataset_id"].isin(per_image["dataset_id"])]
     if args.limit > 0:
@@ -173,6 +185,7 @@ def run(args: argparse.Namespace) -> None:
             args.dataset,
             args.image_size,
             args.projection_ratio,
+            input_domain,
         )
         bbox = graph_eval.gp.bbox_from_mask(graph_result["support"])
         bbox_diag = max(1.0, math.hypot(bbox[2] - bbox[0], bbox[3] - bbox[1]))
@@ -181,17 +194,29 @@ def run(args: argparse.Namespace) -> None:
             graph_result["masks_exact"]["shoot"],
             graph_result["masks_exact"]["seed_base_root"],
             bbox_diag,
+            phenotype_roi_mask=(
+                graph_result["masks_exact"]["phenotype_roi"]
+                if input_domain == "phenotype_roi_v1"
+                else None
+            ),
+            basal_transition_mask=(
+                graph_result["masks_exact"]["basal_transition"]
+                if input_domain == "phenotype_roi_v1"
+                else None
+            ),
         )
         path_errors = [path["metrics"]["spline_to_skeleton_median_error_px"] for path in paths]
         image_rows.append(
             {
                 "dataset_id": dataset_id,
                 "split": "val",
+                "input_domain": input_domain,
                 "input_point_count": graph_result["metrics"]["input_point_count"],
                 "accepted_node_count": graph_result["metrics"]["accepted_node_count"],
                 "skeleton_coverage_ratio": graph_result["metrics"]["skeleton_coverage_ratio"],
                 "base_node_id": diagnostics.get("base_node_id", -1),
                 "base_interface_distance_bbox_diag": diagnostics.get("base_interface_distance_bbox_diag", float("nan")),
+                "base_selection_rule": diagnostics.get("base_selection_rule", ""),
                 "shoot_terminal_learned_node_count": diagnostics.get("terminal_learned_node_count", 0),
                 "short_terminal_rejected_count": diagnostics.get("short_terminal_rejected_count", 0),
                 "minimum_lateral_branch_length_px": diagnostics.get("minimum_lateral_branch_length_px", float("nan")),
@@ -285,6 +310,10 @@ def run(args: argparse.Namespace) -> None:
         "split": "val",
         "test_images_read": 0,
         "projection_ratio": args.projection_ratio,
+        "input_domain": input_domain,
+        "base_selection_domain": (
+            "shoot_side_basal_transition" if input_domain == "phenotype_roi_v1" else "shoot_root_interface"
+        ),
         "decode_success_rate": float((image_frame["decode_failure"].fillna("") == "").mean()),
         "median_decoded_path_count": float(image_frame["decoded_path_count"].median()),
         "median_lateral_branch_count": float(image_frame["lateral_branch_count"].median()),

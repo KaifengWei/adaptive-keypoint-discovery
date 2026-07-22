@@ -1,0 +1,5 @@
+dataset_id,split,exclude_from_teacher,reason,evidence,review_date
+v4_train_new_0019,train,1,scanner hardware line was standardized as the plant,train contact sheet and full-plant image,2026-07-22
+v4_train_new_0028,train,1,scanner hardware line was standardized as the plant,train contact sheet and full-plant image,2026-07-22
+v4_train_new_0056,train,1,scanner hardware line was standardized as the plant,train contact sheet and full-plant image,2026-07-22
+v4_train_new_0089,train,1,scanner hardware line was standardized as the plant,train contact sheet and full-plant image,2026-07-22

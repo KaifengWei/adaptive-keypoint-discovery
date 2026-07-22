@@ -12,6 +12,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+import cv2
 import numpy as np
 import pandas as pd
 import torch
@@ -22,6 +23,7 @@ import g1_dinov2_feasibility as g1  # noqa: E402
 import g1_prime_structural_support as gp  # noqa: E402
 import g1_prime_phenotype_bridge as bridge  # noqa: E402
 from adaptive_point_model import AdaptivePointDetector  # noqa: E402
+from phenotype_roi_basal_anchor import load_phenotype_input  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -42,6 +44,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fixed-k", type=int, default=-1)
     parser.add_argument("--dinov2-local-repo", type=Path)
     parser.add_argument("--dinov2-weights", type=Path)
+    parser.add_argument(
+        "--input-domain",
+        choices=["auto", "full_plant", "phenotype_roi_v1"],
+        default="auto",
+    )
     return parser.parse_args()
 
 
@@ -95,6 +102,12 @@ def run(args: argparse.Namespace) -> None:
         raise RuntimeError("CUDA requested but torch.cuda.is_available() is false")
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
     config = checkpoint["config"]
+    checkpoint_input_domain = str(config.get("input_domain", "full_plant"))
+    input_domain = checkpoint_input_domain if args.input_domain == "auto" else args.input_domain
+    if input_domain != checkpoint_input_domain:
+        raise RuntimeError(
+            f"Evaluation input domain {input_domain} does not match checkpoint domain {checkpoint_input_domain}"
+        )
     repo = args.dinov2_local_repo or Path(str(config["dinov2_local_repo"]))
     weights = args.dinov2_weights or Path(str(config["dinov2_weights"]))
     model_args = argparse.Namespace(
@@ -131,7 +144,25 @@ def run(args: argparse.Namespace) -> None:
 
     for row_number, row in enumerate(frame.to_dict("records"), start=1):
         image_path = args.dataset / Path(str(row["relative_path"]).replace("\\", "/"))
-        base, mapping = g1.letterbox_rgb(image_path, image_size)
+        roi_result: dict[str, Any] | None = None
+        if input_domain == "phenotype_roi_v1":
+            base, mapping, focused_source, roi_result = load_phenotype_input(
+                args.dataset, row, image_size
+            )
+            focused_path = args.output / "focused_inputs" / "images" / str(row["split"]) / f"{row['dataset_id']}.png"
+            focused_path.parent.mkdir(parents=True, exist_ok=True)
+            if not cv2.imwrite(str(focused_path), cv2.cvtColor(focused_source, cv2.COLOR_RGB2BGR)):
+                raise RuntimeError(f"Failed to write focused evaluation input: {focused_path}")
+            for mask_name, mask in (
+                ("phenotype_roi", roi_result["phenotype_roi"]),
+                ("basal_transition", roi_result["basal_transition"]),
+            ):
+                mask_path = args.output / "focused_inputs" / "masks" / mask_name / str(row["split"]) / f"{row['dataset_id']}.png"
+                mask_path.parent.mkdir(parents=True, exist_ok=True)
+                if not cv2.imwrite(str(mask_path), np.asarray(mask, dtype=np.uint8) * 255):
+                    raise RuntimeError(f"Failed to write focused evaluation mask: {mask_path}")
+        else:
+            base, mapping = g1.letterbox_rgb(image_path, image_size)
         transforms = g1.make_transforms(base, args.full_transforms)
         outputs = []
         for transform in transforms:
@@ -195,6 +226,23 @@ def run(args: argparse.Namespace) -> None:
                 "split": row["split"],
                 "point_count": len(reference["points"]),
                 "foreground_hit_ratio": g1.plant_hit_ratio(reference["points"], support),
+                "phenotype_roi_hit_ratio": (
+                    float("nan")
+                    if roi_result is None
+                    else g1.plant_hit_ratio(reference["points"], roi_result["phenotype_roi_model"])
+                ),
+                "seed_root_hit_ratio": (
+                    float("nan")
+                    if roi_result is None
+                    else g1.plant_hit_ratio(reference["points"], roi_result["seed_base_root_model"])
+                ),
+                "roi_shoot_retention_ratio": (
+                    float("nan") if roi_result is None else roi_result["shoot_retention_ratio"]
+                ),
+                "roi_localization_source": (
+                    "not_applicable" if roi_result is None else roi_result["localization_source"]
+                ),
+                "input_domain": input_domain,
                 "mean_repeatability_f1": float(np.mean(f1_values)) if f1_values else float("nan"),
                 "median_localization_error_bbox_diag": float(np.median(localization_values)) if localization_values else float("nan"),
                 "path_count": len(paths),
@@ -227,9 +275,20 @@ def run(args: argparse.Namespace) -> None:
         "stage_counts": dict(Counter(row["stage_label"] for row in image_rows)),
         "fixed_k": fixed_k,
         "threshold": threshold,
+        "input_domain": input_domain,
         "median_point_count": float(np.median([row["point_count"] for row in image_rows])) if image_rows else 0.0,
         "median_repeatability_f1": float(np.nanmedian([row["mean_repeatability_f1"] for row in image_rows])) if image_rows else float("nan"),
         "median_foreground_hit_ratio": float(np.median([row["foreground_hit_ratio"] for row in image_rows])) if image_rows else 0.0,
+        "median_phenotype_roi_hit_ratio": (
+            float(np.nanmedian([row["phenotype_roi_hit_ratio"] for row in image_rows]))
+            if input_domain == "phenotype_roi_v1" and image_rows
+            else float("nan")
+        ),
+        "median_seed_root_hit_ratio": (
+            float(np.nanmedian([row["seed_root_hit_ratio"] for row in image_rows]))
+            if input_domain == "phenotype_roi_v1" and image_rows
+            else float("nan")
+        ),
         "graph_success_rate": float(np.mean([not row["graph_failure"] for row in image_rows])) if image_rows else 0.0,
         "safety_cap_hit_rate": float(np.mean([row["safety_cap_hit"] for row in image_rows])) if image_rows else 0.0,
         "manual_keypoint_labels_used": False,

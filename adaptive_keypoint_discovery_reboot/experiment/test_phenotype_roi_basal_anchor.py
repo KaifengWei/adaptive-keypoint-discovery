@@ -3,7 +3,13 @@ import unittest
 import cv2
 import numpy as np
 
-from phenotype_roi_basal_anchor import derive_phenotype_roi, select_learned_basal_anchor
+from phenotype_roi_basal_anchor import (
+    apply_phenotype_roi,
+    derive_phenotype_roi,
+    letterbox_rgb_array,
+    mask_to_letterbox,
+    select_learned_basal_anchor,
+)
 
 
 class PhenotypeRoiBasalAnchorTest(unittest.TestCase):
@@ -57,6 +63,30 @@ class PhenotypeRoiBasalAnchorTest(unittest.TestCase):
         self.assertIsNotNone(anchor)
         self.assertEqual(anchor["point_id"], "shoot_base")
         self.assertEqual(len(audited), 2)
+
+    def test_automatic_base_hint_is_a_fallback_when_root_evidence_is_missing(self):
+        image, shoot, _, _ = self.synthetic(False)
+        root = np.zeros_like(shoot)
+        result = derive_phenotype_roi(
+            image,
+            shoot,
+            root,
+            shoot,
+            base_hint_xy=(80.0, 90.0),
+        )
+        self.assertEqual(result["localization_source"], "manifest_automatic_base_hint_fallback")
+        self.assertGreater(result["shoot_retention_ratio"], 0.90)
+
+    def test_focused_input_is_white_outside_roi_and_letterbox_mapping_matches(self):
+        image, shoot, root, full = self.synthetic(False)
+        result = derive_phenotype_roi(image, shoot, root, full)
+        focused = apply_phenotype_roi(image, result["phenotype_roi"], feather_sigma=0.0)
+        self.assertTrue(np.all(focused[~result["phenotype_roi"]] == 255))
+        canvas, mapping = letterbox_rgb_array(focused, 224)
+        roi_canvas = mask_to_letterbox(result["phenotype_roi"], mapping, 224)
+        self.assertEqual(canvas.shape, (224, 224, 3))
+        self.assertEqual(roi_canvas.shape, (224, 224))
+        self.assertGreater(int(roi_canvas.sum()), 0)
 
 
 if __name__ == "__main__":

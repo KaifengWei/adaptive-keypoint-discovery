@@ -72,6 +72,51 @@ class PointConditionedOrganPathTests(unittest.TestCase):
         self.assertEqual(len(full_paths), 2)
         self.assertEqual(len(missing_paths), 1)
 
+    def test_phenotype_base_is_an_existing_node_near_shoot_side_transition(self) -> None:
+        skeleton = np.zeros((25, 25), dtype=bool)
+        skeleton[3:22, 12] = True
+        graph = build_point_conditioned_graph(skeleton, [point(12, 21), point(12, 3)], 25.0, 0.05)
+        shoot, root = masks(skeleton.shape)
+        phenotype_roi = np.zeros_like(skeleton)
+        phenotype_roi[3:22, 10:15] = True
+        transition = np.zeros_like(skeleton)
+        transition[19:22, 10:15] = True
+        for node in graph["nodes"]:
+            node["organ_region_tolerant"] = "shoot"
+        paths, diagnostics = decode_candidate_organ_paths(
+            graph,
+            shoot,
+            root,
+            25.0,
+            phenotype_roi_mask=phenotype_roi,
+            basal_transition_mask=transition,
+        )
+        self.assertEqual(diagnostics["failure"], "")
+        self.assertEqual(diagnostics["base_selection_rule"], "learned node inside phenotype ROI nearest shoot-side basal transition")
+        self.assertEqual(len(paths), 1)
+
+    def test_phenotype_base_does_not_synthesize_a_missing_transition_node(self) -> None:
+        skeleton = np.zeros((25, 25), dtype=bool)
+        skeleton[3:22, 12] = True
+        graph = build_point_conditioned_graph(skeleton, [point(12, 3), point(12, 6)], 25.0, 0.05)
+        shoot, root = masks(skeleton.shape)
+        phenotype_roi = np.zeros_like(skeleton)
+        phenotype_roi[3:22, 10:15] = True
+        transition = np.zeros_like(skeleton)
+        transition[20:22, 10:15] = True
+        for node in graph["nodes"]:
+            node["organ_region_tolerant"] = "shoot"
+        paths, diagnostics = decode_candidate_organ_paths(
+            graph,
+            shoot,
+            root,
+            100.0,
+            phenotype_roi_mask=phenotype_roi,
+            basal_transition_mask=transition,
+        )
+        self.assertEqual(paths, [])
+        self.assertEqual(diagnostics["failure"], "no_learned_node_near_shoot_side_transition")
+
 
 if __name__ == "__main__":
     unittest.main()

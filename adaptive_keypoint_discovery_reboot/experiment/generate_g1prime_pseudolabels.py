@@ -30,6 +30,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import g1_dinov2_feasibility as g1  # noqa: E402
 import g1_prime_structural_support as gp  # noqa: E402
+from phenotype_roi_basal_anchor import load_phenotype_input  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,7 +53,29 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-localization-error", type=float, default=0.025)
     parser.add_argument("--teacher-variant", choices=["full", "geometry_only"], default="full")
     parser.add_argument("--no-consistency-filter", action="store_true")
+    parser.add_argument(
+        "--input-domain",
+        choices=["full_plant", "phenotype_roi_v1"],
+        default="full_plant",
+        help="Model/teacher image domain. phenotype_roi_v1 removes seed and root interference on white.",
+    )
+    parser.add_argument(
+        "--quality-exclusions",
+        type=Path,
+        help="Optional CSV with dataset_id, exclude_from_teacher and reason; split membership is unchanged.",
+    )
     return parser.parse_args()
+
+
+def load_quality_exclusions(path: Path | None) -> dict[str, str]:
+    if path is None:
+        return {}
+    frame = pd.read_csv(path)
+    required = {"dataset_id", "exclude_from_teacher", "reason"}
+    if not required.issubset(frame.columns):
+        raise RuntimeError(f"Quality exclusion CSV is missing columns: {sorted(required - set(frame.columns))}")
+    selected = frame[frame["exclude_from_teacher"].astype(str).str.lower().isin({"1", "true", "yes"})]
+    return {str(row["dataset_id"]): str(row["reason"]) for row in selected.to_dict("records")}
 
 
 def to_source_xy(point: np.ndarray, mapping: dict[str, float]) -> tuple[float, float]:
@@ -151,9 +174,16 @@ def save_overlay(path: Path, image: np.ndarray, accepted: list[dict[str, Any]], 
 
 def run(args: argparse.Namespace) -> None:
     started = time.time()
+    if "test" in args.splits:
+        raise RuntimeError("Automatic teacher generation is forbidden on the locked test split")
     g1.set_deterministic(args.seed)
     frame = pd.read_csv(args.dataset / "manifests" / "all.csv")
     frame = frame[frame["split"].isin(args.splits)].sort_values("dataset_id")
+    selected_before_quality_gate = int(len(frame))
+    exclusion_reasons = load_quality_exclusions(args.quality_exclusions)
+    excluded_ids = [str(value) for value in frame["dataset_id"] if str(value) in exclusion_reasons]
+    if excluded_ids:
+        frame = frame[~frame["dataset_id"].astype(str).isin(excluded_ids)]
     if args.limit > 0:
         frame = frame.head(args.limit)
     if frame.empty:
@@ -170,7 +200,36 @@ def run(args: argparse.Namespace) -> None:
     for row_number, row in enumerate(frame.to_dict("records"), start=1):
         image_relative_path = Path(str(row["relative_path"]).replace("\\", "/"))
         image_path = args.dataset / image_relative_path
-        base, mapping = g1.letterbox_rgb(image_path, args.size)
+        roi_result: dict[str, Any] | None = None
+        input_image_relative_path = ""
+        if args.input_domain == "phenotype_roi_v1":
+            base, mapping, focused_source, roi_result = load_phenotype_input(
+                args.dataset, row, args.size
+            )
+            input_image_relative_path = (
+                Path("focused_inputs") / "images" / str(row["split"]) / f"{row['dataset_id']}.png"
+            ).as_posix()
+            focused_path = args.output / input_image_relative_path
+            focused_path.parent.mkdir(parents=True, exist_ok=True)
+            if not cv2.imwrite(str(focused_path), cv2.cvtColor(focused_source, cv2.COLOR_RGB2BGR)):
+                raise RuntimeError(f"Failed to write focused teacher input: {focused_path}")
+            for mask_name, mask in (
+                ("phenotype_roi", roi_result["phenotype_roi"]),
+                ("basal_transition", roi_result["basal_transition"]),
+            ):
+                mask_path = (
+                    args.output
+                    / "focused_inputs"
+                    / "masks"
+                    / mask_name
+                    / str(row["split"])
+                    / f"{row['dataset_id']}.png"
+                )
+                mask_path.parent.mkdir(parents=True, exist_ok=True)
+                if not cv2.imwrite(str(mask_path), np.asarray(mask, dtype=np.uint8) * 255):
+                    raise RuntimeError(f"Failed to write focused input mask: {mask_path}")
+        else:
+            base, mapping = g1.letterbox_rgb(image_path, args.size)
         transforms = g1.make_transforms(base, args.full_transforms)
         outputs: list[dict[str, Any]] = []
         for transform in transforms:
@@ -219,6 +278,8 @@ def run(args: argparse.Namespace) -> None:
                 "image_relative_path": image_relative_path.as_posix(),
                 "stage_label": row["stage_label"],
                 "split": row["split"],
+                "input_domain": args.input_domain,
+                "input_image_relative_path": input_image_relative_path,
                 "teacher_variant": args.teacher_variant,
                 "consistency_filter_used": not args.no_consistency_filter,
                 "transforms": [transform["name"] for transform in transforms],
@@ -227,6 +288,17 @@ def run(args: argparse.Namespace) -> None:
                 "rejected_count": len(rejected),
                 "training_usable": usable,
                 "points": accepted,
+                "phenotype_roi_diagnostics": (
+                    {}
+                    if roi_result is None
+                    else {
+                        "shoot_retention_ratio": roi_result["shoot_retention_ratio"],
+                        "root_base_overlap_ratio": roi_result["root_base_overlap_ratio"],
+                        "seed_detected": roi_result["seed_detected"],
+                        "localization_source": roi_result["localization_source"],
+                        "retention_repair_used": roi_result["retention_repair_used"],
+                    }
+                ),
             }
         )
         audit_rows.append(
@@ -242,6 +314,20 @@ def run(args: argparse.Namespace) -> None:
                 "median_presence": float(np.median([item["presence_ratio"] for item in accepted])) if accepted else 0.0,
                 "median_localization_error": float(np.median([item["localization_error_bbox_diag"] for item in accepted])) if accepted else float("nan"),
                 "safety_cap_hit": int(outputs[0]["diagnostics"].get("safety_cap_hit", 0)),
+                "input_domain": args.input_domain,
+                "shoot_retention_ratio": (
+                    float("nan") if roi_result is None else roi_result["shoot_retention_ratio"]
+                ),
+                "root_base_overlap_ratio": (
+                    float("nan") if roi_result is None else roi_result["root_base_overlap_ratio"]
+                ),
+                "seed_detected": (False if roi_result is None else roi_result["seed_detected"]),
+                "roi_localization_source": (
+                    "not_applicable" if roi_result is None else roi_result["localization_source"]
+                ),
+                "retention_repair_used": (
+                    False if roi_result is None else roi_result["retention_repair_used"]
+                ),
             }
         )
         save_overlay(
@@ -260,9 +346,14 @@ def run(args: argparse.Namespace) -> None:
     usable_rows = [row for row in audit_rows if row["training_usable"]]
     summary = {
         "images": len(audit_rows),
+        "selected_images_before_quality_gate": selected_before_quality_gate,
+        "quality_excluded_images": len(excluded_ids),
+        "quality_excluded_dataset_ids": excluded_ids,
+        "quality_exclusion_reasons": {dataset_id: exclusion_reasons[dataset_id] for dataset_id in excluded_ids},
         "training_usable_images": len(usable_rows),
         "usable_rate": len(usable_rows) / len(audit_rows),
         "teacher_variant": args.teacher_variant,
+        "input_domain": args.input_domain,
         "consistency_filter_used": not args.no_consistency_filter,
         "keypoint_labels_read": False,
         "manual_keypoint_annotations_created": False,
@@ -272,8 +363,26 @@ def run(args: argparse.Namespace) -> None:
         "elapsed_seconds": time.time() - started,
         "interpretation": "automatic teacher targets for self-training; not phenotype ground truth",
     }
+    gate_failure = ""
+    if args.input_domain == "phenotype_roi_v1" and audit_rows:
+        retention = np.asarray([row["shoot_retention_ratio"] for row in audit_rows], dtype=np.float64)
+        overlap = np.asarray([row["root_base_overlap_ratio"] for row in audit_rows], dtype=np.float64)
+        summary.update(
+            {
+                "median_shoot_retention_ratio": float(np.nanmedian(retention)),
+                "minimum_shoot_retention_ratio": float(np.nanmin(retention)),
+                "median_root_base_overlap_ratio": float(np.nanmedian(overlap)),
+                "maximum_root_base_overlap_ratio": float(np.nanmax(overlap)),
+                "retention_repair_images": int(sum(bool(row["retention_repair_used"]) for row in audit_rows)),
+            }
+        )
+        summary["phenotype_input_gate_passed"] = bool(float(np.nanmin(retention)) >= 0.90)
+        if not summary["phenotype_input_gate_passed"]:
+            gate_failure = "Phenotype input gate failed: at least one included image retains < 90% of shoot"
     (args.output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2), flush=True)
+    if gate_failure:
+        raise RuntimeError(gate_failure)
 
 
 if __name__ == "__main__":

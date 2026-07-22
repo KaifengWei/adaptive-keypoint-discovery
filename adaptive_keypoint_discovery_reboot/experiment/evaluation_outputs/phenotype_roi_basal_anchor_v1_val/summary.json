@@ -20,6 +20,9 @@
   "global_points_inside_roi_ratio": 0.37218045112781956,
   "images_with_proposed_learned_anchor": 6,
   "old_base_inside_roi_images": 10,
-  "manual_roi_status": "pending",
+  "manual_roi_status": "passed_user_visual_review_40_of_40",
+  "manual_roi_completeness_pass": 40,
+  "manual_seed_root_exclusion_pass": 40,
+  "manual_basal_transition_correct": 40,
   "phenotype_accuracy_status": "pending_manual_measurement_reference"
 }

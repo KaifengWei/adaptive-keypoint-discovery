@@ -69,6 +69,63 @@ def _choose_learned_base(
     }
 
 
+def _choose_learned_phenotype_base(
+    graph: dict[str, Any],
+    phenotype_roi: np.ndarray,
+    basal_transition: np.ndarray,
+    bbox_diag: float,
+) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    """Choose an existing learned node near the reviewed shoot-side transition."""
+    if not graph["nodes"]:
+        return None, {
+            "failure": "no_learned_nodes",
+            "interface_pixel_count": int(np.asarray(basal_transition, dtype=bool).sum()),
+            "interface_radius_px": 0,
+            "base_selection_rule": "learned node inside phenotype ROI nearest shoot-side basal transition",
+        }
+    transition = np.asarray(basal_transition, dtype=bool)
+    roi = np.asarray(phenotype_roi, dtype=bool)
+    ys, xs = np.where(transition)
+    if not len(xs):
+        return None, {
+            "failure": "no_shoot_side_basal_transition",
+            "interface_pixel_count": 0,
+            "interface_radius_px": 0,
+            "base_selection_rule": "learned node inside phenotype ROI nearest shoot-side basal transition",
+        }
+    radius = max(2, round(0.010 * bbox_diag))
+    kernel = np.ones((2 * radius + 1, 2 * radius + 1), dtype=np.uint8)
+    tolerant_roi = cv2.dilate(roi.astype(np.uint8), kernel) > 0
+    tree = cKDTree(np.column_stack([xs, ys]).astype(np.float64))
+    height, width = roi.shape
+    ranked = []
+    for node in graph["nodes"]:
+        xy = np.asarray(node["projected_xy"], dtype=np.float64)
+        xx = int(np.clip(round(xy[0]), 0, width - 1))
+        yy = int(np.clip(round(xy[1]), 0, height - 1))
+        if not tolerant_roi[yy, xx]:
+            continue
+        distance = float(tree.query(xy, k=1)[0])
+        if distance <= max(12.0, 0.080 * bbox_diag):
+            ranked.append((distance, -float(node.get("score", 0.0)), node))
+    if not ranked:
+        return None, {
+            "failure": "no_learned_node_near_shoot_side_transition",
+            "interface_pixel_count": int(len(xs)),
+            "interface_radius_px": radius,
+            "base_selection_rule": "learned node inside phenotype ROI nearest shoot-side basal transition",
+        }
+    distance, _, chosen = min(ranked, key=lambda item: item[:2])
+    return chosen, {
+        "failure": "",
+        "interface_pixel_count": int(len(xs)),
+        "interface_radius_px": radius,
+        "base_interface_distance_px": distance,
+        "base_interface_distance_bbox_diag": distance / max(bbox_diag, 1.0),
+        "base_selection_rule": "learned node inside phenotype ROI nearest shoot-side basal transition",
+    }
+
+
 def _path_to_source(parent: np.ndarray, node: int, source: int) -> list[int]:
     path = bridge.path_from_parent(parent, node, source)
     return path if path and path[0] == source else []
@@ -146,6 +203,8 @@ def decode_candidate_organ_paths(
     shoot_mask: np.ndarray,
     root_base_mask: np.ndarray,
     bbox_diag: float,
+    phenotype_roi_mask: np.ndarray | None = None,
+    basal_transition_mask: np.ndarray | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Decode a rooted main path and dynamic lateral terminal branches."""
     edge_union = np.asarray(graph["edge_union"], dtype=bool)
@@ -156,7 +215,12 @@ def decode_candidate_organ_paths(
             "path_count": 0,
             "edge_union_pixels": int(edge_union.sum()),
         }
-    base, base_diagnostics = _choose_learned_base(graph, shoot_mask, root_base_mask, bbox_diag)
+    if phenotype_roi_mask is not None and basal_transition_mask is not None:
+        base, base_diagnostics = _choose_learned_phenotype_base(
+            graph, phenotype_roi_mask, basal_transition_mask, bbox_diag
+        )
+    else:
+        base, base_diagnostics = _choose_learned_base(graph, shoot_mask, root_base_mask, bbox_diag)
     if base is None:
         return [], {**base_diagnostics, "path_count": 0, "edge_union_pixels": int(edge_union.sum())}
 

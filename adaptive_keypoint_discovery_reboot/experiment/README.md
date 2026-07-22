@@ -10,6 +10,8 @@
 4. `g1_prime_structural_support.py`：G1′自动教师候选器；V4 后续只对 train 生成教师目标。
 5. `adaptive_point_model.py` 与 `train_adaptive_point_detector.py`：冻结 DINOv2，训练动态热图头；不设置固定槽位数。
 6. `g1_prime_phenotype_bridge.py` 与 `reevaluate_topology_from_points.py`：现有路径、样条和表型桥接；代码审计确认路径主要由整幅骨架独立生成，学习点尚未真正决定拓扑。
+7. `phenotype_roi_basal_anchor.py`：完整整株留档与地上部表型输入分离；`phenotype_roi_v1`排除颖果/根须干扰，`basal_transition`只约束已有学习节点的基部资格。
+8. `point_conditioned_graph.py` 与 `point_conditioned_organ_paths.py`：学习点决定图节点与器官路径；路线B下基部只能从shoot侧过渡区附近的已有学习节点中选择。
 
 ## 目录怎么找
 
@@ -45,4 +47,4 @@ python .\audit_stage_clean_v4_fullplant_candidate.py
 python .\build_stage_clean_v4_fullplant.py --refresh-contact-sheets-only
 ```
 
-V4 train/val 入口已经完成并执行首轮训练；下一步“点条件图 v1”属于架构修正，得到用户确认前不实现。任何模型命令都不得包含 V4 test。
+V4 full-plant基线与点条件图v1已经完成。用户已确认路线B并通过40/40张val有效域视觉门槛；当前入口为`run_remote_v4_phenotype_roi_train_val.sh`，用于独立重建train教师、训练并只评估val。任何模型命令都不得包含 V4 test。

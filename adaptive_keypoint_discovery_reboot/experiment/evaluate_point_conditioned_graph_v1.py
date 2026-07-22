@@ -28,6 +28,7 @@ import g1_dinov2_feasibility as g1  # noqa: E402
 import g1_prime_phenotype_bridge as bridge  # noqa: E402
 import g1_prime_structural_support as gp  # noqa: E402
 from point_conditioned_graph import build_point_conditioned_graph  # noqa: E402
+from phenotype_roi_basal_anchor import load_phenotype_input  # noqa: E402
 
 
 DEFAULT_RATIOS = [0.010, 0.015, 0.020, 0.025, 0.030, 0.040, 0.050]
@@ -52,6 +53,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--image-size", type=int, default=518)
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--allow-test", action="store_true")
+    parser.add_argument(
+        "--input-domain",
+        choices=["auto", "full_plant", "phenotype_roi_v1"],
+        default="auto",
+    )
     return parser.parse_args()
 
 
@@ -180,9 +186,14 @@ def evaluate_one(
     dataset: Path,
     image_size: int,
     ratio: float,
+    input_domain: str = "full_plant",
 ) -> dict[str, Any]:
     image_path = dataset / Path(str(manifest_row["relative_path"]).replace("\\", "/"))
-    image, mapping = g1.letterbox_rgb(image_path, image_size)
+    roi_result: dict[str, Any] | None = None
+    if input_domain == "phenotype_roi_v1":
+        image, mapping, _, roi_result = load_phenotype_input(dataset, manifest_row, image_size)
+    else:
+        image, mapping = g1.letterbox_rgb(image_path, image_size)
     support, raw_skeleton, support_diagnostics = gp.automatic_structural_support(image)
     bbox = gp.bbox_from_mask(support)
     bbox_diag = max(1.0, math.hypot(bbox[2] - bbox[0], bbox[3] - bbox[1]))
@@ -202,6 +213,12 @@ def evaluate_one(
             dataset / Path(str(manifest_row["full_plant_mask_relative_path"]).replace("\\", "/")), mapping, image_size
         ),
     }
+    if roi_result is not None:
+        masks_exact["phenotype_roi"] = roi_result["phenotype_roi_model"]
+        masks_exact["basal_transition"] = roi_result["basal_transition_model"]
+    else:
+        masks_exact["phenotype_roi"] = masks_exact["shoot"].copy()
+        masks_exact["basal_transition"] = np.zeros_like(masks_exact["shoot"], dtype=bool)
     radius = max(2, round(image_size * 0.01))
     kernel = np.ones((2 * radius + 1, 2 * radius + 1), dtype=np.uint8)
     masks_tolerant = {
@@ -226,6 +243,7 @@ def evaluate_one(
         "metrics": {
             "dataset_id": dataset_id,
             "split": "val",
+            "input_domain": input_domain,
             "projection_ratio": ratio,
             "input_point_count": len(points),
             "accepted_node_count": len(graph["nodes"]),
@@ -376,6 +394,13 @@ def run(args: argparse.Namespace) -> None:
         if not args.allow_test:
             raise RuntimeError("Refusing non-val evaluation input without --allow-test")
     points = pd.read_csv(args.evaluation / "points.csv")
+    saved_domains = set(per_image.get("input_domain", pd.Series(["full_plant"])).astype(str))
+    if len(saved_domains) != 1:
+        raise RuntimeError(f"Saved predictions contain mixed input domains: {sorted(saved_domains)}")
+    saved_domain = next(iter(saved_domains))
+    input_domain = saved_domain if args.input_domain == "auto" else args.input_domain
+    if input_domain != saved_domain:
+        raise RuntimeError(f"Graph input domain {input_domain} does not match saved predictions {saved_domain}")
     manifest = pd.read_csv(args.dataset / "manifests" / "val.csv", low_memory=False)
     manifest = manifest[manifest["dataset_id"].isin(per_image["dataset_id"])].sort_values("dataset_id")
     if args.limit > 0:
@@ -398,7 +423,7 @@ def run(args: argparse.Namespace) -> None:
             for row in manifest.to_dict("records"):
                 dataset_id = str(row["dataset_id"])
                 image_points = points[points["dataset_id"] == dataset_id]
-                results.append(evaluate_one(dataset_id, row, image_points, args.dataset, args.image_size, ratio))
+                results.append(evaluate_one(dataset_id, row, image_points, args.dataset, args.image_size, ratio, input_domain))
             cache[ratio] = results
             sweep_rows.append(aggregate(results, ratio))
             print(json.dumps(sweep_rows[-1], ensure_ascii=False), flush=True)
@@ -409,7 +434,7 @@ def run(args: argparse.Namespace) -> None:
     ratio = float(args.render_ratio)
     if ratio not in cache:
         results = [
-            evaluate_one(str(row["dataset_id"]), row, points[points["dataset_id"] == row["dataset_id"]], args.dataset, args.image_size, ratio)
+            evaluate_one(str(row["dataset_id"]), row, points[points["dataset_id"] == row["dataset_id"]], args.dataset, args.image_size, ratio, input_domain)
             for row in manifest.to_dict("records")
         ]
     else:
@@ -450,6 +475,7 @@ def run(args: argparse.Namespace) -> None:
     summary = {
         **aggregate(results, ratio),
         "dataset": "V4 full-plant candidate",
+        "input_domain": input_domain,
         "split": "val",
         "test_images_read": 0,
         "learned_predictions_rerun": False,
