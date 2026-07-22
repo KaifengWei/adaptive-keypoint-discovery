@@ -87,13 +87,14 @@ def make_review_html(output: Path, rows: list[dict[str, Any]]) -> None:
     cards = []
     for index, row in enumerate(rows):
         dataset_id = html.escape(str(row["dataset_id"]))
+        card_class = "card active" if index == 0 else "card"
         metrics = html.escape(
             f"points {row['accepted_node_count']}/{row['input_point_count']} | "
             f"paths {row['decoded_path_count']} | coverage {row['skeleton_coverage_ratio']:.3f} | "
             f"base distance {row['base_interface_distance_bbox_diag']:.3f}"
         )
         cards.append(
-            f'''<section class="card" data-index="{index}" data-id="{dataset_id}">
+            f'''<section class="{card_class}" data-index="{index}" data-id="{dataset_id}">
 <h2>{dataset_id}</h2><p>{metrics}</p>
 <img src="overlays/{dataset_id}.png" alt="{dataset_id}">
 <div class="fields">
@@ -114,13 +115,15 @@ img{{width:100%;max-height:72vh;object-fit:contain;background:white}}.fields{{di
 label{{display:flex;gap:8px;align-items:center}}select,input{{flex:1;padding:6px}}.note{{grid-column:1/-1}}
 </style></head><body><header><button id="prev">上一张</button><button id="next">下一张</button><button id="export">导出CSV</button><span id="position"></span></header>
 <main>{''.join(cards)}</main><script>
-const cards=[...document.querySelectorAll('.card')], key='pc-organ-review-v1'; let current=0;
-const saved=JSON.parse(localStorage.getItem(key)||'{{}}');
-function show(i){{current=(i+cards.length)%cards.length;cards.forEach((c,j)=>c.classList.toggle('active',j===current));document.querySelector('#position').textContent=` ${{current+1}} / ${{cards.length}} · ${{cards[current].dataset.id}}`;}}
-cards.forEach(card=>card.querySelectorAll('[data-field]').forEach(input=>{{const id=card.dataset.id,field=input.dataset.field;if(saved[id]?.[field]!==undefined)input.value=saved[id][field];input.onchange=()=>{{saved[id]??={{}};saved[id][field]=input.value;localStorage.setItem(key,JSON.stringify(saved));}};}}));
-document.querySelector('#prev').onclick=()=>show(current-1);document.querySelector('#next').onclick=()=>show(current+1);
-document.onkeydown=e=>{{if(e.key==='ArrowLeft')show(current-1);if(e.key==='ArrowRight')show(current+1);}};
-document.querySelector('#export').onclick=()=>{{const fields=['dataset_id','manual_path_semantics','manual_missing_organ','manual_wrong_connection','manual_base_selection','manual_note'];const lines=[fields.join(',')];cards.forEach(card=>{{const id=card.dataset.id,row=saved[id]||{{}};const vals=[id,...fields.slice(1).map(f=>row[f]||'')].map(v=>'"'+String(v).replaceAll('"','""')+'"');lines.push(vals.join(','));}});const blob=new Blob(['\ufeff'+lines.join('\n')],{{type:'text/csv'}});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='manual_path_review_completed.csv';a.click();}};show(0);
+var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
+var key='pc-organ-review-v1'; var current=0; var saved={{}};
+try {{ saved=JSON.parse(window.localStorage.getItem(key)||'{{}}')||{{}}; }} catch(error) {{ saved={{}}; }}
+function persist(){{try{{window.localStorage.setItem(key,JSON.stringify(saved));}}catch(error){{}}}}
+function show(i){{if(!cards.length)return;current=(i+cards.length)%cards.length;cards.forEach(function(card,index){{card.classList.toggle('active',index===current);}});document.querySelector('#position').textContent=' '+(current+1)+' / '+cards.length+' · '+cards[current].getAttribute('data-id');}}
+cards.forEach(function(card){{Array.prototype.slice.call(card.querySelectorAll('[data-field]')).forEach(function(input){{var id=card.getAttribute('data-id');var field=input.getAttribute('data-field');if(saved[id]&&saved[id][field]!==undefined)input.value=saved[id][field];input.onchange=function(){{if(!saved[id])saved[id]={{}};saved[id][field]=input.value;persist();}};}});}});
+document.querySelector('#prev').onclick=function(){{show(current-1);}};document.querySelector('#next').onclick=function(){{show(current+1);}};
+document.onkeydown=function(event){{if(event.key==='ArrowLeft')show(current-1);if(event.key==='ArrowRight')show(current+1);}};
+document.querySelector('#export').onclick=function(){{var fields=['dataset_id','manual_path_semantics','manual_missing_organ','manual_wrong_connection','manual_base_selection','manual_note'];var lines=[fields.join(',')];cards.forEach(function(card){{var id=card.getAttribute('data-id');var row=saved[id]||{{}};var values=[id];fields.slice(1).forEach(function(field){{values.push(row[field]||'');}});values=values.map(function(value){{return '"'+String(value).replace(/"/g,'""')+'"';}});lines.push(values.join(','));}});var blob=new Blob(['\ufeff'+lines.join('\\r\\n')],{{type:'text/csv'}});var link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='manual_path_review_completed.csv';link.click();}};show(0);
 </script></body></html>'''
     (output / "人工路径复核.html").write_text(document, encoding="utf-8")
 
