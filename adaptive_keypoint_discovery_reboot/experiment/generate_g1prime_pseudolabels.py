@@ -293,6 +293,7 @@ def run(args: argparse.Namespace) -> None:
                     if roi_result is None
                     else {
                         "shoot_retention_ratio": roi_result["shoot_retention_ratio"],
+                        "green_shoot_retention_ratio": roi_result["green_shoot_retention_ratio"],
                         "root_base_overlap_ratio": roi_result["root_base_overlap_ratio"],
                         "seed_detected": roi_result["seed_detected"],
                         "localization_source": roi_result["localization_source"],
@@ -320,6 +321,9 @@ def run(args: argparse.Namespace) -> None:
                 ),
                 "root_base_overlap_ratio": (
                     float("nan") if roi_result is None else roi_result["root_base_overlap_ratio"]
+                ),
+                "green_shoot_retention_ratio": (
+                    float("nan") if roi_result is None else roi_result["green_shoot_retention_ratio"]
                 ),
                 "seed_detected": (False if roi_result is None else roi_result["seed_detected"]),
                 "roi_localization_source": (
@@ -366,19 +370,25 @@ def run(args: argparse.Namespace) -> None:
     gate_failure = ""
     if args.input_domain == "phenotype_roi_v1" and audit_rows:
         retention = np.asarray([row["shoot_retention_ratio"] for row in audit_rows], dtype=np.float64)
+        green_retention = np.asarray(
+            [row["green_shoot_retention_ratio"] for row in audit_rows], dtype=np.float64
+        )
         overlap = np.asarray([row["root_base_overlap_ratio"] for row in audit_rows], dtype=np.float64)
         summary.update(
             {
                 "median_shoot_retention_ratio": float(np.nanmedian(retention)),
                 "minimum_shoot_retention_ratio": float(np.nanmin(retention)),
+                "median_green_shoot_retention_ratio": float(np.nanmedian(green_retention)),
+                "minimum_green_shoot_retention_ratio": float(np.nanmin(green_retention)),
                 "median_root_base_overlap_ratio": float(np.nanmedian(overlap)),
                 "maximum_root_base_overlap_ratio": float(np.nanmax(overlap)),
                 "retention_repair_images": int(sum(bool(row["retention_repair_used"]) for row in audit_rows)),
             }
         )
-        summary["phenotype_input_gate_passed"] = bool(float(np.nanmin(retention)) >= 0.90)
+        summary["phenotype_input_gate_metric"] = "green_shoot_retention_ratio"
+        summary["phenotype_input_gate_passed"] = bool(float(np.nanmin(green_retention)) >= 0.90)
         if not summary["phenotype_input_gate_passed"]:
-            gate_failure = "Phenotype input gate failed: at least one included image retains < 90% of shoot"
+            gate_failure = "Phenotype input gate failed: at least one included image retains < 90% of strict-green shoot"
     (args.output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2), flush=True)
     if gate_failure:

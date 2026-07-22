@@ -239,6 +239,9 @@ def run(args: argparse.Namespace) -> None:
                 "roi_shoot_retention_ratio": (
                     float("nan") if roi_result is None else roi_result["shoot_retention_ratio"]
                 ),
+                "roi_green_shoot_retention_ratio": (
+                    float("nan") if roi_result is None else roi_result["green_shoot_retention_ratio"]
+                ),
                 "roi_localization_source": (
                     "not_applicable" if roi_result is None else roi_result["localization_source"]
                 ),

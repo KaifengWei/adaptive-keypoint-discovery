@@ -200,14 +200,21 @@ def derive_phenotype_roi(
     if not np.any(phenotype_roi):
         phenotype_roi = _largest_component(shoot & shoot_side)
 
-    # The input domain must never truncate a substantial leaf simply because
-    # the saved shoot mask has a small disconnected component.  The val review
-    # accepted 0.90 as the lower visual boundary, so only cases below that
-    # evidence-backed floor receive this conservative repair.
+    # The saved shoot mask can itself contain root speckles, so repair and the
+    # hard gate use strict-green shoot evidence rather than all mask pixels.
+    # This preserves disconnected green leaf tissue without reintroducing a
+    # mislabeled brown root merely to improve a mask-overlap number.
     retention_before_repair = float((phenotype_roi & shoot).sum() / max(1, int(shoot.sum())))
-    retention_repair_used = retention_before_repair < 0.90
+    green_shoot_reference = green_core & shoot
+    green_retention_before_repair = float(
+        (phenotype_roi & green_shoot_reference).sum() / max(1, int(green_shoot_reference.sum()))
+    )
+    retention_repair_used = green_retention_before_repair < 0.90
     if retention_repair_used:
-        phenotype_roi |= shoot & ~seed_margin
+        recovered_green_shoot = cv2.dilate(
+            green_shoot_reference.astype(np.uint8), np.ones((5, 5), np.uint8)
+        ) > 0
+        phenotype_roi |= recovered_green_shoot & shoot & ~seed_margin
     phenotype_roi &= ~obvious_root
 
     transition = (
@@ -224,6 +231,9 @@ def derive_phenotype_roi(
     ]
 
     shoot_retention = float((phenotype_roi & shoot).sum() / max(1, int(shoot.sum())))
+    green_shoot_retention = float(
+        (phenotype_roi & green_shoot_reference).sum() / max(1, int(green_shoot_reference.sum()))
+    )
     root_overlap = float((phenotype_roi & root_base).sum() / max(1, int(root_base.sum())))
     return {
         "phenotype_roi": phenotype_roi,
@@ -234,11 +244,13 @@ def derive_phenotype_roi(
         "shoot_direction_xy": direction,
         "bbox_diag": diag,
         "shoot_retention_ratio": shoot_retention,
+        "green_shoot_retention_ratio": green_shoot_retention,
         "root_base_overlap_ratio": root_overlap,
         "seed_detected": bool(np.any(seed)),
         "localization_source": localization_source,
         "automatic_base_hint_distance_px": hint_distance,
         "retention_before_repair": retention_before_repair,
+        "green_retention_before_repair": green_retention_before_repair,
         "retention_repair_used": retention_repair_used,
     }
 
