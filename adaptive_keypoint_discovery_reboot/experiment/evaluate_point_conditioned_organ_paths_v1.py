@@ -89,6 +89,7 @@ def save_overlay(path: Path, result: dict[str, Any], paths: list[dict[str, Any]]
 
 
 def make_review_html(output: Path, rows: list[dict[str, Any]]) -> None:
+    storage_key = html.escape(f"pc-organ-review-{output.name}", quote=True)
     cards = []
     for index, row in enumerate(rows):
         dataset_id = html.escape(str(row["dataset_id"]))
@@ -140,7 +141,7 @@ label{{display:flex;gap:8px;align-items:center}}select,input{{flex:1;padding:6px
 </style></head><body><header><button id="prev">上一张</button><button id="next">下一张</button><button id="export">导出CSV</button><span id="position"></span></header>
 <main>{''.join(cards)}</main><script>
 var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
-var key='pc-organ-review-v1'; var current=0; var saved={{}};
+  var key='{storage_key}'; var current=0; var saved={{}};
 try {{ saved=JSON.parse(window.localStorage.getItem(key)||'{{}}')||{{}}; }} catch(error) {{ saved={{}}; }}
 function persist(){{try{{window.localStorage.setItem(key,JSON.stringify(saved));}}catch(error){{}}}}
 function show(i){{if(!cards.length)return;current=(i+cards.length)%cards.length;cards.forEach(function(card,index){{card.classList.toggle('active',index===current);}});document.querySelector('#position').textContent=' '+(current+1)+' / '+cards.length+' · '+cards[current].getAttribute('data-id');}}
