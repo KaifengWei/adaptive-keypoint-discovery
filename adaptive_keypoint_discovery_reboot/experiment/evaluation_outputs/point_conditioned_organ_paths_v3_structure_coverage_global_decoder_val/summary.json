@@ -1,0 +1,26 @@
+{
+  "images": 40,
+  "split": "val",
+  "test_images_read": 0,
+  "projection_ratio": 0.025,
+  "input_domain": "phenotype_roi_v1",
+  "branch_pruning_mode": "global_bbox",
+  "base_selection_domain": "shoot_side_basal_transition",
+  "decode_success_rate": 0.925,
+  "median_decoded_path_count": 2.0,
+  "median_lateral_branch_count": 1.0,
+  "median_decoded_to_edge_union_ratio": 1.0,
+  "median_base_interface_distance_bbox_diag": 0.0,
+  "median_spline_to_skeleton_error_px": 0.7993352091475698,
+  "decoded_path_count_distribution": {
+    "0": 3,
+    "1": 15,
+    "2": 18,
+    "3": 4
+  },
+  "total_short_terminal_rejections": 19,
+  "priority_manual_review_images": 7,
+  "manual_keypoint_labels_used": false,
+  "manual_path_semantics_status": "pending",
+  "phenotype_accuracy_status": "pending_manual_measurement_reference"
+}

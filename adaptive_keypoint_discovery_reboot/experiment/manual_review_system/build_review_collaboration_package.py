@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import shutil
 import zipfile
 from html.parser import HTMLParser
@@ -83,6 +84,82 @@ def write_manifest(root: Path) -> None:
             writer.writerow([path.relative_to(root).as_posix(), path.stat().st_size, sha256(path)])
 
 
+def write_factorized_comparison_html(path: Path, dataset_ids: list[str]) -> None:
+    variants = [
+        (
+            "A：路线B教师 + 全局短枝阈值",
+            "evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_val/overlays",
+        ),
+        (
+            "B：路线B教师 + 局部尺度解码",
+            "evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val/overlays",
+        ),
+        (
+            "C：结构覆盖教师 + 全局短枝阈值",
+            "evaluation_outputs/point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val/overlays",
+        ),
+        (
+            "D：结构覆盖教师 + 局部尺度解码（推荐候选）",
+            "evaluation_outputs/point_conditioned_organ_paths_v3_structure_coverage_val/overlays",
+        ),
+    ]
+    cards = []
+    for index, dataset_id in enumerate(dataset_ids):
+        panels = [
+            (
+                "原图",
+                f"data_stage_clean_v4_fullplant_candidate/images/val/{dataset_id}.png",
+            ),
+            *[
+                (label, f"{folder}/{dataset_id}.png")
+                for label, folder in variants
+            ],
+        ]
+        figures = "".join(
+            f'<figure><figcaption>{label}</figcaption><a href="{source}" target="_blank">'
+            f'<img src="{source}" alt="{dataset_id} {label}"></a></figure>'
+            for label, source in panels
+        )
+        cards.append(
+            f'''<section class="card{' active' if index == 0 else ''}" data-id="{dataset_id}">
+<h2>{dataset_id}</h2><div class="panels">{figures}</div>
+<div class="fields">
+<label>最佳方案 <select data-field="preferred_variant"><option></option><option>A</option><option>B</option><option>C</option><option>D</option><option>tie</option><option>none</option><option>uncertain</option></select></label>
+<label>D相对A <select data-field="d_vs_a"><option></option><option>improved</option><option>same</option><option>worse</option><option>uncertain</option></select></label>
+<label>D补回真实叶 <select data-field="d_recovered_leaf"><option></option><option>yes</option><option>no</option><option>uncertain</option></select></label>
+<label>D新增假枝 <select data-field="d_false_branch"><option></option><option>yes</option><option>no</option><option>uncertain</option></select></label>
+<label class="note">备注 <input data-field="comparison_note"></label>
+</div></section>'''
+        )
+    storage_key = "adaptive-kp-factorized-review-v1"
+    document = f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>方案C二维拆分人工对照</title><style>
+body{{font-family:Segoe UI,Microsoft YaHei,sans-serif;margin:0;background:#f3f4f6;color:#111827}}
+header{{position:sticky;top:0;background:white;padding:10px 18px;box-shadow:0 2px 8px #0002;z-index:2}}
+button{{margin-right:8px;padding:7px 12px}}main{{max-width:1760px;margin:auto;padding:16px}}
+.card{{display:none;background:white;border-radius:10px;padding:14px}}.card.active{{display:block}}
+.panels{{display:grid;grid-template-columns:repeat(2,minmax(520px,1fr));gap:12px}}
+figure{{margin:0;border:1px solid #d1d5db;border-radius:8px;padding:8px}}figcaption{{font-weight:650;margin-bottom:6px}}
+figure:first-child{{grid-column:1/-1}}figure img{{width:100%;height:42vh;min-height:300px;object-fit:contain;background:white}}
+figure:first-child img{{height:32vh}}.fields{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}}
+label{{display:flex;gap:8px;align-items:center}}select,input{{flex:1;padding:6px}}.note{{grid-column:1/-1}}
+.warning{{padding:9px 12px;background:#fff7df;border-left:4px solid #e5a000;margin-bottom:12px}}
+@media(max-width:1100px){{.panels{{grid-template-columns:1fr}}figure:first-child{{grid-column:auto}}.fields{{grid-template-columns:1fr 1fr}}}}
+</style></head><body><header><button id="prev">上一张</button><button id="next">下一张</button><button id="export">导出CSV</button><span id="position"></span></header>
+<main><div class="warning">本页用于拆分诊断，不代替独立复核。请先完成平台三的方案C独立审核，再打开本页比较A–D。</div>
+{''.join(cards)}</main><script>
+var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));var key={json.dumps(storage_key)};var current=0;var saved={{}};
+try{{saved=JSON.parse(localStorage.getItem(key)||'{{}}')||{{}};}}catch(error){{saved={{}};}}
+function persist(){{try{{localStorage.setItem(key,JSON.stringify(saved));}}catch(error){{}}}}
+function show(i){{if(!cards.length)return;current=(i+cards.length)%cards.length;cards.forEach(function(c,j){{c.classList.toggle('active',j===current);}});document.querySelector('#position').textContent=' '+(current+1)+' / '+cards.length+' · '+cards[current].getAttribute('data-id');}}
+cards.forEach(function(card){{Array.prototype.slice.call(card.querySelectorAll('[data-field]')).forEach(function(input){{var id=card.getAttribute('data-id'),field=input.getAttribute('data-field');if(saved[id]&&saved[id][field]!==undefined)input.value=saved[id][field];input.onchange=function(){{if(!saved[id])saved[id]={{}};saved[id][field]=input.value;persist();}};}});}});
+document.querySelector('#prev').onclick=function(){{show(current-1);}};document.querySelector('#next').onclick=function(){{show(current+1);}};
+document.onkeydown=function(event){{if(event.key==='ArrowLeft')show(current-1);if(event.key==='ArrowRight')show(current+1);}};
+document.querySelector('#export').onclick=function(){{var fields=['dataset_id','preferred_variant','d_vs_a','d_recovered_leaf','d_false_branch','comparison_note'];var lines=[fields.join(',')];cards.forEach(function(card){{var id=card.getAttribute('data-id'),row=saved[id]||{{}},values=[id];fields.slice(1).forEach(function(field){{values.push(row[field]||'');}});values=values.map(function(value){{return '"'+String(value).replace(/"/g,'""')+'"';}});lines.push(values.join(','));}});var blob=new Blob(['\\ufeff'+lines.join('\\r\\n')],{{type:'text/csv'}});var link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='factorized_method_review_completed.csv';link.click();}};show(0);
+</script></body></html>'''
+    path.write_text(document, encoding="utf-8")
+
+
 def build(output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
     roi_source = EXPERIMENT / "evaluation_outputs" / "phenotype_roi_basal_anchor_v1_val"
@@ -93,11 +170,28 @@ def build(output: Path) -> None:
     )
     roi_target = output / "evaluation_outputs" / roi_source.name
     path_target = output / "evaluation_outputs" / path_source.name
+    route_c_source = (
+        EXPERIMENT
+        / "evaluation_outputs"
+        / "point_conditioned_organ_paths_v3_structure_coverage_val"
+    )
+    route_c_target = output / "evaluation_outputs" / route_c_source.name
 
     copy_file(next(roi_source.glob("*.html")), roi_target / next(roi_source.glob("*.html")).name)
     copy_tree_files(roi_source / "overlays", roi_target / "overlays")
     copy_file(next(path_source.glob("*.html")), path_target / next(path_source.glob("*.html")).name)
     copy_tree_files(path_source / "overlays", path_target / "overlays")
+    copy_file(next(route_c_source.glob("*.html")), route_c_target / next(route_c_source.glob("*.html")).name)
+    copy_tree_files(route_c_source / "overlays", route_c_target / "overlays")
+    for diagnostic_name in [
+        "point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val",
+        "point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val",
+    ]:
+        source = EXPERIMENT / "evaluation_outputs" / diagnostic_name
+        copy_tree_files(
+            source / "overlays",
+            output / "evaluation_outputs" / diagnostic_name / "overlays",
+        )
     copy_tree_files(
         EXPERIMENT / "data_stage_clean_v4_fullplant_candidate" / "images" / "val",
         output / "data_stage_clean_v4_fullplant_candidate" / "images" / "val",
@@ -130,6 +224,10 @@ def build(output: Path) -> None:
         path_source / "manual_path_review_completed.csv",
         examples / "路径复核_空白模板.csv",
     )
+    blank_review_csv(
+        route_c_source / "manual_path_review_pending.csv",
+        examples / "方案C路径复核_空白模板.csv",
+    )
     for source_name, target_name in [
         ("manual_path_review_summary.json", "路径复核统计摘要.json"),
         ("threshold_scan_summary_20260723.csv", "阈值扫描摘要.csv"),
@@ -142,9 +240,16 @@ def build(output: Path) -> None:
         EXPERIMENT / "地上部表型有效域与基部过渡区_v1验证报告_20260722.md",
         EXPERIMENT / "地上部有效域路线B首轮训练与val对照报告_20260722.md",
         EXPERIMENT / "路线B人工路径复核与下一轮改进建议_20260723.md",
+        EXPERIMENT / "结构覆盖增强方案C首轮训练与二维拆分结果_20260723.md",
     ]
     for source in report_sources:
         copy_file(source, reports / source.name)
+
+    with (route_c_source / "manual_path_review_pending.csv").open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
+        dataset_ids = [row["dataset_id"] for row in csv.DictReader(handle)]
+    write_factorized_comparison_html(output / "方法二维拆分对照.html", dataset_ids)
 
     html_files = sorted(output.rglob("*.html"))
     validation_rows = []

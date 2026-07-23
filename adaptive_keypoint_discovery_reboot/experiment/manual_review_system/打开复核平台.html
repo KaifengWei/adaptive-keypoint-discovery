@@ -19,7 +19,7 @@ li{margin:10px 0}
 </head>
 <body><main>
 <h1>秧苗自适应关键点人工复核协作入口</h1>
-<p class="lead">两个平台均可离线运行。浏览器会把当前选择临时保存在本机，完成后必须点击“导出CSV”。</p>
+<p class="lead">四个平台均可离线运行。浏览器会把当前选择临时保存在本机，完成后必须点击“导出CSV”。</p>
 <div class="notice"><strong>独立复核要求：</strong>请先完成自己的判断，再查看“复核表与示例”中的用户完成结果，避免被已有结论影响。</div>
 <div class="grid">
 <section class="card">
@@ -31,6 +31,16 @@ li{margin:10px 0}
 <h2>平台二：器官路径复核</h2>
 <p>对照无标注原图、学习点结构图和最终路径，判断路径语义、漏叶、错连和基部位置。</p>
 <a class="button" href="evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_val/人工路径复核.html">打开路径复核</a>
+</section>
+<section class="card">
+<h2>平台三：方案C独立路径复核</h2>
+<p>只看结构覆盖增强教师与局部尺度短枝解码的最终结果。请在打开方案对照页之前独立完成，以避免比较信息影响判断。</p>
+<a class="button" href="evaluation_outputs/point_conditioned_organ_paths_v3_structure_coverage_val/人工路径复核.html">打开方案C复核</a>
+</section>
+<section class="card">
+<h2>平台四：二维拆分方法对照</h2>
+<p>并排比较旧/新自动教师与全局/局部短枝规则四种组合，用于判断补回真叶和新增假枝分别来自哪个模块。</p>
+<a class="button" href="方法二维拆分对照.html">打开四方案对照</a>
 </section>
 </div>
 <section class="docs">

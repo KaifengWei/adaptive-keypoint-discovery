@@ -30,6 +30,10 @@
 /adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/focused_inputs/
 /adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/overlays/
 /adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_phenotype_roi/pseudo_labels.jsonl
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_structure_coverage/focused_inputs/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_structure_coverage/overlays/
+/adaptive_keypoint_discovery_reboot/experiment/pseudo_labels_g1prime_v4_structure_coverage/pseudo_labels.jsonl
+/adaptive_keypoint_discovery_reboot/experiment/run_logs/
 **/wandb/
 **/runs/
 **/checkpoints/

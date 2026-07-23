@@ -1,0 +1,45 @@
+{
+  "images": 216,
+  "selected_images_before_quality_gate": 220,
+  "quality_excluded_images": 4,
+  "quality_excluded_dataset_ids": [
+    "v4_train_new_0019",
+    "v4_train_new_0028",
+    "v4_train_new_0056",
+    "v4_train_new_0089"
+  ],
+  "quality_exclusion_reasons": {
+    "v4_train_new_0019": "scanner hardware line was standardized as the plant",
+    "v4_train_new_0028": "scanner hardware line was standardized as the plant",
+    "v4_train_new_0056": "scanner hardware line was standardized as the plant",
+    "v4_train_new_0089": "scanner hardware line was standardized as the plant"
+  },
+  "training_usable_images": 216,
+  "usable_rate": 1.0,
+  "teacher_variant": "full",
+  "structure_coverage_enabled": true,
+  "input_domain": "phenotype_roi_v1",
+  "consistency_filter_used": true,
+  "keypoint_labels_read": false,
+  "manual_keypoint_annotations_created": false,
+  "median_accepted_count": 9.0,
+  "stage_counts": {
+    "gt2": 65,
+    "leaf1_to_2": 10,
+    "lt1_needle": 10,
+    "unknown": 13,
+    "unassigned": 118
+  },
+  "device": "cuda",
+  "elapsed_seconds": 235.1424789428711,
+  "interpretation": "automatic teacher targets for self-training; not phenotype ground truth",
+  "median_shoot_retention_ratio": 0.9829706306656387,
+  "minimum_shoot_retention_ratio": 0.8515243790585905,
+  "median_green_shoot_retention_ratio": 0.991399425287909,
+  "minimum_green_shoot_retention_ratio": 0.9008906965968182,
+  "median_root_base_overlap_ratio": 0.002821149469194162,
+  "maximum_root_base_overlap_ratio": 0.4385026737967914,
+  "retention_repair_images": 20,
+  "phenotype_input_gate_metric": "green_shoot_retention_ratio",
+  "phenotype_input_gate_passed": true
+}
