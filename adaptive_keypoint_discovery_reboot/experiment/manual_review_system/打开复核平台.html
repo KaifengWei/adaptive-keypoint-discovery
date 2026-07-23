@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>秧苗自适应关键点人工复核协作入口</title>
+<style>
+body{font-family:"Microsoft YaHei",Arial,sans-serif;margin:0;background:#f5f7fb;color:#172033}
+main{max-width:1080px;margin:40px auto;padding:0 24px}
+h1{margin-bottom:8px}.lead{color:#59657a;line-height:1.8}
+.notice{background:#fff7df;border-left:5px solid #f0ae00;padding:16px 20px;margin:24px 0;border-radius:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.card{background:white;border:1px solid #dfe5ef;border-radius:14px;padding:24px;box-shadow:0 6px 20px rgba(28,52,84,.07)}
+.card h2{margin-top:0}.card p{line-height:1.7;color:#59657a}
+a.button{display:inline-block;background:#1769e0;color:white;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700}
+.docs{margin-top:24px;background:white;border-radius:14px;padding:22px;border:1px solid #dfe5ef}
+li{margin:10px 0}
+</style>
+</head>
+<body><main>
+<h1>秧苗自适应关键点人工复核协作入口</h1>
+<p class="lead">两个平台均可离线运行。浏览器会把当前选择临时保存在本机，完成后必须点击“导出CSV”。</p>
+<div class="notice"><strong>独立复核要求：</strong>请先完成自己的判断，再查看“复核表与示例”中的用户完成结果，避免被已有结论影响。</div>
+<div class="grid">
+<section class="card">
+<h2>平台一：地上部有效域复核</h2>
+<p>检查地上部是否完整、颖果根须是否排除，以及黄色shoot侧基部过渡区是否合理。</p>
+<a class="button" href="evaluation_outputs/phenotype_roi_basal_anchor_v1_val/地上部有效域复核.html">打开有效域复核</a>
+</section>
+<section class="card">
+<h2>平台二：器官路径复核</h2>
+<p>对照无标注原图、学习点结构图和最终路径，判断路径语义、漏叶、错连和基部位置。</p>
+<a class="button" href="evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_val/人工路径复核.html">打开路径复核</a>
+</section>
+</div>
+<section class="docs">
+<h2>开始前请读</h2>
+<ul>
+<li><a href="人工复核体系与协作说明.md">人工复核体系与协作说明</a></li>
+<li><a href="判定标准速查表.md">判定标准速查表</a></li>
+<li><a href="下一阶段改进与复核计划.md">下一阶段改进与复核计划</a></li>
+<li><a href="同事反馈记录模板.md">同事反馈记录模板</a></li>
+</ul>
+</section>
+</main></body></html>

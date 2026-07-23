@@ -19,6 +19,7 @@
 - 当前事实：先看上级 `PROJECT_STATE.md`。
 - 当前数据说明：看 `V4数据集构建与锁定说明_20260717.md`。
 - 既有 GPU 训练产物：看 `training_outputs` 和 `evaluation_outputs`。
+- 人工复核协作、判定标准与离线资料包构建：看 `manual_review_system`。
 - V4 首轮结果与下一步路线：看 `V4整株首轮训练与架构审计_20260718.md`。
 - V4 val 全量复核图和待填写表：看 `evaluation_outputs/core_dinov2_v4_fullplant_val`。
 - V3 只用于复现已记录的首轮结果，不再作为下一轮数据入口。
@@ -48,3 +49,4 @@ python .\build_stage_clean_v4_fullplant.py --refresh-contact-sheets-only
 ```
 
 V4 full-plant基线与点条件图v1已经完成。用户已确认路线B并通过40/40张val有效域视觉门槛；`run_remote_v4_phenotype_roi_train_val.sh`已在RTX3090完成216张train教师、80轮训练和40张val-only评估。新路线人工路径审核已完成：基部和错连显著改善，但严格联合通过仅22/40，漏叶仍为8张。当前建议与证据见`路线B人工路径复核与下一轮改进建议_20260723.md`；在用户确认自动教师和短枝解码改动前，不进入人工表型误差、消融、五随机种子或test。任何模型命令都不得包含 V4 test。
+用户已于2026-07-23确认下一轮实施“结构覆盖增强自动教师 + 局部尺度短枝解码”。在新教师、训练和val双人复核完成前，仍不进入人工表型误差、消融、五随机种子或test。任何模型命令都不得包含V4 test。
