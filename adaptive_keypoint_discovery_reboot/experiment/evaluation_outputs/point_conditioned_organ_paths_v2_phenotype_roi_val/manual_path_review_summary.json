@@ -1,0 +1,42 @@
+{
+  "images": 40,
+  "review_source": "user_completed_manual_path_review",
+  "manual_path_semantics_counts": {
+    "pass": 30,
+    "fail": 8,
+    "blank": 2
+  },
+  "manual_missing_organ_counts": {
+    "yes": 8,
+    "no": 31,
+    "uncertain": 1
+  },
+  "manual_wrong_connection_counts": {
+    "yes": 5,
+    "no": 34,
+    "uncertain": 1
+  },
+  "manual_base_selection_counts": {
+    "correct": 33,
+    "wrong": 4,
+    "uncertain": 3
+  },
+  "strict_all_conditions_pass": 22,
+  "strict_all_conditions_pass_rate": 0.55,
+  "path_pass_with_conflicting_failure_field": 2,
+  "blank_path_semantics_rows": [
+    "v4_val_0025",
+    "v4_val_0014"
+  ],
+  "path_pass_with_conflicting_failure_rows": [
+    "v4_val_0023",
+    "v4_val_0005"
+  ],
+  "old_to_new_base_wrong_to_correct": 25,
+  "old_to_new_wrong_connection_yes_to_no": 8,
+  "old_to_new_missing_yes_to_no": 3,
+  "old_to_new_missing_no_to_yes": 3,
+  "manual_path_semantics_status": "review_completed_gate_not_passed",
+  "phenotype_accuracy_status": "pending_manual_measurement_reference",
+  "test_images_read": 0
+}

@@ -1,0 +1,6 @@
+threshold,median_point_count,median_repeatability_f1,median_foreground_hit_ratio,total_accepted_nodes,median_skeleton_coverage_ratio,mean_skeleton_coverage_ratio,median_causal_node_fraction,images_below_0_90_coverage,decode_success_rate,median_path_count,total_short_terminal_rejections
+0.20,6,0.844,0.944,218,0.963,0.933,0.600,4,0.950,2,21
+0.25,5,0.882,1.000,184,0.963,0.930,0.690,4,0.950,2,21
+0.30,4,0.912,1.000,158,0.963,0.928,0.833,4,0.950,2,21
+0.35,4,0.917,1.000,143,0.963,0.907,1.000,5,0.950,2,18
+0.40,3,0.932,1.000,123,0.958,0.847,1.000,9,0.875,1,14

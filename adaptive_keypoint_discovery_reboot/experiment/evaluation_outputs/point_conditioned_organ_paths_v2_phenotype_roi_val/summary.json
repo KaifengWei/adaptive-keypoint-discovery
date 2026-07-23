@@ -20,6 +20,17 @@
   "total_short_terminal_rejections": 18,
   "priority_manual_review_images": 8,
   "manual_keypoint_labels_used": false,
-  "manual_path_semantics_status": "pending",
+  "manual_path_semantics_status": "review_completed_gate_not_passed",
+  "manual_path_semantics_counts": {
+    "pass": 30,
+    "fail": 8,
+    "blank": 2
+  },
+  "manual_missing_organ_yes": 8,
+  "manual_wrong_connection_yes": 5,
+  "manual_base_selection_wrong": 4,
+  "manual_base_selection_uncertain": 3,
+  "strict_all_conditions_pass": 22,
+  "strict_all_conditions_pass_rate": 0.55,
   "phenotype_accuracy_status": "pending_manual_measurement_reference"
 }

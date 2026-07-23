@@ -47,4 +47,4 @@ python .\audit_stage_clean_v4_fullplant_candidate.py
 python .\build_stage_clean_v4_fullplant.py --refresh-contact-sheets-only
 ```
 
-V4 full-plant基线与点条件图v1已经完成。用户已确认路线B并通过40/40张val有效域视觉门槛；`run_remote_v4_phenotype_roi_train_val.sh`已在RTX3090完成216张train教师、80轮训练和40张val-only评估。新路线的结果、对照与失败边界见`地上部有效域路线B首轮训练与val对照报告_20260722.md`；下一门槛是8张优先样本及其余新路径语义复核和人工表型参考。任何模型命令都不得包含 V4 test。
+V4 full-plant基线与点条件图v1已经完成。用户已确认路线B并通过40/40张val有效域视觉门槛；`run_remote_v4_phenotype_roi_train_val.sh`已在RTX3090完成216张train教师、80轮训练和40张val-only评估。新路线人工路径审核已完成：基部和错连显著改善，但严格联合通过仅22/40，漏叶仍为8张。当前建议与证据见`路线B人工路径复核与下一轮改进建议_20260723.md`；在用户确认自动教师和短枝解码改动前，不进入人工表型误差、消融、五随机种子或test。任何模型命令都不得包含 V4 test。
