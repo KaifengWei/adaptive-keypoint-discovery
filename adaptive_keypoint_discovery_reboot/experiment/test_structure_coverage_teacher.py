@@ -3,13 +3,18 @@
 
 from __future__ import annotations
 
+import argparse
 import unittest
 
 import cv2
 import numpy as np
 
 import g1_prime_structural_support as gp
-from generate_g1prime_pseudolabels import inverse_mapped_records, transformed_mask
+from generate_g1prime_pseudolabels import (
+    consensus,
+    inverse_mapped_records,
+    transformed_mask,
+)
 
 
 class StructureCoverageTeacherTests(unittest.TestCase):
@@ -62,6 +67,46 @@ class StructureCoverageTeacherTests(unittest.TestCase):
         self.assertEqual(len(mapped), 1)
         self.assertEqual(mapped_records[0]["kind"], "kept")
         self.assertTrue(np.allclose(mapped[0], [6.0, 9.0]))
+
+    def test_other_views_prove_stability_but_do_not_duplicate_basal_roles(self) -> None:
+        outputs = [
+            {
+                "points": np.asarray([[10.0, 10.0]]),
+                "records": [
+                    {
+                        "kind": "endpoint",
+                        "score": 1.0,
+                        "coverage_roles": ["terminal"],
+                    }
+                ],
+            },
+            {
+                "points": np.asarray([[10.0, 10.0]]),
+                "records": [
+                    {
+                        "kind": "basal_transition",
+                        "score": 1.0,
+                        "coverage_roles": ["basal_transition"],
+                    }
+                ],
+            },
+        ]
+        transforms = [
+            {"name": "identity", "matrix": np.eye(3)},
+            {"name": "brightness", "matrix": np.eye(3)},
+        ]
+        args = argparse.Namespace(
+            size=32,
+            no_consistency_filter=False,
+            min_presence=0.75,
+            max_localization_error=0.025,
+        )
+        accepted, _ = consensus(outputs, transforms, bbox_diag=20.0, args=args)
+        self.assertEqual(accepted[0]["coverage_roles"], ["terminal"])
+        self.assertEqual(
+            accepted[0]["observed_coverage_roles"],
+            ["basal_transition", "terminal"],
+        )
 
 
 if __name__ == "__main__":

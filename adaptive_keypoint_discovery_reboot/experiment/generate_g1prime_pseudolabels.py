@@ -172,13 +172,17 @@ def consensus(
         errors = [float(item["distance"]) / max(bbox_diag, 1e-9) for item in point_observations[1:]]
         localization_error = float(np.median(errors)) if errors else 0.0
         teacher_score = float(np.mean([float(item["record"]["score"]) for item in point_observations]))
-        coverage_roles = sorted(
+        observed_coverage_roles = sorted(
             {
                 str(role)
                 for observation in point_observations
                 for role in observation["record"].get("coverage_roles", [])
             }
         )
+        # Target semantics come from the identity-view proposal.  Other views
+        # prove positional repeatability but must not assign a second basal role
+        # through a nearby Hungarian match.
+        coverage_roles = sorted(str(role) for role in record.get("coverage_roles", []))
         confidence = float(presence * math.exp(-localization_error / 0.025) * np.clip(teacher_score, 0.0, 1.0))
         keep = args.no_consistency_filter or (
             presence >= args.min_presence
@@ -191,6 +195,7 @@ def consensus(
             "y_model": float(point[1]),
             "kind": record["kind"],
             "coverage_roles": coverage_roles,
+            "observed_coverage_roles": observed_coverage_roles,
             "teacher_score": teacher_score,
             "presence_ratio": presence,
             "localization_error_bbox_diag": localization_error,
