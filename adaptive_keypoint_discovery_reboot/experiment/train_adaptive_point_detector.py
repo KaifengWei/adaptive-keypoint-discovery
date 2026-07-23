@@ -95,7 +95,13 @@ class PseudoPointDataset(Dataset[tuple[torch.Tensor, torch.Tensor, torch.Tensor,
         for point in row["points"]:
             x = float(point["x_source"]) * mapping["scale"] + mapping["pad_x"]
             y = float(point["y_source"]) * mapping["scale"] + mapping["pad_y"]
-            points.append((x, y, float(point["consensus_confidence"])))
+            confidence = float(point["consensus_confidence"])
+            if point.get("coverage_roles"):
+                confidence = max(
+                    confidence,
+                    float(self.config.get("coverage_role_confidence_floor", 0.0)),
+                )
+            points.append((x, y, confidence))
 
         if self.augment and random.random() < float(self.config.get("horizontal_flip_probability", 0.5)):
             image = np.ascontiguousarray(image[:, ::-1])

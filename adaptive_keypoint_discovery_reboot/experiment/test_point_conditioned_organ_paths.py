@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import unittest
 
+import cv2
 import numpy as np
 
 from point_conditioned_graph import build_point_conditioned_graph
@@ -116,6 +117,59 @@ class PointConditionedOrganPathTests(unittest.TestCase):
         )
         self.assertEqual(paths, [])
         self.assertEqual(diagnostics["failure"], "no_learned_node_near_shoot_side_transition")
+
+    def test_local_scale_keeps_a_short_learned_leaf_that_global_bbox_pruning_drops(self) -> None:
+        skeleton = np.zeros((45, 45), dtype=bool)
+        skeleton[18:38, 22] = True
+        for offset in range(17):
+            skeleton[18 - offset, 22 - offset] = True
+        for offset in range(9):
+            skeleton[18 - offset, 22 + offset] = True
+        graph = build_point_conditioned_graph(
+            skeleton,
+            [point(6, 2), point(30, 10), point(22, 37)],
+            400.0,
+            0.05,
+        )
+        for node in graph["nodes"]:
+            node["organ_region_tolerant"] = "shoot"
+        phenotype_roi = cv2.dilate(
+            skeleton.astype(np.uint8), np.ones((3, 3), np.uint8)
+        ) > 0
+        transition = np.zeros_like(skeleton)
+        transition[34:40, 19:26] = True
+        shoot = phenotype_roi.copy()
+        root = np.zeros_like(skeleton)
+
+        global_paths, global_diagnostics = decode_candidate_organ_paths(
+            graph,
+            shoot,
+            root,
+            400.0,
+            phenotype_roi_mask=phenotype_roi,
+            basal_transition_mask=transition,
+            branch_pruning_mode="global_bbox",
+        )
+        local_paths, local_diagnostics = decode_candidate_organ_paths(
+            graph,
+            shoot,
+            root,
+            400.0,
+            phenotype_roi_mask=phenotype_roi,
+            basal_transition_mask=transition,
+            branch_pruning_mode="local_learned_support",
+        )
+        self.assertEqual(len(global_paths), 1)
+        self.assertEqual(len(local_paths), 2)
+        self.assertEqual(local_diagnostics["branch_pruning_mode"], "local_learned_support")
+        accepted = [
+            row for row in local_diagnostics["terminal_branch_decisions"] if row["accepted"]
+        ]
+        self.assertEqual(len(accepted), 1)
+        self.assertLess(
+            accepted[0]["minimum_branch_length_px"],
+            global_diagnostics["minimum_lateral_branch_length_px"],
+        )
 
 
 if __name__ == "__main__":

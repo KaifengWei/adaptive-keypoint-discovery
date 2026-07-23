@@ -36,6 +36,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--allow-test", action="store_true")
     parser.add_argument(
+        "--branch-pruning-mode",
+        choices=["global_bbox", "local_learned_support"],
+        default="global_bbox",
+    )
+    parser.add_argument(
         "--input-domain",
         choices=["auto", "full_plant", "phenotype_roi_v1"],
         default="auto",
@@ -176,6 +181,7 @@ def run(args: argparse.Namespace) -> None:
     image_rows: list[dict[str, Any]] = []
     phenotype_rows: list[dict[str, Any]] = []
     jsonl_rows: list[dict[str, Any]] = []
+    decision_rows: list[dict[str, Any]] = []
     overlay_paths: list[Path] = []
     for number, row in enumerate(manifest.to_dict("records"), start=1):
         dataset_id = str(row["dataset_id"])
@@ -205,6 +211,7 @@ def run(args: argparse.Namespace) -> None:
                 if input_domain == "phenotype_roi_v1"
                 else None
             ),
+            branch_pruning_mode=args.branch_pruning_mode,
         )
         path_errors = [path["metrics"]["spline_to_skeleton_median_error_px"] for path in paths]
         image_rows.append(
@@ -221,6 +228,10 @@ def run(args: argparse.Namespace) -> None:
                 "shoot_terminal_learned_node_count": diagnostics.get("terminal_learned_node_count", 0),
                 "short_terminal_rejected_count": diagnostics.get("short_terminal_rejected_count", 0),
                 "minimum_lateral_branch_length_px": diagnostics.get("minimum_lateral_branch_length_px", float("nan")),
+                "branch_pruning_mode": diagnostics.get("branch_pruning_mode", args.branch_pruning_mode),
+                "relative_terminal_confidence_floor": diagnostics.get(
+                    "relative_terminal_confidence_floor", float("nan")
+                ),
                 "decoded_path_count": len(paths),
                 "main_axis_count": sum(path["path_kind"] == "main_axis" for path in paths),
                 "lateral_branch_count": sum(path["path_kind"] == "lateral_branch" for path in paths),
@@ -245,6 +256,8 @@ def run(args: argparse.Namespace) -> None:
                 }
             )
             jsonl_rows.append({"dataset_id": dataset_id, **path})
+        for decision in diagnostics.get("terminal_branch_decisions", []):
+            decision_rows.append({"dataset_id": dataset_id, **decision})
         overlay_path = args.output / "overlays" / f"{dataset_id}.png"
         save_overlay(overlay_path, graph_result, paths, diagnostics)
         overlay_paths.append(overlay_path)
@@ -255,6 +268,7 @@ def run(args: argparse.Namespace) -> None:
     image_frame.to_csv(args.output / "per_image.csv", index=False, encoding="utf-8-sig")
     phenotype_frame.to_csv(args.output / "candidate_phenotypes.csv", index=False, encoding="utf-8-sig")
     bridge.write_jsonl(args.output / "paths.jsonl", jsonl_rows)
+    bridge.write_jsonl(args.output / "terminal_branch_decisions.jsonl", decision_rows)
     graph_eval.make_contact_sheets(overlay_paths, args.output / "contact_sheets")
     review = image_frame.copy()
     review["auto_review_reasons"] = review.apply(
@@ -312,6 +326,7 @@ def run(args: argparse.Namespace) -> None:
         "test_images_read": 0,
         "projection_ratio": args.projection_ratio,
         "input_domain": input_domain,
+        "branch_pruning_mode": args.branch_pruning_mode,
         "base_selection_domain": (
             "shoot_side_basal_transition" if input_domain == "phenotype_roi_v1" else "shoot_root_interface"
         ),

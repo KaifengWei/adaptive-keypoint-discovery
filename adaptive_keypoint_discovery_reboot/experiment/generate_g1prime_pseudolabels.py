@@ -52,6 +52,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--min-presence", type=float, default=0.75)
     parser.add_argument("--max-localization-error", type=float, default=0.025)
     parser.add_argument("--teacher-variant", choices=["full", "geometry_only"], default="full")
+    parser.add_argument(
+        "--structure-coverage",
+        action="store_true",
+        help=(
+            "Preserve cross-transform-stable skeleton terminals and an automatically "
+            "derived shoot-side basal-transition proposal before generic NMS."
+        ),
+    )
     parser.add_argument("--no-consistency-filter", action="store_true")
     parser.add_argument(
         "--input-domain",
@@ -99,6 +107,41 @@ def assignments(reference: np.ndarray, current: np.ndarray, radius: float) -> di
     }
 
 
+def transformed_mask(mask: np.ndarray, matrix: np.ndarray, size: int) -> np.ndarray:
+    """Apply the same geometric view transform to an audit-derived model mask."""
+    return cv2.warpAffine(
+        np.asarray(mask, dtype=np.uint8),
+        np.asarray(matrix, dtype=np.float64)[:2],
+        (size, size),
+        flags=cv2.INTER_NEAREST,
+        borderMode=cv2.BORDER_CONSTANT,
+        borderValue=0,
+    ) > 0
+
+
+def inverse_mapped_records(
+    points: np.ndarray,
+    records: list[dict[str, Any]],
+    matrix: np.ndarray,
+    size: int,
+) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    """Inverse-map points while preserving record alignment at image borders."""
+    if not len(points):
+        return np.empty((0, 2), dtype=np.float64), []
+    homogeneous = np.concatenate(
+        [np.asarray(points, dtype=np.float64), np.ones((len(points), 1), dtype=np.float64)],
+        axis=1,
+    )
+    mapped = (np.linalg.inv(np.asarray(matrix, dtype=np.float64)) @ homogeneous.T).T[:, :2]
+    valid = (
+        (mapped[:, 0] >= 0)
+        & (mapped[:, 0] < size)
+        & (mapped[:, 1] >= 0)
+        & (mapped[:, 1] < size)
+    )
+    return mapped[valid], [record for record, keep in zip(records, valid) if bool(keep)]
+
+
 def consensus(
     outputs: list[dict[str, Any]], transforms: list[dict[str, Any]], bbox_diag: float, args: argparse.Namespace
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -109,13 +152,15 @@ def consensus(
     ]
     radius = 0.05 * bbox_diag
     for transform, current in zip(transforms[1:], outputs[1:]):
-        mapped = g1.apply_inverse(current["points"], transform["matrix"], args.size)
+        mapped, mapped_records = inverse_mapped_records(
+            current["points"], current["records"], transform["matrix"], args.size
+        )
         matched = assignments(reference_points, mapped, radius)
         for reference_index, (current_index, distance) in matched.items():
             observations[reference_index].append(
                 {
                     "distance": distance,
-                    "record": current["records"][current_index],
+                    "record": mapped_records[current_index],
                     "transform": transform["name"],
                 }
             )
@@ -127,6 +172,13 @@ def consensus(
         errors = [float(item["distance"]) / max(bbox_diag, 1e-9) for item in point_observations[1:]]
         localization_error = float(np.median(errors)) if errors else 0.0
         teacher_score = float(np.mean([float(item["record"]["score"]) for item in point_observations]))
+        coverage_roles = sorted(
+            {
+                str(role)
+                for observation in point_observations
+                for role in observation["record"].get("coverage_roles", [])
+            }
+        )
         confidence = float(presence * math.exp(-localization_error / 0.025) * np.clip(teacher_score, 0.0, 1.0))
         keep = args.no_consistency_filter or (
             presence >= args.min_presence
@@ -138,6 +190,7 @@ def consensus(
             "x_model": float(point[0]),
             "y_model": float(point[1]),
             "kind": record["kind"],
+            "coverage_roles": coverage_roles,
             "teacher_score": teacher_score,
             "presence_ratio": presence,
             "localization_error_bbox_diag": localization_error,
@@ -176,6 +229,8 @@ def run(args: argparse.Namespace) -> None:
     started = time.time()
     if "test" in args.splits:
         raise RuntimeError("Automatic teacher generation is forbidden on the locked test split")
+    if args.structure_coverage and args.input_domain != "phenotype_roi_v1":
+        raise RuntimeError("Structure coverage requires --input-domain phenotype_roi_v1")
     g1.set_deterministic(args.seed)
     frame = pd.read_csv(args.dataset / "manifests" / "all.csv")
     frame = frame[frame["split"].isin(args.splits)].sort_values("dataset_id")
@@ -240,12 +295,23 @@ def run(args: argparse.Namespace) -> None:
             else:
                 representations, attention, _ = g1.extract_representations(model, transform["image"], device)
                 feature_map = representations["last4avg"]
+            basal_transition_view = None
+            if args.structure_coverage:
+                if roi_result is None:
+                    raise RuntimeError("Structure coverage requires phenotype ROI metadata")
+                basal_transition_view = transformed_mask(
+                    roi_result["basal_transition_model"],
+                    transform["matrix"],
+                    args.size,
+                )
             points, records, support, skeleton, diagnostics = gp.structural_candidates(
                 transform["image"],
                 feature_map,
                 attention,
                 args.max_points,
                 evidence_mode=args.teacher_variant,
+                structure_coverage=args.structure_coverage,
+                basal_transition_mask=basal_transition_view,
             )
             outputs.append(
                 {
@@ -281,6 +347,7 @@ def run(args: argparse.Namespace) -> None:
                 "input_domain": args.input_domain,
                 "input_image_relative_path": input_image_relative_path,
                 "teacher_variant": args.teacher_variant,
+                "structure_coverage_enabled": args.structure_coverage,
                 "consistency_filter_used": not args.no_consistency_filter,
                 "transforms": [transform["name"] for transform in transforms],
                 "bbox_diagonal_model": bbox_diag,
@@ -315,6 +382,12 @@ def run(args: argparse.Namespace) -> None:
                 "median_presence": float(np.median([item["presence_ratio"] for item in accepted])) if accepted else 0.0,
                 "median_localization_error": float(np.median([item["localization_error_bbox_diag"] for item in accepted])) if accepted else float("nan"),
                 "safety_cap_hit": int(outputs[0]["diagnostics"].get("safety_cap_hit", 0)),
+                "identity_endpoint_count": int(
+                    outputs[0]["diagnostics"].get("identity_endpoint_count", 0)
+                ),
+                "basal_transition_candidate_added": int(
+                    outputs[0]["diagnostics"].get("basal_transition_candidate_added", 0)
+                ),
                 "input_domain": args.input_domain,
                 "shoot_retention_ratio": (
                     float("nan") if roi_result is None else roi_result["shoot_retention_ratio"]
@@ -357,6 +430,7 @@ def run(args: argparse.Namespace) -> None:
         "training_usable_images": len(usable_rows),
         "usable_rate": len(usable_rows) / len(audit_rows),
         "teacher_variant": args.teacher_variant,
+        "structure_coverage_enabled": args.structure_coverage,
         "input_domain": args.input_domain,
         "consistency_filter_used": not args.no_consistency_filter,
         "keypoint_labels_read": False,

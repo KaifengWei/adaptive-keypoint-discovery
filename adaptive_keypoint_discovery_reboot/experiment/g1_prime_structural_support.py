@@ -261,12 +261,32 @@ def persistent_junction_centers(junctions: np.ndarray, skel: np.ndarray, bbox_di
     return results
 
 
+def merged_endpoint_centers(endpoints: np.ndarray, bbox_diag: float) -> list[tuple[float, float]]:
+    """Merge adjacent endpoint pixels without merging distinct nearby branches."""
+    ys, xs = np.where(endpoints)
+    if not len(xs):
+        return []
+    radius = max(2, round(0.012 * bbox_diag))
+    merged = cv2.dilate(
+        endpoints.astype(np.uint8),
+        np.ones((2 * radius + 1, 2 * radius + 1), np.uint8),
+    ) > 0
+    original_xy = np.column_stack([xs, ys]).astype(np.float64)
+    centers: list[tuple[float, float]] = []
+    for x, y in connected_centroids(merged):
+        index = int(np.argmin(np.linalg.norm(original_xy - np.asarray([x, y])[None, :], axis=1)))
+        centers.append((float(original_xy[index, 0]), float(original_xy[index, 1])))
+    return centers
+
+
 def structural_candidates(
     image_rgb: np.ndarray,
     feature_map: np.ndarray,
     attention_map: np.ndarray,
     max_points: int,
     evidence_mode: str = "full",
+    structure_coverage: bool = False,
+    basal_transition_mask: np.ndarray | None = None,
 ) -> tuple[np.ndarray, list[dict[str, Any]], np.ndarray, np.ndarray, dict[str, float]]:
     size = image_rgb.shape[0]
     support, skel, diagnostics = automatic_structural_support(image_rgb)
@@ -285,13 +305,50 @@ def structural_candidates(
     endpoints = skel & (degree == 1)
     junctions = skel & (degree >= 3)
 
-    candidates: list[dict[str, Any]] = []
-    for x, y in connected_centroids(endpoints):
-        add_candidate(candidates, x, y, "endpoint", 0.68, support, contrast, attention)
     bbox = bbox_from_mask(support)
     bbox_diag = max(1.0, math.hypot(bbox[2] - bbox[0], bbox[3] - bbox[1]))
+    candidates: list[dict[str, Any]] = []
+    endpoint_centers = (
+        merged_endpoint_centers(endpoints, bbox_diag)
+        if structure_coverage
+        else connected_centroids(endpoints)
+    )
+    for x, y in endpoint_centers:
+        add_candidate(candidates, x, y, "endpoint", 0.68, support, contrast, attention)
     for x, y in persistent_junction_centers(junctions, skel, bbox_diag):
         add_candidate(candidates, x, y, "junction", 0.76, support, contrast, attention)
+
+    # The phenotype-focused teacher may explicitly require structural coverage
+    # at the automatically derived shoot-side transition.  This is not a
+    # manually named/located keypoint: the region is computed independently for
+    # each plant and the retained point must still reproduce across transforms.
+    basal_candidate_added = False
+    if structure_coverage and basal_transition_mask is not None:
+        transition = np.asarray(basal_transition_mask, dtype=bool)
+        if transition.shape != skel.shape:
+            raise ValueError("basal transition mask and structural support must have the same shape")
+        transition_radius = max(2, round(0.010 * bbox_diag))
+        transition_near = cv2.dilate(
+            transition.astype(np.uint8),
+            np.ones((2 * transition_radius + 1, 2 * transition_radius + 1), np.uint8),
+        ) > 0
+        ys, xs = np.where(skel & transition_near)
+        transition_y, transition_x = np.where(transition)
+        if len(xs) and len(transition_x):
+            center = np.asarray([float(np.mean(transition_x)), float(np.mean(transition_y))])
+            skeleton_xy = np.column_stack([xs, ys]).astype(np.float64)
+            x, y = skeleton_xy[int(np.argmin(np.linalg.norm(skeleton_xy - center[None, :], axis=1)))]
+            add_candidate(
+                candidates,
+                float(x),
+                float(y),
+                "basal_transition",
+                0.80,
+                support,
+                contrast,
+                attention,
+            )
+            basal_candidate_added = True
 
     min_distance = max(8, round(0.050 * bbox_diag))
 
@@ -325,7 +382,7 @@ def structural_candidates(
     # fused score.  Point count therefore follows accepted evidence, not K.
     candidates = [
         item for item in candidates
-        if item["kind"] in {"endpoint", "junction"}
+        if item["kind"] in {"endpoint", "junction", "basal_transition"}
         or (
             item["kind"] == "shape_corner"
             and item["score"] >= (0.32 if evidence_mode == "geometry_only" else 0.56)
@@ -334,11 +391,56 @@ def structural_candidates(
     ]
     candidates.sort(key=lambda item: (-item["score"], item["kind"], item["y"], item["x"]))
     selected: list[dict[str, Any]] = []
-    for item in candidates:
-        if all((item["x"] - old["x"]) ** 2 + (item["y"] - old["y"]) ** 2 >= min_distance**2 for old in selected):
-            selected.append(item)
-        if len(selected) >= max_points:
-            break
+    if structure_coverage:
+        # Endpoints are the only image-derived evidence that a terminal branch
+        # exists.  The former global NMS could let a nearby main-axis point
+        # suppress a short-leaf endpoint.  Preserve distinct skeleton endpoints
+        # and the automatic basal transition first; cross-transform consensus
+        # remains the noise rejection gate.
+        coverage_kinds = {"endpoint", "basal_transition"}
+        coverage_candidates = (
+            [item for item in candidates if item["kind"] == "endpoint"]
+            + [item for item in candidates if item["kind"] == "basal_transition"]
+        )
+        other_candidates = [item for item in candidates if item["kind"] not in coverage_kinds]
+        for item in coverage_candidates + other_candidates:
+            item = dict(item)
+            if item["kind"] == "endpoint":
+                item["coverage_roles"] = ["terminal"]
+            elif item["kind"] == "basal_transition":
+                item["coverage_roles"] = ["basal_transition"]
+            if item["kind"] in coverage_kinds or all(
+                (item["x"] - old["x"]) ** 2 + (item["y"] - old["y"]) ** 2 >= min_distance**2
+                for old in selected
+            ):
+                # The basal proposal may coincide with a structural endpoint.
+                # One target is sufficient and avoids duplicate heatmap peaks.
+                duplicate_radius = max(2.0, 0.010 * bbox_diag)
+                if item["kind"] == "basal_transition":
+                    duplicate_index = next(
+                        (
+                            index
+                            for index, old in enumerate(selected)
+                            if (item["x"] - old["x"]) ** 2 + (item["y"] - old["y"]) ** 2
+                            < duplicate_radius**2
+                        ),
+                        None,
+                    )
+                    if duplicate_index is not None:
+                        roles = list(selected[duplicate_index].get("coverage_roles", []))
+                        if "basal_transition" not in roles:
+                            roles.append("basal_transition")
+                        selected[duplicate_index]["coverage_roles"] = roles
+                        continue
+                selected.append(item)
+            if len(selected) >= max_points:
+                break
+    else:
+        for item in candidates:
+            if all((item["x"] - old["x"]) ** 2 + (item["y"] - old["y"]) ** 2 >= min_distance**2 for old in selected):
+                selected.append(item)
+            if len(selected) >= max_points:
+                break
     points = np.asarray([(item["x"], item["y"]) for item in selected], dtype=np.float64).reshape(-1, 2)
     diagnostics.update(
         {
@@ -347,6 +449,10 @@ def structural_candidates(
             "bbox_diagonal": bbox_diag,
             "safety_cap_hit": float(len(selected) >= max_points),
             "evidence_mode_full": float(evidence_mode == "full"),
+            "structure_coverage_enabled": float(structure_coverage),
+            "identity_endpoint_count": float(int(endpoints.sum())),
+            "merged_terminal_candidate_count": float(len(endpoint_centers)),
+            "basal_transition_candidate_added": float(basal_candidate_added),
         }
     )
     return points, selected, support, skel, diagnostics
@@ -385,7 +491,13 @@ def save_overlay(
     axes[0].imshow(np.ma.masked_where(~skeleton, skeleton), cmap="magma", alpha=0.9)
     axes[0].set_title("automatic support + skeleton")
     axes[1].imshow(image)
-    colors = {"endpoint": "#00d4ff", "junction": "#ff3b30", "shape_corner": "#ffd60a", "dino_distinctive": "#bf5af2"}
+    colors = {
+        "endpoint": "#00d4ff",
+        "junction": "#ff3b30",
+        "shape_corner": "#ffd60a",
+        "dino_distinctive": "#bf5af2",
+        "basal_transition": "#34c759",
+    }
     for index, item in enumerate(records, start=1):
         axes[1].scatter(item["x"], item["y"], s=48, c=colors[item["kind"]], edgecolors="black", linewidths=0.7)
         axes[1].text(item["x"] + 4, item["y"] - 4, str(index), fontsize=7, color="black", bbox={"facecolor": "white", "alpha": 0.65, "pad": 0.5})

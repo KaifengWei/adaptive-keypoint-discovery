@@ -198,6 +198,25 @@ def _make_path_record(
     }
 
 
+def _local_branch_scale(
+    branch_points: np.ndarray,
+    phenotype_mask: np.ndarray,
+) -> tuple[float, float]:
+    """Return local organ diameter and a geometry-derived minimum branch length."""
+    mask = np.asarray(phenotype_mask, dtype=bool)
+    distance = cv2.distanceTransform(mask.astype(np.uint8), cv2.DIST_L2, 5)
+    xy = np.rint(np.asarray(branch_points, dtype=np.float64)).astype(np.int32)
+    xy[:, 0] = np.clip(xy[:, 0], 0, mask.shape[1] - 1)
+    xy[:, 1] = np.clip(xy[:, 1], 0, mask.shape[0] - 1)
+    radii = distance[xy[:, 1], xy[:, 0]]
+    positive = radii[radii > 0]
+    local_diameter = 2.0 * float(np.median(positive)) if len(positive) else 2.0
+    # A terminal branch must extend beyond its local organ thickness.  This
+    # keeps narrow true short leaves while rejecting sub-width skeleton spurs.
+    minimum_length = max(4.0, 1.5 * local_diameter)
+    return local_diameter, minimum_length
+
+
 def decode_candidate_organ_paths(
     graph: dict[str, Any],
     shoot_mask: np.ndarray,
@@ -205,8 +224,11 @@ def decode_candidate_organ_paths(
     bbox_diag: float,
     phenotype_roi_mask: np.ndarray | None = None,
     basal_transition_mask: np.ndarray | None = None,
+    branch_pruning_mode: str = "global_bbox",
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Decode a rooted main path and dynamic lateral terminal branches."""
+    if branch_pruning_mode not in {"global_bbox", "local_learned_support"}:
+        raise ValueError(f"Unsupported branch pruning mode: {branch_pruning_mode}")
     edge_union = np.asarray(graph["edge_union"], dtype=bool)
     union_coords, union_adjacency = bridge.skeleton_graph(edge_union)
     if len(union_coords) < 2 or not graph["edges"]:
@@ -288,7 +310,18 @@ def decode_candidate_organ_paths(
     ]
     recovered_tree_nodes = set(main_nodes)
     minimum_branch_length = max(8.0, 0.04 * bbox_diag)
+    node_scores = np.asarray(
+        [float(node.get("score", node.get("confidence", 0.0))) for node in graph["nodes"]],
+        dtype=np.float64,
+    )
+    relative_confidence_floor = 0.5 * float(np.median(node_scores)) if len(node_scores) else 0.0
+    phenotype_scale_mask = (
+        np.asarray(phenotype_roi_mask, dtype=bool)
+        if phenotype_roi_mask is not None
+        else np.asarray(shoot_mask, dtype=bool)
+    )
     short_terminal_rejected_count = 0
+    terminal_branch_decisions: list[dict[str, Any]] = []
     for terminal in terminal_nodes[1:]:
         tip_id = int(terminal["node_id"])
         full_nodes = base_paths[tip_id]
@@ -297,9 +330,46 @@ def decode_candidate_organ_paths(
         branch_nodes = full_nodes[attachment_position:]
         if len(branch_nodes) < 2:
             short_terminal_rejected_count += 1
+            terminal_branch_decisions.append(
+                {
+                    "tip_node_id": tip_id,
+                    "accepted": False,
+                    "reason": "fewer_than_two_branch_nodes",
+                }
+            )
             continue
         branch_points = union_coords[np.asarray(branch_nodes, dtype=np.int32)]
-        if bridge.polyline_length(branch_points) < minimum_branch_length:
+        branch_length = bridge.polyline_length(branch_points)
+        tip_score = float(terminal.get("score", terminal.get("confidence", 0.0)))
+        local_diameter, local_minimum = _local_branch_scale(branch_points, phenotype_scale_mask)
+        if branch_pruning_mode == "local_learned_support":
+            accepted_branch = (
+                branch_length >= local_minimum
+                and tip_score >= relative_confidence_floor
+            )
+            active_minimum = local_minimum
+            rejection_reason = (
+                "below_local_scale"
+                if branch_length < local_minimum
+                else "below_relative_learned_confidence"
+            )
+        else:
+            accepted_branch = branch_length >= minimum_branch_length
+            active_minimum = minimum_branch_length
+            rejection_reason = "below_global_bbox_scale"
+        terminal_branch_decisions.append(
+            {
+                "tip_node_id": tip_id,
+                "tip_score": tip_score,
+                "relative_confidence_floor": relative_confidence_floor,
+                "branch_length_px": branch_length,
+                "local_organ_diameter_px": local_diameter,
+                "minimum_branch_length_px": active_minimum,
+                "accepted": bool(accepted_branch),
+                "reason": "accepted" if accepted_branch else rejection_reason,
+            }
+        )
+        if not accepted_branch:
             short_terminal_rejected_count += 1
             continue
         paths.append(
@@ -332,6 +402,9 @@ def decode_candidate_organ_paths(
         "decoded_terminal_path_count": len(paths),
         "short_terminal_rejected_count": short_terminal_rejected_count,
         "minimum_lateral_branch_length_px": minimum_branch_length,
+        "branch_pruning_mode": branch_pruning_mode,
+        "relative_terminal_confidence_floor": relative_confidence_floor,
+        "terminal_branch_decisions": terminal_branch_decisions,
         "path_count": len(paths),
         "main_tip_node_id": main_id,
         "edge_union_pixels": int(edge_union.sum()),
