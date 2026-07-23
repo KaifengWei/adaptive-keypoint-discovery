@@ -208,7 +208,10 @@ def _local_branch_scale(
     xy = np.rint(np.asarray(branch_points, dtype=np.float64)).astype(np.int32)
     xy[:, 0] = np.clip(xy[:, 0], 0, mask.shape[1] - 1)
     xy[:, 1] = np.clip(xy[:, 1], 0, mask.shape[0] - 1)
-    radii = distance[xy[:, 1], xy[:, 0]]
+    # Use the distal half so a thick attachment/collar does not define the
+    # scale of a narrow leaf terminal.
+    distal = xy[len(xy) // 2 :] if len(xy) >= 4 else xy
+    radii = distance[distal[:, 1], distal[:, 0]]
     positive = radii[radii > 0]
     local_diameter = 2.0 * float(np.median(positive)) if len(positive) else 2.0
     # A terminal branch must extend beyond its local organ thickness.  This
