@@ -71,12 +71,14 @@
 
 ## 六、当前远程训练入口
 
-- 当前主训练机SSH别名：办公室内使用`kf3090`，异地使用`kf3090-tail`；
-- 项目：`/home/neaucs2/Desktop/kf/adaptive-keypoint-discovery`；
-- Conda初始化：`source ~/Desktop/kf/miniconda3/etc/profile.d/conda.sh`；
-- 环境：`conda activate kf`；
+- 当前主训练机为`cv`：办公室内使用SSH别名`cv`，异地使用`cv-public`；
+- `cv-public`实际入口为`101.43.203.197:25001`，主机指纹必须为`SHA256:5w2zGYQHJU4wuuzgLRFjuaHjL9ZbyXNia4EIavPVLes`；
+- 公网入口由`~/.config/systemd/user/cv-frpc.service`维持，只读取`~/frp_0.37.0_linux_amd64_x/frpc_ssh.ini`中的SSH代理；不得重新启用旧Clash代理段；
+- 项目：`/home/neaucs2/kp/adaptive-keypoint-discovery`；
+- Conda初始化：`source ~/anaconda3/etc/profile.d/conda.sh`；
+- 环境：`conda activate /media/neaucs2/evs/envs/adaptive_kp`；
 - 进入实验目录前执行`unset LD_LIBRARY_PATH`；
-- 实验目录：`~/Desktop/kf/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment`；
-- `cv`仍保留完整源副本和GitHub deploy key，但不再作为默认训练入口；
-- 新服务器的GitHub连接尚未切换，任何撤销旧deploy key或替换同步端的操作都需要用户另行确认；
-- V4 test锁定不因服务器迁移而解除。
+- 实验目录：`/home/neaucs2/kp/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment`；
+- GitHub deploy key继续保留在`cv`，GitHub连接维持原样；
+- `kf3090`已完成工程和环境迁移，但按用户要求暂时封存，不作为默认入口、不继续接入GitHub；
+- V4 test锁定不因服务器或连接方式改变而解除。
