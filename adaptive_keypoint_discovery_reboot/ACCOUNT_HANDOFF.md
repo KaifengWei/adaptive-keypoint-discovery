@@ -12,7 +12,7 @@
 4. 阅读 `experiment/远程核心训练首轮结果_20260717.md`；
 5. 检查当前分支、`git status` 和最近 5 条提交；
 6. 核对 `experiment/pseudo_labels_g1prime_v3/summary.json` 与 `experiment/evaluation_outputs/core_dinov2/summary.json`；
-7. 若工作涉及远程训练，阅读 `experiment/远程3090训练执行说明.md` 并先运行 `remote_gpu_check.py`。
+7. 若工作涉及远程训练，先阅读 `experiment/迁移到新RTX3090服务器_执行记录_20260801.md` 和 `experiment/远程3090训练执行说明.md`，确认当前主机、项目路径、环境路径与Git状态，再运行 `remote_gpu_check.py`。
 8. 若工作涉及下一轮数据或训练，阅读 `experiment/V4数据集构建与锁定说明_20260717.md` 和 `experiment/data_stage_clean_v4_fullplant_candidate/candidate_audit_summary.json`，确认 V4 full-plant test 是否已解除模型锁定。
 9. 若工作涉及路径、拓扑或表型，依次阅读 `experiment/关键点条件结构图重建_v1验证报告_20260721.md`、`experiment/关键点条件器官路径解码_v1验证报告_20260721.md`、`experiment/人工路径审计与地上部基部重定义建议_20260722.md`、`experiment/地上部表型有效域与基部过渡区_v1验证报告_20260722.md` 及对应 `summary.json`，确认当前已经进入点条件图、候选器官路径和地上部有效域人工复核，而不是旧骨架先验路径基线。
 
@@ -68,3 +68,15 @@
 4. 论文方案、历史说明和聊天回忆。
 
 任何账号都不得仅因表达风格、Skills 可用性或模型变化而静默修改前三层内容。
+
+## 六、当前远程训练入口
+
+- 当前主训练机SSH别名：办公室内使用`kf3090`，异地使用`kf3090-tail`；
+- 项目：`/home/neaucs2/Desktop/kf/adaptive-keypoint-discovery`；
+- Conda初始化：`source ~/Desktop/kf/miniconda3/etc/profile.d/conda.sh`；
+- 环境：`conda activate kf`；
+- 进入实验目录前执行`unset LD_LIBRARY_PATH`；
+- 实验目录：`~/Desktop/kf/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment`；
+- `cv`仍保留完整源副本和GitHub deploy key，但不再作为默认训练入口；
+- 新服务器的GitHub连接尚未切换，任何撤销旧deploy key或替换同步端的操作都需要用户另行确认；
+- V4 test锁定不因服务器迁移而解除。

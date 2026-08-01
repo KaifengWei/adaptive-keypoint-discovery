@@ -1,6 +1,6 @@
 # PROJECT STATE
 
-更新时间：2026-07-23
+更新时间：2026-08-01
 
 ## 一、已锁定的研究口径
 
@@ -74,6 +74,8 @@
 43. 用户已确认继续上述推荐方案，并要求将人工复核体系交付同事协作。已建立`experiment/manual_review_system/`，其中包含两级复核职责、独立复核协议、判定速查表、同事反馈模板、下一阶段计划、统一HTML入口和可复现打包脚本。已生成本地可移交目录`D:\kp\人工复核协作资料包_20260723`及ZIP`D:\kp\人工复核协作资料包_20260723.zip`：共140个文件，包含40张有效域叠加图、40张路径叠加图、40张无标注val原图、两个离线HTML、两份空白CSV、用户完成示例和阶段报告；全部120个图片引用存在，ZIP CRC通过，未包含checkpoint、V4 test模型产物或原始大数据。ZIP SHA-256为`FFA98D4E485993278D443BD33078F766D65FC22862CA2775DAC0019D30978983`。下一步已获授权实施“结构覆盖增强自动教师 + 局部尺度短枝解码”，仍只使用train/val。
 44. 方案C首轮train/val已完成，V4 test读取数为0。结构覆盖增强教师在216张train上100%可用，点数中位数由8增至9；identity视图自动基部覆盖角色为211/216图各1个，另5图因一致性未保留，未读取或创建人工关键点标签。同种子80轮训练最佳内部验证损失0.3312；40张val点数中位数4、重复性F1中位数0.933、点条件骨架覆盖中位数0.963。二维拆分表明局部尺度解码是路径增加的主要来源：路线B教师配全局/局部解码为64/76条，方案C教师配全局/局部解码为63/74条。组合方案恢复了`v4_val_0002`、`0015`、`0039`的部分候选，但`0012`、`0023`、`0031`为零路径；新增路径是否为真叶仍待人工复核。协作包已扩展为四个平台：有效域、路线B路径、方案C独立路径、二维拆分对照，共264个文件、400个HTML图片引用且缺失为0，ZIP CRC通过、无checkpoint/test产物，当前ZIP SHA-256为`A0616397301F895A48AF222F099A686C5CF70F8E2B428A6E454B265AC0B7A704`。完整结果见`experiment/结构覆盖增强方案C首轮训练与二维拆分结果_20260723.md`。
 45. 用户已独立完成平台三方案C的40张val人工路径复核，编号完整、无重复、四个分类字段无缺失。原始结果为路径pass/fail=`36/4`、漏叶no/yes/uncertain=`32/7/1`、错连no/yes=`33/7`、基部correct/wrong=`34/6`；四项同时满足的严格联合通过为26/40（65.0%）。相对路线B的22/40净增4张，配对状态为7张改善、3张退化，但漏叶仅由8降至7，错连由5增至7，基部wrong由4增至6。方案C未达到预设的32/40、漏叶不超过4、错连不超过3、基部wrong不超过2的工程门槛，故不冻结方法、不进入人工表型参考、正式消融、五随机种子或V4 test。`v4_val_0031`自动结果为零路径且基部失败，但人工字段为路径pass/无漏叶/无错连/基部wrong，列入第二复核或最终裁决重点，不改写用户原始CSV；该异常不影响严格通过数和门槛结论。独立复核门槛已完成，下一步允许打开平台四做教师×解码器二维诊断，只提炼跨样本一般规则，不做逐图例外。详见`experiment/方案C独立人工路径复核结果_20260725.md`。
+46. 2026-08-01 已将 `cv` 的完整工程、Git历史、V3/V4数据、第三方DINOv2源码、6个关键权重、全部现有输出和4.07 GB CUDA离线wheelhouse迁移到新RTX3090服务器的`~/Desktop/kf`。排除`.git`后的源端/目标端同刻审计均为5,408个文件、768,745,928字节，聚合SHA-256均为`8eac63fef7d0b37910888f785291c4afb70bdad1c80ceb468616054f69a5d501`；wheelhouse聚合SHA-256均为`c3a6244a96865c9142276cab494cf14ff4d1df49c80fb658ed4c409bc3d33aef`。V4仍为220/40/40，test只核对文件数量，没有传入模型命令。`cv`源副本与原GitHub连接均保留。
+47. 新机个人环境`~/Desktop/kf/miniconda3/envs/kf`已完成：Python 3.12.13、PyTorch`2.9.1+cu128`、torchvision`0.24.1+cu128`、CUDA12.8、cuDNN9.10.2。CUDA最小卷积、DINOv2本地权重前向、4-worker dry-run和1个真实反向传播步骤均通过；单步临时训练只用于链路验收，不作为论文结果。迁移发现旧训练入口在CUDA初始化后用Linux默认`fork`创建DataLoader worker会等待，现改为`num_workers>0`时使用`spawn`；该修复不改变模型、数据、损失或指标。完整记录见`experiment/迁移到新RTX3090服务器_执行记录_20260801.md`。
 
 ## 五、训练门槛
 
@@ -92,11 +94,11 @@
 ## 六、设备与接续
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
-- 远程：已通过 VS Code Remote-SSH 连接；硬件命令确认 GPU 为 NVIDIA GeForce RTX 3090（24576 MiB），驱动 560.35.05。
-- 远程项目独立环境位于 `/media/neaucs2/evs/envs/adaptive_kp`：Python 3.12.13、PyTorch `2.9.1+cu128`、CUDA 12.8、cuDNN 9.10.2，可识别 NVIDIA GeForce RTX 3090。共享 `kf` 环境未被修改。
-- 训练前检查发现继承的 `LD_LIBRARY_PATH` 会优先加载系统 CUDA 11.4/cuDNN 9.4，与 PyTorch wheel 不兼容；清除该变量后 cuDNN 9.10.2 和最小 CUDA 卷积均通过。修复已固化在 `experiment/run_remote_core.sh`，不修改服务器全局环境。
+- 当前主远程：`neaucs2-C246-WU4`，RTX 3090（24576 MiB），驱动595.84。办公室内通过`kf3090`连接`192.168.2.141`；异地通过`kf3090-tail`连接同事Tailnet分享的`100.112.27.64`。Tailscale设备归属未改变。
+- 当前远程项目位于`/home/neaucs2/Desktop/kf/adaptive-keypoint-discovery`；个人Miniconda位于`/home/neaucs2/Desktop/kf/miniconda3`，环境名`kf`。旧`cv`的`/home/neaucs2/kp/adaptive-keypoint-discovery`和`/media/neaucs2/evs/envs/adaptive_kp`继续只作源副本与回退，不删除。
+- 两台服务器都应在启动PyTorch前清除继承的`LD_LIBRARY_PATH`，让PyTorch wheel加载配套CUDA12.8/cuDNN9.10。修复已固化在训练启动脚本，不修改服务器全局CUDA。
 - 本机到远程 `cv` 的 ED25519 密钥登录已完成，Windows `ssh-agent` 已设为自动启动，`ssh -o BatchMode=yes cv` 已验证成功。
 - 远程 Codex CLI 已通过 VS Code 扩展自带二进制接入登录 shell，但 OAuth 令牌交换被远端出口地区以 `403 Country, region, or territory not supported` 拒绝；在获得合规的受支持地区网络出口前，不能进行 Codex 跨主机任务接管。
-- GitHub 私有仓库已建立并推送：`KaifengWei/adaptive-keypoint-discovery`。远程使用仓库专用 deploy key，工作副本为 `/home/neaucs2/kp/adaptive-keypoint-discovery`。
+- GitHub 私有仓库已建立并推送：`KaifengWei/adaptive-keypoint-discovery`。当前deploy key仍只保留在旧`cv`工作副本；新服务器尚未连接或替换GitHub密钥，等待用户另行确认。
 - 跨账号和跨任务接续必须先读 `ACCOUNT_HANDOFF.md`；账号专属 Skills、人格或聊天记忆不得覆盖 `AGENTS.md` 和本文件记录的事实。
 - 已取消启动 ZIP；以 `AGENTS.md`、本文件和实际项目目录同步作为跨设备交接依据。

@@ -8,7 +8,10 @@ PROJECT_ROOT="$(cd "$HERE/.." && pwd)"
 CONDA_SH="${CONDA_SH:-$HOME/anaconda3/etc/profile.d/conda.sh}"
 ENV_PREFIX="${ENV_PREFIX:-/media/neaucs2/evs/envs/adaptive_kp}"
 WHEELHOUSE="${WHEELHOUSE:-/media/neaucs2/evs/wheelhouse/adaptive_kp_cu128}"
-CONDA_CHANNEL="https://repo.anaconda.com/pkgs/main"
+# Use conda-forge by default so a fresh personal installation does not depend
+# on accepting Anaconda's defaults-channel Terms of Service.  Callers can still
+# pin another compatible channel explicitly when reproducing an older host.
+CONDA_CHANNEL="${CONDA_CHANNEL:-conda-forge}"
 
 if [[ ! -f "$CONDA_SH" ]]; then
   echo "[error] Conda initialization script not found: $CONDA_SH" >&2

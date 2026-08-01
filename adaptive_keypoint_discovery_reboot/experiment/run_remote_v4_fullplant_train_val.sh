@@ -2,7 +2,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")"
-PYTHON_BIN="${PYTHON_BIN:-/media/neaucs2/evs/envs/adaptive_kp/bin/python}"
+PYTHON_BIN="${PYTHON_BIN:-python}"
 
 if [[ -n "${LD_LIBRARY_PATH:-}" ]]; then
   echo "[environment] clearing inherited LD_LIBRARY_PATH for PyTorch wheel compatibility"

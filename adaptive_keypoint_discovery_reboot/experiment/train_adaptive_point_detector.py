@@ -250,21 +250,33 @@ def run(args: argparse.Namespace) -> None:
     train_rows, validation_rows = deterministic_split(rows, float(config.get("validation_fraction", 0.15)), seed)
     train_dataset = PseudoPointDataset(train_rows, config, augment=True)
     validation_dataset = PseudoPointDataset(validation_rows, config, augment=False)
+    num_workers = int(config.get("num_workers", 2))
+    loader_process_options: dict[str, Any] = {}
+    if num_workers > 0:
+        # The DINOv2 model is moved to CUDA before the loader is first
+        # iterated.  Linux's default ``fork`` context can deadlock when a
+        # process is forked after CUDA initialization, so use the CUDA-safe
+        # spawn context for worker processes.
+        loader_process_options["multiprocessing_context"] = str(
+            config.get("dataloader_multiprocessing_context", "spawn")
+        )
     train_loader = DataLoader(
         train_dataset,
         batch_size=int(config.get("batch_size", 4)),
         shuffle=True,
-        num_workers=int(config.get("num_workers", 2)),
+        num_workers=num_workers,
         pin_memory=device.type == "cuda",
         drop_last=False,
+        **loader_process_options,
     )
     validation_loader = DataLoader(
         validation_dataset,
         batch_size=int(config.get("batch_size", 4)),
         shuffle=False,
-        num_workers=int(config.get("num_workers", 2)),
+        num_workers=num_workers,
         pin_memory=device.type == "cuda",
         drop_last=False,
+        **loader_process_options,
     )
 
     model_args = argparse.Namespace(
