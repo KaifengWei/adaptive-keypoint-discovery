@@ -1,0 +1,51 @@
+{
+  "selection_status": "proposal_pending_user_approval",
+  "test_images_read": 0,
+  "core_selection_uses_model_outcomes": false,
+  "core_count": 12,
+  "diagnostic_count": 4,
+  "core_ids": [
+    "v4_val_0004",
+    "v4_val_0005",
+    "v4_val_0006",
+    "v4_val_0009",
+    "v4_val_0011",
+    "v4_val_0016",
+    "v4_val_0020",
+    "v4_val_0027",
+    "v4_val_0028",
+    "v4_val_0030",
+    "v4_val_0035",
+    "v4_val_0037"
+  ],
+  "diagnostic_ids": [
+    "v4_val_0002",
+    "v4_val_0023",
+    "v4_val_0034",
+    "v4_val_0018"
+  ],
+  "core_source_frame_counts": {
+    "src_0347": 3,
+    "src_0349": 1,
+    "src_0546": 2,
+    "src_0560": 1,
+    "src_0565": 2,
+    "src_0614": 1,
+    "src_0615": 2
+  },
+  "core_period_counts": {
+    "0510": 3,
+    "0515": 4,
+    "0516": 2,
+    "9.14-5.12": 3
+  },
+  "core_orientation_counts": {
+    "horizontal": 10,
+    "vertical": 2
+  },
+  "visible_leaf_count_postlock_counts": {
+    "1": 1,
+    "2": 9,
+    "3": 2
+  }
+}
