@@ -41,7 +41,7 @@
 - 旧关键点条件器官路径解码在 val 输出65条候选路径，40张人工审计暴露出系统性根须/基部干扰；地上部有效域已由用户40/40确认通过。路线B已完成216张train自动教师、80轮RTX3090训练和40张val-only评估：点数中位数4、重复性F1中位数0.917、纯颖果/根须接受节点为0，路径解码38/40并输出64条候选路径；路线B人工审核为路径pass/fail/未填=`30/8/2`、漏叶8、错连5、基部correct/wrong/uncertain=`33/4/3`，严格联合通过22/40。随后“增强自动教师的小叶终端与shoot侧基部覆盖，并用学习点置信度和局部尺度改进短枝解码”已获确认并实施为方案C，其混合结果与当前冻结决策见下条；人工表型参考仍为 `pending`；
 - 表型准确率尚未通过人工参考验证；
 - 跨作物迁移已经封存，不得主动扩展。
-- 人工复核协作规范与可复现打包脚本位于`experiment/manual_review_system/`。冻结A/B/C/D的40张中性配对审核已于2026-08-03完成：局部Decoder在两种Teacher下分别净恢复7/6片真叶且无真叶丢失，但引入假枝和错连；增强Teacher没有可证明净收益。B=`Route B Teacher + local decoder`为当前primary/minimum-sufficient Student candidate；D停止开发但保留一次冻结表型对照。phenotype-first protocol提案已经生成：Core 12只按采集和原图形态选样，Diagnostic 4在Core锁定后覆盖B/D分歧；Teacher-direct、B、D共用一次人工GT。提案仍待用户确认，尚未开始人工描迹和方法比较。入口为`experiment/phenotype_pilot_protocol/Phenotype-first人工参考协议_待审核_20260803.md`与同目录审核工作簿。正式消融、五随机种子和V4 test继续后置，人工判断和表型参考只用于评价，不作为关键点训练标签。
+- 人工复核协作规范与可复现打包脚本位于`experiment/manual_review_system/`。冻结A/B/C/D的40张中性配对审核已于2026-08-03完成：局部Decoder在两种Teacher下分别净恢复7/6片真叶且无真叶丢失，但引入假枝和错连；增强Teacher没有可证明净收益。B=`Route B Teacher + local decoder`为当前primary/minimum-sufficient Student candidate；D停止开发但保留一次冻结表型对照。phenotype-first protocol v2已经用户批准并完成测量前修订：Core 12与Diagnostic 4保持锁定；正式长度名为`base-to-tip structural path length / 基部—叶尖结构路径长度`；Rater 2推荐16张、最低全部Core 12；MDC95、主路径tie-break、三尺度输出与盲法边界均已预锁定。旧85行叶数预填模板已废止，测量者schema改为零数据行动态建轨；opaque blind ID将在正式HTML包构建时生成，管理员映射不得进入测量包。当前只完成协议、schema和HTML设计，尚未实现平台、开始描迹或运行方法比较。入口为`experiment/phenotype_pilot_protocol/Phenotype-first人工参考协议_v2_已批准待实施_20260803.md`、`模型盲人工GT_HTML平台设计说明_20260803.md`及同目录工作簿。正式消融、五随机种子和V4 test继续后置，人工判断和表型参考只用于评价，不作为关键点训练标签。
 
 ## 三、账号切换后的推荐首条指令
 
