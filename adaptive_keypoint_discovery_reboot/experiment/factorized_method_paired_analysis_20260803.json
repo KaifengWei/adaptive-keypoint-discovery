@@ -1,0 +1,475 @@
+{
+  "source_csv": "D:\\kp\\adaptive_keypoint_discovery_reboot\\factorized_method_review_completed.csv",
+  "images": 40,
+  "pairs": {
+    "A_vs_B": {
+      "source": "A",
+      "target": "B",
+      "manual_labels": {
+        "same": 29,
+        "B_better": 7,
+        "A_better": 4
+      },
+      "true_paths": {
+        "gained_images": [
+          [
+            "v4_val_0004",
+            1
+          ],
+          [
+            "v4_val_0007",
+            1
+          ],
+          [
+            "v4_val_0017",
+            1
+          ],
+          [
+            "v4_val_0021",
+            1
+          ],
+          [
+            "v4_val_0023",
+            1
+          ],
+          [
+            "v4_val_0026",
+            1
+          ],
+          [
+            "v4_val_0033",
+            1
+          ]
+        ],
+        "lost_images": [],
+        "net": 7
+      },
+      "missing_leaves": {
+        "reduced_images": [
+          [
+            "v4_val_0004",
+            -1
+          ],
+          [
+            "v4_val_0007",
+            -1
+          ],
+          [
+            "v4_val_0017",
+            -1
+          ],
+          [
+            "v4_val_0021",
+            -1
+          ],
+          [
+            "v4_val_0023",
+            -1
+          ],
+          [
+            "v4_val_0026",
+            -1
+          ],
+          [
+            "v4_val_0033",
+            -1
+          ]
+        ],
+        "increased_images": [],
+        "net_change": -7
+      },
+      "false_branches": {
+        "reduced_images": [],
+        "increased_images": [
+          [
+            "v4_val_0018",
+            1
+          ],
+          [
+            "v4_val_0034",
+            1
+          ],
+          [
+            "v4_val_0035",
+            1
+          ],
+          [
+            "v4_val_0036",
+            1
+          ]
+        ],
+        "net_change": 4
+      },
+      "wrong_connections": {
+        "reduced_images": [],
+        "increased_images": [
+          "v4_val_0018",
+          "v4_val_0034",
+          "v4_val_0035",
+          "v4_val_0036"
+        ]
+      },
+      "base_selection": {
+        "improved_images": [],
+        "worsened_images": []
+      },
+      "label_field_disagreements": [
+        {
+          "dataset_id": "v4_val_0023",
+          "manual_label": "same",
+          "fields_equal": false
+        },
+        {
+          "dataset_id": "v4_val_0040",
+          "manual_label": "B_better",
+          "fields_equal": true
+        }
+      ]
+    },
+    "A_vs_C": {
+      "source": "A",
+      "target": "C",
+      "manual_labels": {
+        "same": 30,
+        "C_better": 5,
+        "A_better": 5
+      },
+      "true_paths": {
+        "gained_images": [
+          [
+            "v4_val_0002",
+            2
+          ],
+          [
+            "v4_val_0015",
+            1
+          ],
+          [
+            "v4_val_0039",
+            1
+          ]
+        ],
+        "lost_images": [
+          [
+            "v4_val_0001",
+            -1
+          ],
+          [
+            "v4_val_0014",
+            -1
+          ],
+          [
+            "v4_val_0019",
+            -1
+          ],
+          [
+            "v4_val_0023",
+            -1
+          ]
+        ],
+        "net": 0
+      },
+      "missing_leaves": {
+        "reduced_images": [
+          [
+            "v4_val_0002",
+            -2
+          ],
+          [
+            "v4_val_0015",
+            -1
+          ],
+          [
+            "v4_val_0039",
+            -1
+          ]
+        ],
+        "increased_images": [
+          [
+            "v4_val_0014",
+            1
+          ],
+          [
+            "v4_val_0019",
+            1
+          ],
+          [
+            "v4_val_0023",
+            1
+          ]
+        ],
+        "net_change": -1
+      },
+      "false_branches": {
+        "reduced_images": [],
+        "increased_images": [],
+        "net_change": 0
+      },
+      "wrong_connections": {
+        "reduced_images": [
+          "v4_val_0002",
+          "v4_val_0013",
+          "v4_val_0015"
+        ],
+        "increased_images": []
+      },
+      "base_selection": {
+        "improved_images": [
+          "v4_val_0002"
+        ],
+        "worsened_images": [
+          "v4_val_0012",
+          "v4_val_0023",
+          "v4_val_0035"
+        ]
+      },
+      "label_field_disagreements": [
+        {
+          "dataset_id": "v4_val_0001",
+          "manual_label": "same",
+          "fields_equal": false
+        },
+        {
+          "dataset_id": "v4_val_0003",
+          "manual_label": "C_better",
+          "fields_equal": true
+        }
+      ]
+    },
+    "C_vs_D": {
+      "source": "C",
+      "target": "D",
+      "manual_labels": {
+        "same": 32,
+        "D_better": 6,
+        "C_better": 2
+      },
+      "true_paths": {
+        "gained_images": [
+          [
+            "v4_val_0004",
+            1
+          ],
+          [
+            "v4_val_0007",
+            1
+          ],
+          [
+            "v4_val_0017",
+            1
+          ],
+          [
+            "v4_val_0021",
+            1
+          ],
+          [
+            "v4_val_0026",
+            1
+          ],
+          [
+            "v4_val_0033",
+            1
+          ]
+        ],
+        "lost_images": [],
+        "net": 6
+      },
+      "missing_leaves": {
+        "reduced_images": [
+          [
+            "v4_val_0004",
+            -1
+          ],
+          [
+            "v4_val_0007",
+            -1
+          ],
+          [
+            "v4_val_0017",
+            -1
+          ],
+          [
+            "v4_val_0021",
+            -1
+          ],
+          [
+            "v4_val_0026",
+            -1
+          ],
+          [
+            "v4_val_0033",
+            -1
+          ]
+        ],
+        "increased_images": [],
+        "net_change": -6
+      },
+      "false_branches": {
+        "reduced_images": [],
+        "increased_images": [
+          [
+            "v4_val_0034",
+            2
+          ],
+          [
+            "v4_val_0036",
+            1
+          ]
+        ],
+        "net_change": 3
+      },
+      "wrong_connections": {
+        "reduced_images": [],
+        "increased_images": [
+          "v4_val_0034",
+          "v4_val_0036"
+        ]
+      },
+      "base_selection": {
+        "improved_images": [],
+        "worsened_images": []
+      },
+      "label_field_disagreements": []
+    },
+    "B_vs_D": {
+      "source": "B",
+      "target": "D",
+      "manual_labels": {
+        "same": 30,
+        "D_better": 5,
+        "B_better": 4,
+        "uncertain": 1
+      },
+      "true_paths": {
+        "gained_images": [
+          [
+            "v4_val_0002",
+            2
+          ],
+          [
+            "v4_val_0015",
+            1
+          ],
+          [
+            "v4_val_0039",
+            1
+          ]
+        ],
+        "lost_images": [
+          [
+            "v4_val_0001",
+            -1
+          ],
+          [
+            "v4_val_0014",
+            -1
+          ],
+          [
+            "v4_val_0019",
+            -1
+          ],
+          [
+            "v4_val_0023",
+            -2
+          ]
+        ],
+        "net": -1
+      },
+      "missing_leaves": {
+        "reduced_images": [
+          [
+            "v4_val_0002",
+            -2
+          ],
+          [
+            "v4_val_0015",
+            -1
+          ],
+          [
+            "v4_val_0039",
+            -1
+          ]
+        ],
+        "increased_images": [
+          [
+            "v4_val_0014",
+            1
+          ],
+          [
+            "v4_val_0019",
+            1
+          ],
+          [
+            "v4_val_0023",
+            2
+          ]
+        ],
+        "net_change": 0
+      },
+      "false_branches": {
+        "reduced_images": [
+          [
+            "v4_val_0018",
+            -1
+          ],
+          [
+            "v4_val_0035",
+            -1
+          ]
+        ],
+        "increased_images": [
+          [
+            "v4_val_0034",
+            1
+          ]
+        ],
+        "net_change": -1
+      },
+      "wrong_connections": {
+        "reduced_images": [
+          "v4_val_0002",
+          "v4_val_0013",
+          "v4_val_0015",
+          "v4_val_0018",
+          "v4_val_0035"
+        ],
+        "increased_images": []
+      },
+      "base_selection": {
+        "improved_images": [
+          "v4_val_0002"
+        ],
+        "worsened_images": [
+          "v4_val_0012",
+          "v4_val_0023",
+          "v4_val_0035"
+        ]
+      },
+      "label_field_disagreements": [
+        {
+          "dataset_id": "v4_val_0001",
+          "manual_label": "same",
+          "fields_equal": false
+        },
+        {
+          "dataset_id": "v4_val_0003",
+          "manual_label": "D_better",
+          "fields_equal": true
+        },
+        {
+          "dataset_id": "v4_val_0018",
+          "manual_label": "same",
+          "fields_equal": false
+        },
+        {
+          "dataset_id": "v4_val_0034",
+          "manual_label": "same",
+          "fields_equal": false
+        }
+      ]
+    }
+  },
+  "comparison_notes": {
+    "v4_val_0037": "可能是数据集的问题，有一个小叶，肉眼看微乎其微"
+  }
+}

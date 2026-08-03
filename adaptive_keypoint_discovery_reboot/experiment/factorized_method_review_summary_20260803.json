@@ -1,0 +1,144 @@
+{
+  "source_csv": "D:\\kp\\adaptive_keypoint_discovery_reboot\\factorized_method_review_completed.csv",
+  "images": 40,
+  "validation_status": "pass",
+  "validation_errors": [],
+  "best_method": {
+    "A": 1,
+    "D": 1,
+    "none": 14,
+    "tie": 24
+  },
+  "paired_comparisons": {
+    "a_vs_b_decoder": {
+      "A_better": 4,
+      "B_better": 7,
+      "same": 29
+    },
+    "a_vs_c_teacher": {
+      "A_better": 5,
+      "C_better": 5,
+      "same": 30
+    },
+    "c_vs_d_decoder": {
+      "C_better": 2,
+      "D_better": 6,
+      "same": 32
+    },
+    "b_vs_d_teacher": {
+      "B_better": 4,
+      "D_better": 5,
+      "same": 30,
+      "uncertain": 1
+    },
+    "d_vs_a": {
+      "improved": 11,
+      "same": 22,
+      "worse": 7
+    }
+  },
+  "variant_outcomes": {
+    "A": {
+      "true_path_count": {
+        "exact_total_from_exact_rows": 63,
+        "lower_bound_total_all_countable_rows": 63,
+        "non_exact_values": {}
+      },
+      "missing_leaf_count": {
+        "exact_total_from_exact_rows": 23,
+        "lower_bound_total_all_countable_rows": 23,
+        "non_exact_values": {}
+      },
+      "false_branch_count": {
+        "exact_total_from_exact_rows": 0,
+        "lower_bound_total_all_countable_rows": 0,
+        "non_exact_values": {}
+      },
+      "wrong_connection": {
+        "no": 34,
+        "yes": 6
+      },
+      "base_selection": {
+        "correct": 35,
+        "wrong": 5
+      }
+    },
+    "B": {
+      "true_path_count": {
+        "exact_total_from_exact_rows": 70,
+        "lower_bound_total_all_countable_rows": 70,
+        "non_exact_values": {}
+      },
+      "missing_leaf_count": {
+        "exact_total_from_exact_rows": 16,
+        "lower_bound_total_all_countable_rows": 16,
+        "non_exact_values": {}
+      },
+      "false_branch_count": {
+        "exact_total_from_exact_rows": 4,
+        "lower_bound_total_all_countable_rows": 4,
+        "non_exact_values": {}
+      },
+      "wrong_connection": {
+        "no": 30,
+        "yes": 10
+      },
+      "base_selection": {
+        "correct": 35,
+        "wrong": 5
+      }
+    },
+    "C": {
+      "true_path_count": {
+        "exact_total_from_exact_rows": 63,
+        "lower_bound_total_all_countable_rows": 63,
+        "non_exact_values": {}
+      },
+      "missing_leaf_count": {
+        "exact_total_from_exact_rows": 22,
+        "lower_bound_total_all_countable_rows": 22,
+        "non_exact_values": {}
+      },
+      "false_branch_count": {
+        "exact_total_from_exact_rows": 0,
+        "lower_bound_total_all_countable_rows": 0,
+        "non_exact_values": {}
+      },
+      "wrong_connection": {
+        "no": 37,
+        "yes": 3
+      },
+      "base_selection": {
+        "correct": 33,
+        "wrong": 7
+      }
+    },
+    "D": {
+      "true_path_count": {
+        "exact_total_from_exact_rows": 69,
+        "lower_bound_total_all_countable_rows": 69,
+        "non_exact_values": {}
+      },
+      "missing_leaf_count": {
+        "exact_total_from_exact_rows": 16,
+        "lower_bound_total_all_countable_rows": 16,
+        "non_exact_values": {}
+      },
+      "false_branch_count": {
+        "exact_total_from_exact_rows": 3,
+        "lower_bound_total_all_countable_rows": 3,
+        "non_exact_values": {}
+      },
+      "wrong_connection": {
+        "no": 35,
+        "yes": 5
+      },
+      "base_selection": {
+        "correct": 33,
+        "wrong": 7
+      }
+    }
+  },
+  "manual_keypoint_coordinates_created": false,
+  "use": "path-semantics evaluation only; never training supervision"
+}
