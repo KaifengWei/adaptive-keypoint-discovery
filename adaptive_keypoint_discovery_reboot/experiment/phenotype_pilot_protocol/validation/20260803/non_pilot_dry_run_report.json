@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "checked_at_utc": "2026-08-03T12:48:41.182Z",
+  "browser": "Microsoft Edge headless via Playwright",
+  "non_pilot_images": 2,
+  "image_1": {
+    "initial_trace_count": 0,
+    "submitted_trace_count": 1,
+    "gt_assigned_after_submit": true,
+    "structural_path_length_positive": true
+  },
+  "image_2": {
+    "initial_trace_count": 0,
+    "submitted_trace_count": 1,
+    "gt_assigned_after_submit": true,
+    "structural_path_length_positive": true
+  },
+  "export_session_rows": 2,
+  "export_trace_rows": 2,
+  "export_sha256_present": true,
+  "export_forbidden_hits": 0,
+  "local_storage_restore": true,
+  "formal_rater1_round1_initial_state": "16 images, zero traces, unsubmitted",
+  "browser_geometry_fixture": {
+    "structural_path_length_px": 146.7319635183136,
+    "structural_path_length_bbox_norm": 0.733659817591568,
+    "chord_length_px": 130,
+    "total_turning_angle_deg": 148.60943598381593,
+    "mean_abs_curvature_per_px": 0.017676611797848695
+  },
+  "browser_errors": 0,
+  "test_images_read": 0,
+  "model_outputs_read": 0
+}

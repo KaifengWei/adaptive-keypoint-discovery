@@ -1,0 +1,6 @@
+# Local-only blinded human-GT packages and administrator identity maps.
+experiment/phenotype_pilot_protocol/runtime/
+
+# Spreadsheet render/inspection support artifacts; the reviewed workbook itself is tracked.
+experiment/phenotype_pilot_protocol/outputs/*/preview_*.png
+experiment/phenotype_pilot_protocol/outputs/*/*.inspect.ndjson

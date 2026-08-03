@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>模型盲人工结构路径描迹</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>模型盲人工结构路径描迹</h1>
+      <p id="packageLabel"></p>
+    </div>
+    <div class="top-actions">
+      <button id="prevBtn">上一张</button>
+      <span id="positionLabel"></span>
+      <button id="nextBtn">下一张</button>
+      <button id="exportProgressBtn" class="secondary">备份进度 JSON</button>
+      <label class="file-button">恢复进度 JSON<input id="importInput" type="file" accept="application/json"></label>
+      <button id="exportFinalBtn" class="primary">完成全包并导出</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="notice">
+      <strong>判断顺序：</strong>先在原图上标记共同地上部基点，再由您自己判断并逐片“添加叶片”。页面不会提示应有数量。
+      正式测量对象为<strong>基部—叶尖结构路径长度</strong>。
+    </section>
+
+    <section class="workspace">
+      <div class="image-panel">
+        <div class="image-heading">
+          <div><span class="tag">匿名样本</span><strong id="blindLabel"></strong></div>
+          <div id="submissionBadge" class="badge">未提交</div>
+        </div>
+        <div id="stage" class="stage">
+          <img id="plantImage" alt="匿名秧苗原图" draggable="false">
+          <svg id="overlay" aria-label="描迹画布"></svg>
+        </div>
+        <div class="canvas-actions">
+          <button id="setBaseBtn">1. 设置共同基点</button>
+          <button id="addTraceBtn" class="primary">2. 添加叶片</button>
+          <button id="drawModeBtn">3. 继续描迹</button>
+          <button id="undoBtn">撤销末点</button>
+          <button id="resetPlantBtn" class="danger">重置本图</button>
+          <span id="modeLabel">当前：浏览</span>
+        </div>
+        <p class="hint">单击添加折线点；拖动圆点可微调。第一点固定为共同基点，最后一点应位于相应叶尖中心。</p>
+      </div>
+
+      <aside class="control-panel">
+        <div class="panel-section">
+          <h2>本图检查</h2>
+          <dl class="summary-grid">
+            <dt>共同基点</dt><dd id="baseSummary">未设置</dd>
+            <dt>主动添加项目</dt><dd id="traceCountSummary">0</dd>
+            <dt>可测项目</dt><dd id="measurableCountSummary">0</dd>
+          </dl>
+        </div>
+
+        <div class="panel-section">
+          <h2>动态叶片列表</h2>
+          <div id="traceList" class="trace-list"><div class="empty">尚未添加。请依据原图自行判断。</div></div>
+        </div>
+
+        <div id="traceEditor" class="panel-section hidden">
+          <h2>当前项目</h2>
+          <label>可测性
+            <select id="visibilityStatus">
+              <option value="">请选择</option>
+              <option value="measurable">可测：能够完成基部至叶尖描迹</option>
+              <option value="visible_unmeasurable">可见但不可可靠完整测量</option>
+            </select>
+          </label>
+          <label>遮挡情况
+            <select id="occlusionGrade">
+              <option value="none">无遮挡</option>
+              <option value="minor_interpolated">轻微遮挡并按规则插值</option>
+              <option value="major_unmeasurable">严重遮挡、不可测</option>
+            </select>
+          </label>
+          <label>是否使用插值
+            <select id="interpolationUsed">
+              <option value="no">否</option>
+              <option value="yes">是</option>
+            </select>
+          </label>
+          <label>信心
+            <select id="confidence">
+              <option value="">请选择</option>
+              <option value="high">高</option>
+              <option value="medium">中</option>
+              <option value="low">低</option>
+            </select>
+          </label>
+          <label>备注/不可测原因
+            <textarea id="traceNotes" rows="3"></textarea>
+          </label>
+          <div id="metricPreview" class="metric-preview"></div>
+          <button id="deleteTraceBtn" class="danger full">删除当前项目</button>
+        </div>
+
+        <div class="panel-section">
+          <label>本图备注
+            <textarea id="plantNotes" rows="3"></textarea>
+          </label>
+          <button id="submitPlantBtn" class="success full">提交并锁定本图</button>
+          <button id="revisePlantBtn" class="secondary full hidden">创建修订副本</button>
+          <div id="validationMessage" class="validation"></div>
+          <div id="downloadArea" class="download-area hidden"></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    评价专用，不用于训练。页面不包含真实数据编号、既有方法结果或预期叶片数量。
+  </footer>
+
+  <script>window.PACKAGE_DATA = __PACKAGE_DATA_JSON__;</script>
+  <script src="app.js"></script>
+</body>
+</html>

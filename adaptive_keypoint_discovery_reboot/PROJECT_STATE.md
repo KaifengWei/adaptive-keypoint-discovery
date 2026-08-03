@@ -80,6 +80,8 @@
 49. 2026-08-02 用户确认研究路线证据重审与冻结计划。A/B/C/D四个现有组合冻结，不修改Teacher、Decoder或阈值，不增加E/F、不重新训练、不读取V4 test；D取消“推荐候选”身份。现有自动路径总数`64/76/63/74`只支持“局部尺度Decoder是路径增加的主要来源”，不足以证明结构覆盖增强Teacher具有净收益。平台四已改为中性最终配对复核：逐方案记录真实路径、漏叶、假枝、错连和基部，并记录A-B、A-C、C-D、B-D及D-A变化。旧的“严格联合通过至少32/40后才建立人工表型参考”门槛取消；平台四完成后无论通过率如何，都先提出模型盲的小型V4 val表型参考方案，并比较传统几何、G1′ Teacher-direct和Student。Teacher-direct与Student在表型、稳定性和速度上完成对照前，不默认Student具有额外价值。完整依据见`experiment/当前研究路线证据审计与下一阶段冻结计划_20260802.md`。
 50. 2026-08-03 用户完成冻结A/B/C/D的40张中性配对复核。总体真实路径A/B/C/D=`63/70/63/69`，漏叶=`23/16/22/16`，假枝=`0/4/0/3`，错连图=`6/10/3/5`，基部错误图=`5/5/7/7`，联合无错误=`18/22/17/22`。局部Decoder在A→B与C→D下分别净恢复7/6片真叶且均无真叶丢失，人工总体偏好分别为7:4与6:2，但新增4/3条假枝和4/2张错连，属于稳定覆盖收益并伴随精度代价。增强Teacher在A→C下偏好5:5、联合无错误净下降1；B→D下D/B偏好5:4、联合无错误改善/恶化各3张且总数同为22，漏叶同为16，D虽减少假枝/错连但增加2张基部错误并少1条真实路径。因此D未证明优于B，明确判定增强Teacher无可证明净收益，停止修补C/D，冻结B=`Route B Teacher + local decoder`为当前最小充分Student候选。下一步只设计并经用户确认模型盲、评价专用的16张V4 val表型参考（12张原图形态分层核心样本+4张单独报告的诊断样本）；不训练、不调阈值、不增加E、不读取test。完整分析见`experiment/A_B_C_D人工配对复核与因果分析_20260803.md`。
 51. 2026-08-03 用户已批准phenotype-first protocol总体方向并提出九项测量前修订；协议v2、工作簿schema、MDC95计算规则和模型盲HTML设计已完成，尚未实现正式HTML、开始人工GT或运行方法比较。Core 12=`0004/0005/0006/0009/0011/0016/0020/0027/0028/0030/0035/0037`与Diagnostic 4=`0002/0018/0023/0034`保持原锁定，Core与Diagnostic统计严格分离。正式长度名固定为`base-to-tip structural path length / 基部—叶尖结构路径长度`，不得简称leaf length/叶长；输出保留pixel、bbox-normalized和注明`derived from scanner metadata`的600 dpi换算毫米，正式论文前必须完成已知尺寸实物标尺校验。Rater 1完成16张两轮；Rater 2推荐16张、最低全部Core 12，旧8张最低方案废止。旧模板的可逆`R11_0002`与预生成GT行/`leaf_exists=yes`已移除，测量者CSV改为只有表头、动态“添加叶片”、提交后赋GT ID；实际opaque blind ID在HTML包构建时用密码学安全随机源生成，管理员映射与测量包隔离。MDC95主公式固定为`SEM=SDdiff/sqrt(2)`、`MDC95=1.96*SDdiff`，长度和角度分别计算，intra/inter误差底线取较大者；reference_main_path的tie-break固定为结构路径长度、弦长、极角、trace_uuid；曲率继续exploratory。入口为`experiment/phenotype_pilot_protocol/Phenotype-first人工参考协议_v2_已批准待实施_20260803.md`、`MDC95与人工可靠性计算规则_预锁定_20260803.md`、`模型盲人工GT_HTML平台设计说明_20260803.md`及更新后的10页工作簿。下一步须先向用户展示修订摘要并取得继续指令，再实现HTML；不训练、不调阈值、不读取V4 test。
+52. 2026-08-03 用户确认继续并再次冻结方法边界：Teacher-direct与Student-B使用完全相同的点条件graph、局部叶宽尺度decoder和phenotype几何算子，唯一差异为输入点来源；Student-D只作冻结对照，B/D模型本身均不得再修改。人工跨轮次匹配与轨迹计算已锁定为`phenotype-geometry-v1`：连续重复点去除、累计弧长参数、coordinate-wise PCHIP、固定240点重采样，分化角使用`max(2px,0.01D)`共享容差和`0.05D`局部区间；跨session匹配固定为tip/curve/polar=`0.55/0.30/0.15`、`tip_norm<=0.12`、总cost`<=0.15`的Hungarian一对一规则。Python端4项合成测试通过。
+53. 模型盲人工GT HTML已实现并达到`ready_for_rater1_round1`：本地Git忽略目录`experiment/phenotype_pilot_protocol/runtime/`生成practice 2、R1 round1 16、R1 round2 16、R2 round1 16，共50个唯一14位密码学随机blind ID，R1两轮重合0；管理员映射与测量包隔离。静态扫描50个公共图像及全部页面/脚本，真实编号、旧叶数、身份预填、方法/decoder标识命中0，两个测量模板均为仅表头，V4 test和模型输出读取0。两张非pilot val图已用Edge/Playwright完成零初始trace、动态添加、提交后GT01、主路径、匿名CSV/JSON+SHA-256及刷新恢复dry run，浏览器错误0；正式R1 round1入口另验为16张、0条trace、全部未提交。当前可开始R1第一轮，R1第二轮须间隔3–7天；在人工GT与裁决冻结前不运行Teacher-direct/B/D表型比较，不边测边改。
 
 ## 五、训练门槛
 
@@ -93,7 +95,7 @@
 - 关键点条件结构图已生成 40 张叠加图、5 页接触表、失败排序、逐节点留一贡献和新的 40 行人工路径复核表；下一门槛是人工路径语义与人工表型参考，不开放 V4 test。
 - 关键点条件器官路径解码已生成 65 条候选路径、代理表型 CSV、40 张叠加图、5 页接触表和可导出 CSV 的逐图 HTML；必须先完成真正人工复核，自动预审不得记为人工通过。
 - 路线B已在RTX3090完成216张train自动教师、80轮训练和40张val-only评估，并生成64条候选路径与新的逐图HTML；当前先复核8张自动优先样本，再补齐其余路径语义与人工表型参考，V4 test继续锁定。
-- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2及16张样本已获批准并完成测量前修订。当前门槛是先展示协议/schema/HTML设计修改摘要；用户再次确认后，才实现并验收模型盲原图描迹HTML。实际人工描迹、Teacher-direct/Student-B/冻结Student-D比较、正式消融、五随机种子与V4 test继续后置。
+- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2、人工几何/匹配规则和模型盲HTML均已冻结并验收。当前门槛是Rater 1完成第一轮16张正式人工GT；在人工GT及裁决冻结前，不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
 
 ## 六、设备与接续
 

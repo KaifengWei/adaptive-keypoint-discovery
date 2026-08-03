@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "checked_at_utc": "2026-08-03T12:47:54.476049+00:00",
+  "protocol_version": "phenotype-first-pilot-v2",
+  "geometry_protocol_version": "phenotype-geometry-v1",
+  "package_counts": {
+    "practice": 2,
+    "rater1_round1": 16,
+    "rater1_round2": 16,
+    "rater2_round1": 16
+  },
+  "unique_blind_ids": 50,
+  "public_image_files_checked": 50,
+  "static_forbidden_hits": 0,
+  "rater1_round_blind_id_overlap": 0,
+  "measurement_templates_header_only": true,
+  "rater2_scope": "all_locked_16",
+  "test_images_read": 0,
+  "model_outputs_read": 0,
+  "admin_mapping_sha256": "0b229bcf5fe4278206bf99cc159dc49133515943dae67058f88a80202397db9e"
+}

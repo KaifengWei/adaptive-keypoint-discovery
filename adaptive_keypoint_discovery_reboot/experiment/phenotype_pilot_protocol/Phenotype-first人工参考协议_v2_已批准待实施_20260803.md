@@ -4,12 +4,14 @@
 - 修订日期：2026-08-03
 - 数据范围：V4 val 的锁定 Core 12 + Diagnostic 4
 - 方法范围：Teacher-direct、Student-B、冻结的 Student-D
-- 当前状态：协议、schema 与 HTML 设计已冻结；正式人工描迹尚未开始
+- 当前状态：协议、schema、计算规则与 HTML 平台已冻结并通过验收；Rater 1 第一轮可以开始
 - 禁止事项：修改 Teacher/Student/Decoder、新训练、调阈值、方案 E、V4 test、五随机种子、查看方法输出后修改人工 GT
 
 ## 1. 研究目的与不可改变的边界
 
 本 pilot 只回答两个问题：Student-B 相对 Teacher-direct 是否带来可测量的表型价值；冻结 Student-D 相对 Student-B 的额外复杂度是否带来足以保留的收益。人工描迹只用于评价，不进入自动教师、学生训练、关键点坐标监督或逐图调参。
+
+Teacher-direct 与 Student-B 必须使用完全相同的冻结点条件 graph、局部叶宽尺度 decoder 和 phenotype 几何算子；唯一变化是输入点来自自动 Teacher 还是 Student-B。Student-D 只读取既有冻结结果，不修改模型本身。具体计算版本见《人工跨轮次匹配与轨迹计算锁定规范_20260803.md》。
 
 Core 12 形成主要 pilot 统计；Diagnostic 4 只解释已冻结的 B/D 分歧和失败机制，不与 Core 合并为“16 张总体平均值”。曲率继续保持 exploratory，不作为任何方法的单独淘汰标准。
 
@@ -73,7 +75,7 @@ Core 12 形成主要 pilot 统计；Diagnostic 4 只解释已冻结的 B/D 分�
 
 对每条非主路径，分化点为其与主路径最后共享的中心线位置；两侧局部切线区间默认取 `0.05 × shoot_bbox_diagonal_px`，不足时缩短并记录实际区间。分化角为两条切线的无符号夹角，范围 0–180°。
 
-曲率仅作探索性指标。人工与方法路径使用相同平滑和弧长重采样规则；报告总转角，并可计算平均绝对曲率。曲率不进入单独淘汰门槛，未完成实物标尺校验前其 `mm^-1` 结果同样注明 `derived from scanner metadata`。
+曲率仅作探索性指标。人工与方法路径使用同一 `phenotype-geometry-v1`：累计弧长参数、coordinate-wise PCHIP、固定240点重采样。分化点、局部切线与跨轮次叶片匹配均以《人工跨轮次匹配与轨迹计算锁定规范_20260803.md》为唯一实现口径。曲率不进入单独淘汰门槛，未完成实物标尺校验前其 `mm^-1` 结果同样注明 `derived from scanner metadata`。
 
 ### 3.6 提交后 GT 身份
 
@@ -150,4 +152,4 @@ Core 12 以植株为统计单位，报告中位数、四分位数、逐株配对
 
 ## 9. 当前实施门槛
 
-本协议 v2 已吸收用户九项修订并锁定。下一步只能先展示本次协议、schema 与 HTML 设计修改摘要。收到用户继续指令后，方可实现模型盲原图描迹 HTML；实现完成并通过静态泄漏检查和离线浏览器验收后，才开始正式人工描迹。
+本协议 v2 已吸收用户九项修订并锁定。模型盲HTML已生成50个唯一随机blind ID，静态泄漏检查为0命中，两张非pilot图的Edge离线dry run已通过，Rater 1第一轮正式包初始状态验证为16张、0条预生成trace、全部未提交。正式描迹从`runtime/packages/rater1_round1/index.html`开始；Rater 1第二轮必须间隔3–7天，期间不得查看第一轮记录。人工GT冻结前继续禁止方法比较和任何模型修改。
