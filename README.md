@@ -16,4 +16,10 @@
 
 仓库保留代码、配置、论文说明、审计表、关键可视化结果，以及体量较小且已复核的 `data_stage_clean_v3`。原始大数据集、旧版处理数据、第三方 DINOv2 源码、预训练权重、训练 checkpoint、缓存和隔离文件不进入 Git；它们可以按项目清单在远程服务器重新获取或单独同步。
 
-本研究当前已建立300张V4整株数据集；220张train已生成自动教师目标并完成核心模型首轮训练，40张val已完成评估。代码审计确认现有路径主要由整幅骨架独立生成，学习点尚未真正决定拓扑；关键点条件结构图、人工路径复核、表型参考误差、消融和多随机种子复跑仍未完成。V4 test继续保持模型锁定。
+## 当前进度
+
+V4已固定为300张整株数据：220张train、40张val和40张locked test。点条件图已替代旧的完整骨架独立拓扑，地上部有效域用于排除颖果和根须干扰。冻结A/B/C/D的40张人工配对复核已经完成：局部叶宽尺度Decoder能够稳定恢复更多真叶路径，但伴随假枝和错连代价；结构覆盖增强Teacher没有证明净收益。因此停止修补C/D，B=`Route B Teacher + local decoder`作为当前primary/minimum-sufficient Student候选，D只保留一次冻结表型对照。B尚未被证明优于更简单的Teacher-direct。
+
+phenotype-first protocol v2、`phenotype-geometry-v1`、跨session匹配、MDC95规则和模型盲人工GT网页均已测量前锁定。Rater 1第一轮已提交16个匿名session和35条人工轨迹；结构与清单检查通过，目前有两条遮挡/插值字段组合待通过revision明确，完成后才冻结第一轮。随后按3–7天间隔执行Rater 1第二轮，并完成Rater 2、可靠性计算和方法盲裁决。人工GT及裁决冻结前不运行Teacher-direct、Student-B或Student-D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
+
+实验文件请从[`experiment/00_按时间线查看/`](adaptive_keypoint_discovery_reboot/experiment/00_按时间线查看/README.md)进入；原`experiment/`根目录保留为稳定执行层，避免物理移动破坏脚本路径和冻结复现性。
