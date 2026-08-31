@@ -1,6 +1,6 @@
 # PROJECT STATE
 
-更新时间：2026-08-03
+更新时间：2026-08-31
 
 ## 一、已锁定的研究口径
 
@@ -82,6 +82,7 @@
 51. 2026-08-03 用户已批准phenotype-first protocol总体方向并提出九项测量前修订；协议v2、工作簿schema、MDC95计算规则和模型盲HTML设计已完成，尚未实现正式HTML、开始人工GT或运行方法比较。Core 12=`0004/0005/0006/0009/0011/0016/0020/0027/0028/0030/0035/0037`与Diagnostic 4=`0002/0018/0023/0034`保持原锁定，Core与Diagnostic统计严格分离。正式长度名固定为`base-to-tip structural path length / 基部—叶尖结构路径长度`，不得简称leaf length/叶长；输出保留pixel、bbox-normalized和注明`derived from scanner metadata`的600 dpi换算毫米，正式论文前必须完成已知尺寸实物标尺校验。Rater 1完成16张两轮；Rater 2推荐16张、最低全部Core 12，旧8张最低方案废止。旧模板的可逆`R11_0002`与预生成GT行/`leaf_exists=yes`已移除，测量者CSV改为只有表头、动态“添加叶片”、提交后赋GT ID；实际opaque blind ID在HTML包构建时用密码学安全随机源生成，管理员映射与测量包隔离。MDC95主公式固定为`SEM=SDdiff/sqrt(2)`、`MDC95=1.96*SDdiff`，长度和角度分别计算，intra/inter误差底线取较大者；reference_main_path的tie-break固定为结构路径长度、弦长、极角、trace_uuid；曲率继续exploratory。入口为`experiment/phenotype_pilot_protocol/Phenotype-first人工参考协议_v2_已批准待实施_20260803.md`、`MDC95与人工可靠性计算规则_预锁定_20260803.md`、`模型盲人工GT_HTML平台设计说明_20260803.md`及更新后的10页工作簿。下一步须先向用户展示修订摘要并取得继续指令，再实现HTML；不训练、不调阈值、不读取V4 test。
 52. 2026-08-03 用户确认继续并再次冻结方法边界：Teacher-direct与Student-B使用完全相同的点条件graph、局部叶宽尺度decoder和phenotype几何算子，唯一差异为输入点来源；Student-D只作冻结对照，B/D模型本身均不得再修改。人工跨轮次匹配与轨迹计算已锁定为`phenotype-geometry-v1`：连续重复点去除、累计弧长参数、coordinate-wise PCHIP、固定240点重采样，分化角使用`max(2px,0.01D)`共享容差和`0.05D`局部区间；跨session匹配固定为tip/curve/polar=`0.55/0.30/0.15`、`tip_norm<=0.12`、总cost`<=0.15`的Hungarian一对一规则。Python端4项合成测试通过。
 53. 模型盲人工GT HTML已实现并达到`ready_for_rater1_round1`：本地Git忽略目录`experiment/phenotype_pilot_protocol/runtime/`生成practice 2、R1 round1 16、R1 round2 16、R2 round1 16，共50个唯一14位密码学随机blind ID，R1两轮重合0；管理员映射与测量包隔离。静态扫描50个公共图像及全部页面/脚本，真实编号、旧叶数、身份预填、方法/decoder标识命中0，两个测量模板均为仅表头，V4 test和模型输出读取0。两张非pilot val图已用Edge/Playwright完成零初始trace、动态添加、提交后GT01、主路径、匿名CSV/JSON+SHA-256及刷新恢复dry run，浏览器错误0；正式R1 round1入口另验为16张、0条trace、全部未提交。当前可开始R1第一轮，R1第二轮须间隔3–7天；在人工GT与裁决冻结前不运行Teacher-direct/B/D表型比较，不边测边改。
+54. 2026-08-31已收到Rater 1第一轮三份匿名原始导出：16个session全部submitted、35条trace全部measurable、16个blind ID与包manifest一致、每条提交曲线均为240点，三文件已按SHA-256归档于Git忽略的runtime测量目录。字段一致性检查发现2条trace为`occlusion_grade=minor_interpolated`但`interpolation_used=no`；原始导出不覆盖，待测量者按实际情况通过revision明确改为“轻微遮挡+插值yes”或“无遮挡+插值no”后再冻结第一轮。当前状态为`rater1_round1_submitted_pending_two_field_resolutions`，尚未开始可靠性、解盲或方法比较。
 
 ## 五、训练门槛
 
@@ -95,7 +96,7 @@
 - 关键点条件结构图已生成 40 张叠加图、5 页接触表、失败排序、逐节点留一贡献和新的 40 行人工路径复核表；下一门槛是人工路径语义与人工表型参考，不开放 V4 test。
 - 关键点条件器官路径解码已生成 65 条候选路径、代理表型 CSV、40 张叠加图、5 页接触表和可导出 CSV 的逐图 HTML；必须先完成真正人工复核，自动预审不得记为人工通过。
 - 路线B已在RTX3090完成216张train自动教师、80轮训练和40张val-only评估，并生成64条候选路径与新的逐图HTML；当前先复核8张自动优先样本，再补齐其余路径语义与人工表型参考，V4 test继续锁定。
-- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2、人工几何/匹配规则和模型盲HTML均已冻结并验收。当前门槛是Rater 1完成第一轮16张正式人工GT；在人工GT及裁决冻结前，不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
+- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2、人工几何/匹配规则和模型盲HTML均已冻结并验收。Rater 1第一轮16张已提交，当前门槛是解决两条遮挡/插值字段一致性问题并冻结第一轮原始导出；随后按3–7天间隔执行Rater 1第二轮，并完成Rater 2、可靠性与裁决。在人工GT及裁决冻结前，不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
 
 ## 六、设备与接续
 
