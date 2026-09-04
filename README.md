@@ -20,6 +20,6 @@
 
 V4已固定为300张整株数据：220张train、40张val和40张locked test。点条件图已替代旧的完整骨架独立拓扑，地上部有效域用于排除颖果和根须干扰。冻结A/B/C/D的40张人工配对复核已经完成：局部叶宽尺度Decoder能够稳定恢复更多真叶路径，但伴随假枝和错连代价；结构覆盖增强Teacher没有证明净收益。因此停止修补C/D，B=`Route B Teacher + local decoder`作为当前primary/minimum-sufficient Student候选，D只保留一次冻结表型对照。B尚未被证明优于更简单的Teacher-direct。
 
-phenotype-first protocol v2、`phenotype-geometry-v1`、跨session匹配、MDC95规则和模型盲人工GT网页均已测量前锁定。Rater 1第一轮已提交16个匿名session和35条人工轨迹；结构与清单检查通过，目前有两条遮挡/插值字段组合待通过revision明确，完成后才冻结第一轮。随后按3–7天间隔执行Rater 1第二轮，并完成Rater 2、可靠性计算和方法盲裁决。人工GT及裁决冻结前不运行Teacher-direct、Student-B或Student-D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
+phenotype-first protocol v2、`phenotype-geometry-v1`、跨session匹配、MDC95规则和模型盲人工GT网页均已测量前锁定。Rater 1第一轮16个匿名session和35条人工轨迹已于2026-09-04完成字段修订并冻结：14株保持revision 1，只有原第8、14张进入revision 2，且描迹几何与表型数值均未改变。Rater 1第二轮已在满足3–7天间隔后启用全新匿名编号，须在不查看第一轮轨迹的条件下独立完成；之后再完成Rater 2、可靠性计算和方法盲裁决。人工GT及裁决冻结前不运行Teacher-direct、Student-B或Student-D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
 
 实验文件请从[`experiment/00_按时间线查看/`](adaptive_keypoint_discovery_reboot/experiment/00_按时间线查看/README.md)进入；原`experiment/`根目录保留为稳定执行层，避免物理移动破坏脚本路径和冻结复现性。
