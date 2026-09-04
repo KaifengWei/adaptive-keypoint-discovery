@@ -28,12 +28,12 @@ V4 `test` 仍然锁定，禁止用于调参或当前人工GT pilot。
 
 当前唯一活动阶段是 `phenotype_pilot_protocol/`：
 
-1. Rater 1第一轮16张、35条可测轨迹已完成revision修订并于2026-09-04冻结；
-2. 14株保持revision 1，只有匿名顺序第8、14张进入revision 2；两处遮挡/插值字段已经明确，全包矛盾数为0；
-3. 与2026-08-31原始导出相比，基点、控制点、240点重采样曲线、长度、角度和主路径均未改变，原始文件继续保留；
-4. Rater 1第二轮已在4天间隔后打开，使用与第一轮零重合的新blind ID，测量期间不得查看第一轮轨迹；
-5. Rater 2推荐完成16张，最低必须完成全部Core 12；
-6. 两轮与第二测量者完成后，先计算intra/inter-rater可靠性、SEM和MDC95，再进行方法盲裁决；
+1. Rater 1第一轮16张、35条可测轨迹已完成revision修订并冻结；
+2. Rater 1第二轮16张、36条可测轨迹已完成结构与字段审计并冻结；
+3. 两轮为相同的锁定样本集合，blind ID和image alias重合0；15/16株trace数相同，仅1株第二轮多1条，作为真实重复测量差异保留；
+4. 两轮所有可测曲线均为240点，CSV/JSON一致，当前没有待测量者revision解决的字段错误；
+5. 当前由不同测量者执行Rater 2：推荐16张，最低必须完成全部Core 12；
+6. Rater 2完成后，执行匿名匹配、intra/inter-rater可靠性、SEM、MDC95和方法盲裁决；
 7. 人工GT与裁决冻结后才允许正式解盲并比较Teacher-direct、Student-B和冻结Student-D。
 
 ## 3. 时间线：这些东西是怎么一步步产生的
@@ -195,8 +195,8 @@ full-plant脚本是旧基线复现；phenotype-ROI与structure-coverage分别对
 
 ```text
 R1第一轮revision修订与冻结（已完成）
-  -> 在不查看第一轮记录的条件下完成R1第二轮（当前）
-  -> Rater 2完成16张（最低Core 12）
+  -> R1第二轮独立描迹与冻结（已完成）
+  -> Rater 2完成16张（最低Core 12，当前）
   -> 匿名跨session匹配
   -> intra/inter-rater可靠性、SEM、MDC95
   -> 方法盲分歧裁决并冻结GT
