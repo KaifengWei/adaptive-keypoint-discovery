@@ -1,6 +1,6 @@
 # PROJECT STATE
 
-更新时间：2026-09-04
+更新时间：2026-09-05
 
 ## 一、已锁定的研究口径
 
@@ -85,6 +85,8 @@
 54. 2026-08-31已收到Rater 1第一轮三份匿名原始导出：16个session全部submitted、35条trace全部measurable、16个blind ID与包manifest一致、每条提交曲线均为240点，三文件已按SHA-256归档于Git忽略的runtime测量目录。字段一致性检查发现2条trace为`occlusion_grade=minor_interpolated`但`interpolation_used=no`；原始导出不覆盖，待测量者按实际情况通过revision明确改为“轻微遮挡+插值yes”或“无遮挡+插值no”后再冻结第一轮。当前状态为`rater1_round1_submitted_pending_two_field_resolutions`，尚未开始可靠性、解盲或方法比较。
 55. 2026-09-04已收到Rater 1第一轮修订后的三份完整匿名导出并冻结。16个session全部submitted、35条trace全部measurable、每条曲线均为240点；14株保持revision 1，仅匿名顺序第8张`9YAKV63PTF93NB`与第14张`JP6SDK2HYFPJ4M`进入revision 2。前者GT02明确为`minor_interpolated + interpolation_used=yes`，后者GT02明确为`none + interpolation_used=no`，全包遮挡/插值矛盾数降为0。与2026-08-31原始包逐记录比较，非目标14株完全相同，两张修订株的基点、控制点、240点重采样曲线、长度、角度及主路径均未变化；原始包SHA-256保持不变。权威修订包的三文件SHA-256分别为sessions=`b4beda533f7ee34968d43359afcf4419b59dafd003249c9c92fb5b595c303934`、traces CSV=`a7cbef0b57972ad46d666543ce3492675316785c467276d58c17483169dc1155`、traces JSON=`239269340655781a444fc47723835379253b848ea8a8e94b48b19b557f5cb7a5`，冻结清单位于Git忽略的`runtime/measurements/rater1_round1/revision_after_field_resolution/freeze_manifest_20260904.json`。Rater 1第二轮包另有16个唯一opaque ID，与第一轮重合0，已在满足4天间隔后打开；第二轮期间不得查看第一轮记录。当前仍未进行可靠性、裁决、解盲或Teacher-direct/B/D方法比较。
 56. 2026-09-04已收到并冻结Rater 1第二轮三份完整匿名导出。16个session全部submitted且均为revision 1，36条trace全部`measurable + complete`，每条提交曲线均为240点；manifest、匿名顺序、image alias、图像哈希、GT连续编号、每株唯一主路径、坐标边界及CSV/JSON逐记录检查全部通过，session行哈希16/16、trace行哈希36/36和JSON总导出哈希均通过，遮挡/插值矛盾为0。管理员层确认两轮对应同一锁定16株且blind ID/image alias重合0；第一轮35条、第二轮36条，15/16株trace数量相同，仅1株第二轮多1条，此差异作为重复测量观测保留，不据第一轮修改第二轮。三文件SHA-256分别为sessions=`df0b9dbb2e868741dc867d27636a3e2bbe8ccb19e1d3fdfb464fd058fc6c9686`、traces CSV=`e67a2ca590a6486da0fb52fe5af1fda1592d27763737f1cc9705fe3627fa00a1`、traces JSON=`510716329a80483e457ececdc70a360a2307ce3f519fd1a68204e77b45fa25cf`；冻结清单位于Git忽略的`runtime/measurements/rater1_round2/raw_export_20260904/freeze_manifest_20260904.json`。Rater 1两轮均已完成，下一门槛为不同测量者完成Rater 2；尚未计算可靠性、进行裁决、正式解盲或运行Teacher-direct/B/D方法比较。
+57. 2026-09-05已完成并冻结Rater 2第一轮。用户确认匿名顺序第13张GT02采用`measurable + complete`，并保留`minor_interpolated + interpolation_used=yes`；修订通过正式页面revision链路生成，原始三文件单独保留。修订后16个session、30条trace均完整可测，15株revision 1、1株revision 2；session行哈希16/16、trace行哈希30/30及JSON总哈希通过，非目标15株完全未变，目标14个控制点、240点曲线、长度与叶尖未变。因GT02长度1118.23 px高于GT01的975.17 px，锁定规则自动将GT02设为主路径并重算GT01分化角，此为预期派生更新。权威三文件SHA-256为sessions=`d77c347d65310302e402aec991db7860c80cf94ee260f6a824b67108c9f2d0c7`、traces CSV=`87ea611017f505869096e523cff3f55041a08b446cba2cd74f61fdb82935aa60`、traces JSON=`fa3f8638c538670386234195c980632deab4ee9724f2d359d4b833cb9768c399`；详见`experiment/phenotype_pilot_protocol/Rater2第一轮修订与冻结审计_20260905.md`。
+58. 三轮冻结人工GT已按`phenotype-geometry-v1`完成匿名技术配对和裁决前可靠性计算。Intra为35条匹配、第二轮多1条；Inter Core为22条匹配、Rater 1第一轮另4条未匹配；Diagnostic为8条匹配、另1条未匹配。按植株10,000次cluster bootstrap后，长度对称相对MDC95为intra 3.10%、inter Core 3.72%，人工长度误差底线取3.72%；分化角MDC95为intra 15.97°、inter Core 17.08%，角度误差底线取17.08°。共13/16株触发预锁定裁决条件：11株角度差>5°、5株叶片存在/身份不一致、1株长度相对差>5%，类别有重叠。已生成方法盲13页裁决入口`runtime/adjudication/method_blind_20260905/index.html`，A/B/C每图随机且不暴露测量者、轮次、dataset ID或模型；静态泄漏0、Edge完整提交与双导出dry run通过。裁决完成并冻结最终人工GT前，仍不得运行Teacher-direct/B/D表型比较、正式消融、五随机种子或V4 test。详见`experiment/phenotype_pilot_protocol/三轮人工GT匿名匹配与可靠性初步结果_20260905.md`。
 
 ## 五、训练门槛
 
@@ -98,7 +100,7 @@
 - 关键点条件结构图已生成 40 张叠加图、5 页接触表、失败排序、逐节点留一贡献和新的 40 行人工路径复核表；下一门槛是人工路径语义与人工表型参考，不开放 V4 test。
 - 关键点条件器官路径解码已生成 65 条候选路径、代理表型 CSV、40 张叠加图、5 页接触表和可导出 CSV 的逐图 HTML；必须先完成真正人工复核，自动预审不得记为人工通过。
 - 路线B已在RTX3090完成216张train自动教师、80轮训练和40张val-only评估，并生成64条候选路径与新的逐图HTML；当前先复核8张自动优先样本，再补齐其余路径语义与人工表型参考，V4 test继续锁定。
-- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2、人工几何/匹配规则和模型盲HTML均已冻结并验收。Rater 1两轮16张人工描迹均已完成并冻结；当前门槛是由不同测量者完成Rater 2，随后执行匿名匹配、intra/inter-rater可靠性、SEM、MDC95与方法盲裁决。在人工GT及裁决冻结前，不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
+- 冻结A/B/C/D的40张最终中性配对审核已完成，phenotype-first protocol v2、人工几何/匹配规则和模型盲HTML均已冻结并验收。Rater 1两轮和Rater 2第一轮共三轮人工描迹均已完成并冻结；匿名匹配、intra/inter-rater可靠性、SEM和MDC95已计算。当前门槛是完成13张方法盲人工裁决并冻结最终人工GT；在此之前不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
 
 ## 六、设备与接续
 
