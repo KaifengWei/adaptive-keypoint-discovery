@@ -43,6 +43,10 @@
 - 跨作物迁移已经封存，不得主动扩展。
 - 人工复核协作规范与可复现打包脚本位于`experiment/manual_review_system/`。冻结A/B/C/D的40张中性配对审核已于2026-08-03完成：局部Decoder在两种Teacher下分别净恢复7/6片真叶且无真叶丢失，但引入假枝和错连；增强Teacher没有可证明净收益。B=`Route B Teacher + local decoder`为当前primary/minimum-sufficient Student candidate；D停止开发但保留一次冻结表型对照。phenotype-first protocol v2、MDC95、`phenotype-geometry-v1`和跨session Hungarian匹配规则均已测量前锁定。Teacher-direct与Student-B后续必须使用完全相同的冻结graph、局部decoder和几何算子，仅输入点来源不同；不得再修改B/D模型。模型盲HTML已生成并通过静态泄漏和两张非pilot图dry run。2026-09-05 Rater 1两轮与Rater 2第一轮共三轮人工GT均已完成并冻结：对应35、36、30条可测trace；原始导出和冻结清单位于Git忽略的runtime目录，不得发给同事或推送GitHub。匿名匹配与可靠性已完成：长度相对人工误差底线为3.72%，分化角为17.08%；13/16株触发预锁定分歧条件，已生成方法盲裁决页面。当前唯一门槛是完成13张裁决并冻结最终人工GT；此前禁止运行Teacher-direct/B/D表型比较，正式消融、五随机种子和V4 test继续后置。
 
+### 2026-09-06 当前裁决接续
+
+用户13张A/B/C选择已完整归档为Rater 1独立意见，尚不是最终GT。当前工具与协议入口是`experiment/phenotype_pilot_protocol/adjudication_v2/README.md`和`两阶段人工裁决实施与交接_20260906.md`。第二位测量者先使用`runtime/adjudication/semantic_first_20260906/semantic/index.html`，只看标准化输入图动态定位并判断身份及可测性；正式几何包必须收到真实第一步JSON/CSV并校验归档后才生成。禁止用dry run模拟文件推动正式冻结。共识与必要重描结束前继续不比较方法，不改模型，不读V4 test。runtime内的管理员映射、旧意见及模拟测试目录不得随第一步分发包发送给同事。
+
 ## 三、账号切换后的推荐首条指令
 
 将下面文字原样发送给新账号中的 Codex：

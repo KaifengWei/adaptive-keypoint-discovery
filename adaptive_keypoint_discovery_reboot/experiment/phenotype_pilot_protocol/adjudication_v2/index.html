@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>人工参考独立复核</title><link rel="stylesheet" href="style.css"></head>
+<body><header><h1 id="title">人工参考独立复核</h1><nav><button id="prev">上一张</button><b id="counter"></b><button id="next">下一张</button><button id="backup">备份进度</button><button id="restore">恢复进度</button><input id="restoreFile" type="file" accept=".json" hidden><button id="export">完成并导出</button></nav></header>
+<main><p id="instructions" class="notice"></p><div class="meta"><b id="sample"></b><span id="status"></span></div>
+<section id="panels"></section>
+<section class="controls"><button id="add">添加叶片／疑似结构</button><button id="pan">拖动查看</button><button id="resetView">复位视图</button><label>叠加线透明度 <input id="opacity" type="range" min="0" max="1" value="0.7" step="0.1"></label></section>
+<p id="hint"></p><section id="leaves"></section>
+<label class="block">本图备注<textarea id="notes" rows="2"></textarea></label><label class="block"><input id="reviewComplete" type="checkbox">我已检查整幅输入图，包括所有可见叶尖、残缺端点及疑似结构</label>
+<div class="controls"><button id="submit">提交本图</button><button id="revise">创建修订</button></div><p id="message" role="status"></p><div id="downloads"></div>
+<p class="footer">共享的基部—地上部主路径可以重复经过，这本身不算插值。中途增加描迹点也不算插值。无法看到的组织若凭推断补线才涉及插值；裁掉的叶尖不能补成完整可测路径。滚轮缩放，拖动平移，双击复位。</p>
+</main><script src="data.js"></script><script src="app.js"></script></body></html>
