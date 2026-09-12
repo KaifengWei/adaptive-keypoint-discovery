@@ -45,7 +45,7 @@
 
 ### 2026-09-06 当前裁决接续
 
-用户13张A/B/C选择已完整归档为Rater 1独立意见，尚不是最终GT。当前工具与协议入口是`experiment/phenotype_pilot_protocol/adjudication_v2/README.md`和`两阶段人工裁决实施与交接_20260906.md`。第二位测量者先使用`runtime/adjudication/semantic_first_20260906/semantic/index.html`，只看标准化输入图动态定位并判断身份及可测性；正式几何包必须收到真实第一步JSON/CSV并校验归档后才生成。禁止用dry run模拟文件推动正式冻结。共识与必要重描结束前继续不比较方法，不改模型，不读V4 test。runtime内的管理员映射、旧意见及模拟测试目录不得随第一步分发包发送给同事。
+用户13张A/B/C选择已完整归档为Rater 1独立意见，尚不是最终GT。当前工具与协议入口是`experiment/phenotype_pilot_protocol/adjudication_v2/README.md`和`第一阶段语义核验与第二阶段交接_20260913.md`。第二位测量者已用`runtime/adjudication/semantic_first_20260906/semantic/index.html`完成13张第一阶段语义判断，真实JSON/CSV已校验并按哈希归档；30个定位结构均被标为可测，这是独立意见而非图像完整性认证。正式第二阶段包已生成于`runtime/adjudication/semantic_first_20260906/geometry/index.html`，只分发整个`geometry/`文件夹，等待同事逐叶路径判断及双文件导出。禁止用dry run模拟文件推动正式冻结。共识与必要重描结束前继续不比较方法，不改模型，不读V4 test。runtime内的管理员映射、旧意见及模拟测试目录不得随分发包发送给同事。
 
 ## 三、账号切换后的推荐首条指令
 

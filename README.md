@@ -20,6 +20,6 @@
 
 V4已固定为300张整株数据：220张train、40张val和40张locked test。点条件图已替代旧的完整骨架独立拓扑，地上部有效域用于排除颖果和根须干扰。冻结A/B/C/D的40张人工配对复核已经完成：局部叶宽尺度Decoder能够稳定恢复更多真叶路径，但伴随假枝和错连代价；结构覆盖增强Teacher没有证明净收益。因此停止修补C/D，B=`Route B Teacher + local decoder`作为当前primary/minimum-sufficient Student候选，D只保留一次冻结表型对照。B尚未被证明优于更简单的Teacher-direct。
 
-截至2026-09-06，phenotype-first pilot三轮人工描迹均已完成并归档：Rater 1两轮为35/36条，Rater 2第一轮30条。匿名匹配和裁决前可靠性已计算，长度相对MDC95为3.72%，分化角为17.08°；它们描述人工重复差异，不证明图像完整或真值正确。用户完成的13张A/B/C选择保留为Rater 1独立裁决意见。当前进入[两阶段人工裁决](adaptive_keypoint_discovery_reboot/experiment/phenotype_pilot_protocol/两阶段人工裁决实施与交接_20260906.md)：第二位测量者先独立判断叶片身份和可测性，提交后再逐叶比较候选路径；共识及必要重描后才冻结最终GT。第一步离线包已验收，正式第二步等待真实人工结果；人工GT冻结前不运行Teacher-direct/B/D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
+截至2026-09-13，phenotype-first pilot三轮人工描迹均已完成并归档：Rater 1两轮为35/36条，Rater 2第一轮30条。匿名匹配和裁决前可靠性已计算，长度相对MDC95为3.72%，分化角为17.08°；它们描述人工重复差异，不证明图像完整或真值正确。用户完成的13张A/B/C选择保留为Rater 1独立裁决意见。第二位测量者的13张第一阶段语义判断已校验归档，共定位30个结构；正式第二阶段逐叶几何页面已生成，等待完成路径判断。[核验与交接说明](adaptive_keypoint_discovery_reboot/experiment/phenotype_pilot_protocol/第一阶段语义核验与第二阶段交接_20260913.md)。共识及必要重描后才冻结最终GT；此前不运行Teacher-direct/B/D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
 
 实验文件请从[`experiment/00_按时间线查看/`](adaptive_keypoint_discovery_reboot/experiment/00_按时间线查看/README.md)进入；原`experiment/`根目录保留为稳定执行层，避免物理移动破坏脚本路径和冻结复现性。

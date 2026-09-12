@@ -1,6 +1,6 @@
 # PROJECT STATE
 
-更新时间：2026-09-06
+更新时间：2026-09-13
 
 ## 一、已锁定的研究口径
 
@@ -89,6 +89,7 @@
 58. 三轮冻结人工GT已按`phenotype-geometry-v1`完成匿名技术配对和裁决前可靠性计算。Intra为35条匹配、第二轮多1条；Inter Core为22条匹配、Rater 1第一轮另4条未匹配；Diagnostic为8条匹配、另1条未匹配。按植株10,000次cluster bootstrap后，长度对称相对MDC95为intra 3.10%、inter Core 3.72%，人工长度误差底线取3.72%；分化角MDC95为intra 15.97°、inter Core 17.08%，角度误差底线取17.08°。共13/16株触发预锁定裁决条件：11株角度差>5°、5株叶片存在/身份不一致、1株长度相对差>5%，类别有重叠。已生成方法盲13页裁决入口`runtime/adjudication/method_blind_20260905/index.html`，A/B/C每图随机且不暴露测量者、轮次、dataset ID或模型；静态泄漏0、Edge完整提交与双导出dry run通过。裁决完成并冻结最终人工GT前，仍不得运行Teacher-direct/B/D表型比较、正式消融、五随机种子或V4 test。详见`experiment/phenotype_pilot_protocol/三轮人工GT匿名匹配与可靠性初步结果_20260905.md`。
 
 59. 2026-09-06已核验并归档用户13张A/B/C裁决为“Rater 1独立裁决意见”，不直接冻结最终GT。CSV/JSON一致，实际选择Rater 2第一轮8张、Rater 1第一轮3张、第二轮2张；来源分布不能证明作者盲法。经用户同意，新增`experiment/phenotype_pilot_protocol/adjudication_v2/`两阶段工具：正式第一包只含原13张标准化输入图，重新随机ID/顺序，动态定位结构并记录可测性，候选轨迹/旧叶数/旧分歧类别均不进入包；收到真实第一步JSON及同名CSV并校验归档后，才构建逐叶几何第二包。旧`MTU2U5NHQQZ3KK`暴露裁剪截断引起的身份/可测性混淆，原记录不修改，长主路径的端点完整性同样待确认，不自动接受。4项Python门禁测试和Edge临时目录13+13张两阶段dry run通过，修订历史、恢复与双文件导出通过，身份泄漏0；正式第一步results为空，正式第二步未生成。当前等待第二位测量者完成`runtime/adjudication/semantic_first_20260906/semantic/index.html`定位与分类，随后逐叶几何、双人共识及必要重描，最终GT仍未冻结。详见`experiment/phenotype_pilot_protocol/两阶段人工裁决实施与交接_20260906.md`。未修改任何冻结模型、几何规则或MDC95原计算，未训练、未读取V4 test。
+60. 2026-09-13收到第二位测量者正式第一阶段两份原始导出，13/13张均已提交且`review_complete=true`、`candidates_seen=false`；共定位30个结构，全部标记`measurable`，其中1个`medium`信心、其余`high`。全部无不可测、身份不确定或非叶片项是测量者的独立意见，不等于图像端点质量已经证实；此前审计的一张裁剪疑点仍须在第二阶段及双人共识中逐结构核对，不静默修改原始语义。JSON与CSV逐记录和摘要一致，原JSON/CSV SHA-256分别为`bd4a9fc706ff01a60124ae8cf815fcd8a0197826cdadf05328c4468aa5bf1535`、`2e2c2973501e3019ca9bb7233fd9958a5e81339316050c1ac7d351b5f64ac563`；已按JSON哈希归档原始字节。正式第二阶段逐叶几何包已由真实第一步导出生成：`runtime/adjudication/semantic_first_20260906/geometry/index.html`，原锁定13张、重新随机的A/B/C候选映射、语义只读；资产哈希全部匹配、身份泄漏0、结果目录为空，4项门禁测试通过。下一门槛为第二位测量者完成逐结构路径意见的JSON+CSV，然后进行两人共识、必要重描和最终人工GT冻结；目前不运行Teacher-direct/B/D表型比较、正式消融、五随机种子或V4 test。详细交接见`experiment/phenotype_pilot_protocol/第一阶段语义核验与第二阶段交接_20260913.md`。
 
 ## 五、训练门槛
 
@@ -102,7 +103,7 @@
 - 关键点条件结构图已生成 40 张叠加图、5 页接触表、失败排序、逐节点留一贡献和新的 40 行人工路径复核表；下一门槛是人工路径语义与人工表型参考，不开放 V4 test。
 - 关键点条件器官路径解码已生成 65 条候选路径、代理表型 CSV、40 张叠加图、5 页接触表和可导出 CSV 的逐图 HTML；必须先完成真正人工复核，自动预审不得记为人工通过。
 - 路线B已在RTX3090完成216张train自动教师、80轮训练和40张val-only评估，并生成64条候选路径与新的逐图HTML；当前先复核8张自动优先样本，再补齐其余路径语义与人工表型参考，V4 test继续锁定。
-- 冻结A/B/C/D的40张最终中性配对审核已完成，三轮人工描迹与裁决前可靠性已归档。用户13张裁决保留为Rater 1独立意见；当前由Rater 2通过两阶段平台补充语义和逐叶几何意见，形成共识及必要重描后才冻结最终GT。在此之前不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
+- 冻结A/B/C/D的40张最终中性配对审核已完成，三轮人工描迹与裁决前可靠性已归档。用户13张裁决保留为Rater 1独立意见；Rater 2第一阶段13张/30结构的语义意见已校验归档，正式第二阶段逐叶几何包已生成，等待Rater 2完成。两人共识及必要重描后才冻结最终GT。在此之前不运行Teacher-direct/Student-B/冻结Student-D表型比较。正式消融、五随机种子与V4 test继续后置。
 
 ## 六、设备与接续
 
