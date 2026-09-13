@@ -1,0 +1,566 @@
+{
+  "figures": [
+    {
+      "number": 1,
+      "asset": "network",
+      "caption": "三层协同。监督层把稳定候选写成目标，学习层预测点场，几何层把点组织成路径。红虚线表示损失与热图头的训练关系。",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\network.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\network.svg",
+      "source_codes": []
+    },
+    {
+      "number": 2,
+      "asset": "background_failures",
+      "caption": "早期局部对比失败样本的历史复核页。这里保留原图、原点和原编号，便于看到背景与边缘结构怎样引出候选。[S2]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\background_failures.png",
+      "svg_path": null,
+      "source_codes": [
+        "S2"
+      ]
+    },
+    {
+      "number": 3,
+      "asset": "backbone",
+      "caption": "按实际ViT-S/14-Reg4实现展开：左为token与深度，中央放大注意力及残差，右为教师和学生的特征读出。[S3]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\backbone.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\backbone.svg",
+      "source_codes": [
+        "S3"
+      ]
+    },
+    {
+      "number": 4,
+      "asset": "02_features",
+      "caption": "同一张真实ROI的RGB、末层patch特征PCA显示、CLS注意力和末四层局部对比。颜色来自实际张量；PCA颜色仅用于显示特征差异。[S3、S9]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\02_features.png",
+      "svg_path": null,
+      "source_codes": [
+        "S3",
+        "S9"
+      ]
+    },
+    {
+      "number": 5,
+      "asset": "attention_mechanism",
+      "caption": "独立剖析注意力峰：取CLS查询行、跨头平均、剔除非patch列，再在空间图中找峰。[S3、S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\attention_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\attention_mechanism.svg",
+      "source_codes": [
+        "S3",
+        "S4"
+      ]
+    },
+    {
+      "number": 6,
+      "asset": "attention_detail",
+      "caption": "clean_020真实计算：518²输入，37²注意力，输出3个点。其位置与历史叠加图对应。[S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\attention_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\attention_detail.svg",
+      "source_codes": [
+        "S4"
+      ]
+    },
+    {
+      "number": 7,
+      "asset": "contrast_mechanism",
+      "caption": "3×3均值作用在归一化特征上。余弦差把“中心与邻域不同”变成空间分数，再进行稳健阈值与峰筛选。[S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\contrast_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\contrast_mechanism.svg",
+      "source_codes": [
+        "S4"
+      ]
+    },
+    {
+      "number": 8,
+      "asset": "contrast_detail",
+      "caption": "clean_020真实局部对比图与27个输出点；与注意力法相同的518²输入，方法单独执行。[S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\contrast_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\contrast_detail.svg",
+      "source_codes": [
+        "S4"
+      ]
+    },
+    {
+      "number": 9,
+      "asset": "cluster_mechanism",
+      "caption": "按历史配置展开：728²输入→52²末层patch；16维PCA特征与两维位置共同聚类。层次簇来自外观密度。[S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\cluster_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\cluster_mechanism.svg",
+      "source_codes": [
+        "S4"
+      ]
+    },
+    {
+      "number": 10,
+      "asset": "cluster_detail",
+      "caption": "clean_020真实聚类标签与7个代表点。浅灰patch为HDBSCAN噪声；彩色标签只是单图簇号。[S4]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\cluster_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\cluster_detail.svg",
+      "source_codes": [
+        "S4"
+      ]
+    },
+    {
+      "number": 11,
+      "asset": "g1_mechanism",
+      "caption": "G1′内部两支协同：几何给出候选位置，DINOv2给出局部对比与注意力证据。两支在候选打分与筛选处会合。[S5]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\g1_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\g1_mechanism.svg",
+      "source_codes": [
+        "S5"
+      ]
+    },
+    {
+      "number": 12,
+      "asset": "g1_detail",
+      "caption": "clean_020的真实自动骨架与候选，端点、分叉、形状角点和表征特异点用不同颜色区分。[S5]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\g1_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\g1_detail.svg",
+      "source_codes": [
+        "S5"
+      ]
+    },
+    {
+      "number": 13,
+      "asset": "g1_archive",
+      "caption": "clean_020历史G1′结果：结构支持与17个候选。沿叶轴分布的点，使“只保留少数事件点”的判断受到重新审视。[S5]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\g1_archive.png",
+      "svg_path": null,
+      "source_codes": [
+        "S5"
+      ]
+    },
+    {
+      "number": 14,
+      "asset": "nine_views",
+      "caption": "训练样本v4_train_new_0003的九次实际运行。候选数分别16、13、13、14、10、15、9、13、16；每幅图的红圈是该视图自己的输出。[S6]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\nine_views.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\nine_views.svg",
+      "source_codes": [
+        "S6"
+      ]
+    },
+    {
+      "number": 15,
+      "asset": "consensus_result",
+      "caption": "左为九组候选逆变换后的真实叠加；右为最终接受与拒绝点，数字是原图候选编号。本例保留6点，与存档标签坐标完全一致。[S6]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\consensus_result.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\consensus_result.svg",
+      "source_codes": [
+        "S6"
+      ]
+    },
+    {
+      "number": 16,
+      "asset": "consensus_zoom",
+      "caption": "同一组点的局部放大，便于对照下表的原图候选编号。[S6]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\consensus_zoom.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\consensus_zoom.svg",
+      "source_codes": [
+        "S6"
+      ]
+    },
+    {
+      "number": 17,
+      "asset": "03_teacher",
+      "caption": "真实训练ROI、骨架、归档共识点及由这些点生成的高斯目标。每个点带自身置信度，输出目标为129×129。[S6、S7]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\03_teacher.png",
+      "svg_path": null,
+      "source_codes": [
+        "S6",
+        "S7"
+      ]
+    },
+    {
+      "number": 18,
+      "asset": "head",
+      "caption": "当前热图头的通道压缩、3×3卷积窗口、GroupNorm分组和解码max pooling。卷积与归一化是可训练部分；峰筛选发生在推理输出之后。[S7]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\head.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\head.svg",
+      "source_codes": [
+        "S7"
+      ]
+    },
+    {
+      "number": 19,
+      "asset": "04_heatmap",
+      "caption": "v4_val_0004冻结学生的真实概率场与3个解码点。峰位置由当前输出决定；这组CPU前向坐标与历史输出一致。[S7、S9]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\04_heatmap.png",
+      "svg_path": null,
+      "source_codes": [
+        "S7",
+        "S9"
+      ]
+    },
+    {
+      "number": 20,
+      "asset": "first_student",
+      "caption": "V3首轮存档：stagev3_0003。左侧学生已有5个点，右侧只恢复部分路径；漏叶现象在首轮就可见。[S8]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\first_student.png",
+      "svg_path": null,
+      "source_codes": [
+        "S8"
+      ]
+    },
+    {
+      "number": 21,
+      "asset": "training_curves",
+      "caption": "两轮真实history.csv：V3首轮与地上部ROI重训。纵轴截取到1.5以展示收敛段，早期高损失未完整显示。[S8、S9]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\training_curves.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\training_curves.svg",
+      "source_codes": [
+        "S8",
+        "S9"
+      ]
+    },
+    {
+      "number": 22,
+      "asset": "01_input",
+      "caption": "v4_val_0004：扫描裁剪复核图→白底整株→地上部分析ROI。整株档案保留颖果与根，分析输入由其派生。[S9]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\01_input.png",
+      "svg_path": null,
+      "source_codes": [
+        "S9"
+      ]
+    },
+    {
+      "number": 23,
+      "asset": "old_root_zoom",
+      "caption": "旧整株v4_val_0004结构输出局部放大。根/种子端可能承担了路径起算角色，而连接程序仍可成功结束。[S10]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\old_root_zoom.png",
+      "svg_path": null,
+      "source_codes": [
+        "S10"
+      ]
+    },
+    {
+      "number": 24,
+      "asset": "graph",
+      "caption": "投影资格、测地MST及空间边并集分层展开。D为支持域包围框对角线；骨架是路径路由底图。[S10]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\graph.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\graph.svg",
+      "source_codes": [
+        "S10"
+      ]
+    },
+    {
+      "number": 25,
+      "asset": "graph_removal",
+      "caption": "v4_val_0004实际运行的点移除检查。完整点、零点、移除影响最大的一点，均使用同一ROI与同一构图函数。[S10]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\graph_removal.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\graph_removal.svg",
+      "source_codes": [
+        "S10"
+      ]
+    },
+    {
+      "number": 26,
+      "asset": "roi_audit",
+      "caption": "v4_val_0004早期ROI审计：原图、分析域与旧点位置同屏。原输出中位于域外的点不能自然变成shoot侧基部。[S11]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\roi_audit.png",
+      "svg_path": null,
+      "source_codes": [
+        "S11"
+      ]
+    },
+    {
+      "number": 27,
+      "asset": "05_cases",
+      "caption": "三个真实冻结B案例：0004可恢复短叶，0002没有合格学习基部，0034仍暴露候选路径问题。图节点与路径读取历史结果。[S9、S12]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\05_cases.png",
+      "svg_path": null,
+      "source_codes": [
+        "S9",
+        "S12"
+      ]
+    },
+    {
+      "number": 28,
+      "asset": "failure_0039_zoom",
+      "caption": "v4_val_0039：历史复核指出小叶终端缺少可接受学习节点。原候选图与路径图局部放大。[S12]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\failure_0039_zoom.png",
+      "svg_path": null,
+      "source_codes": [
+        "S12"
+      ]
+    },
+    {
+      "number": 29,
+      "asset": "failure_0023_zoom",
+      "caption": "v4_val_0023：已有短叶点，但全局短枝规则拒绝其路径。这与“模型没有发现点”是不同的失败。[S12]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\failure_0023_zoom.png",
+      "svg_path": null,
+      "source_codes": [
+        "S12"
+      ]
+    },
+    {
+      "number": 30,
+      "asset": "failure_0002_zoom",
+      "caption": "v4_val_0002：shoot侧过渡区没有合格学习基部，系统无法开始器官路径解码。[S12]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\failure_0002_zoom.png",
+      "svg_path": null,
+      "source_codes": [
+        "S12"
+      ]
+    },
+    {
+      "number": 31,
+      "asset": "coverage_mechanism",
+      "caption": "终端与基部提案先经过覆盖优先策略，再进入共识与训练目标。神经网络结构保持原有骨干和热图头。[S5、S13]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\coverage_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\coverage_mechanism.svg",
+      "source_codes": [
+        "S5",
+        "S13"
+      ]
+    },
+    {
+      "number": 32,
+      "asset": "teacher_coverage_detail",
+      "caption": "v4_train_new_0003真实单视图教师内部演示：原教师与增强教师分别运行，红色标记带覆盖角色的候选。这里展示共识前提案；历史训练结果见下文。[S5、S13]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\teacher_coverage_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\teacher_coverage_detail.svg",
+      "source_codes": [
+        "S5",
+        "S13"
+      ]
+    },
+    {
+      "number": 33,
+      "asset": "local_mechanism",
+      "caption": "几何分支：测地长度与距离变换；学习分支：已有终端的置信度。二者共同决定短枝是否接受。[S14]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\local_mechanism.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\local_mechanism.svg",
+      "source_codes": [
+        "S14"
+      ]
+    },
+    {
+      "number": 34,
+      "asset": "local_width_detail",
+      "caption": "v4_val_0004真实ROI与距离变换。沿分支远端半段取宽度统计，使短叶阈值依赖局部组织粗细。[S14]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\local_width_detail.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\local_width_detail.svg",
+      "source_codes": [
+        "S14"
+      ]
+    },
+    {
+      "number": 35,
+      "asset": "factor_zoom_0004",
+      "caption": "v4_val_0004，历史路径输出裁去周围留白。A→B、C→D只换解码规则，短叶从缺失转为恢复；A→C、B→D只换教师来源。[S15]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\factor_zoom_0004.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\factor_zoom_0004.svg",
+      "source_codes": [
+        "S15"
+      ]
+    },
+    {
+      "number": 36,
+      "asset": "factor_zoom_0034",
+      "caption": "v4_val_0034，四组历史路径局部放大。局部规则增加了分支，也在人工复核中新增假枝或错连；路径更多不等于真实叶更多。[S15]",
+      "png_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\factor_zoom_0034.png",
+      "svg_path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\assets\\factor_zoom_0034.svg",
+      "source_codes": [
+        "S15"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "code": "S1",
+      "title": "起点与时间线",
+      "path": "C:/Users/F/Desktop/2.docx；../PROJECT_STATE.md；../ACCOUNT_HANDOFF.md"
+    },
+    {
+      "code": "S2",
+      "title": "数据质量与干净样本",
+      "path": "数据质量归因分析.md；G0_G1阶段结果与停止结论.md；outputs_g1/pilot/human_review/；data_clean_core20/"
+    },
+    {
+      "code": "S3",
+      "title": "DINOv2结构与表征",
+      "path": "third_party/dinov2_git/dinov2/models/vision_transformer.py；layers/block.py、attention.py；g1_dinov2_feasibility.py"
+    },
+    {
+      "code": "S4",
+      "title": "三个独立方法",
+      "path": "run_clean_smoke6_baselines.py；outputs_clean_smoke6_baselines/{summary_metrics.csv,per_image_metrics.csv,overlays/}"
+    },
+    {
+      "code": "S5",
+      "title": "G1′结构与门槛转向",
+      "path": "g1_prime_structural_support.py；outputs_clean_smoke6_g1prime/decision.json；干净背景核心集_smoke6结果与结论.md"
+    },
+    {
+      "code": "S6",
+      "title": "九视图与伪标签",
+      "path": "generate_g1prime_pseudolabels.py；pseudo_labels_g1prime_v4_phenotype_roi/pseudo_labels.jsonl；本目录consensus_walkthrough.csv"
+    },
+    {
+      "code": "S7",
+      "title": "学生头、损失与解码",
+      "path": "adaptive_point_model.py；train_adaptive_point_detector.py；training_outputs/*/config.json及history.csv"
+    },
+    {
+      "code": "S8",
+      "title": "V3首轮和恢复训练",
+      "path": "远程核心训练首轮结果_20260717.md；核心模型恢复训练与topology_v2评估_20260717.md；evaluation_outputs/core_dinov2/"
+    },
+    {
+      "code": "S9",
+      "title": "V4数据与两轮训练",
+      "path": "V4整株首轮训练与架构审计_20260718.md；地上部有效域路线B首轮训练与val对照报告_20260722.md；data_stage_clean_v4_fullplant_candidate/manifests/"
+    },
+    {
+      "code": "S10",
+      "title": "图旁路、点条件与路径修复",
+      "path": "g1_prime_phenotype_bridge.py；point_conditioned_graph.py；关键点条件结构图重建_v1验证报告_20260721.md；关键点条件器官路径解码_v1验证报告_20260721.md"
+    },
+    {
+      "code": "S11",
+      "title": "ROI与基部",
+      "path": "phenotype_roi_basal_anchor.py；地上部表型有效域与基部过渡区_v1验证报告_20260722.md；evaluation_outputs/phenotype_roi_basal_anchor_v1_val/"
+    },
+    {
+      "code": "S12",
+      "title": "人工失败与阈值诊断",
+      "path": "路线B人工路径复核与下一轮改进建议_20260723.md；evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_val/manual_path_review_completed.csv"
+    },
+    {
+      "code": "S13",
+      "title": "结构覆盖增强",
+      "path": "结构覆盖增强方案C首轮训练与二维拆分结果_20260723.md；pseudo_labels_g1prime_v4_structure_coverage/{summary.json,pseudo_label_audit.csv}"
+    },
+    {
+      "code": "S14",
+      "title": "局部叶宽分支",
+      "path": "point_conditioned_organ_paths.py；evaluation_outputs/point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val/terminal_branch_decisions.jsonl"
+    },
+    {
+      "code": "S15",
+      "title": "四组合最终配对",
+      "path": "A_B_C_D人工配对复核与因果分析_20260803.md；evaluation_outputs/point_conditioned_organ_paths_v2*与v3*的paths.jsonl、overlays/"
+    },
+    {
+      "code": "S16",
+      "title": "表型与人工共识",
+      "path": "phenotype_pilot_protocol/；第二阶段几何核验与双人共识导航_20260913.md；adjudication_v2/；PROJECT_STATE第61条"
+    }
+  ],
+  "historical_source_images": [
+    {
+      "asset": "attention_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "contrast_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "cluster_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "g1_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_g1prime\\overlays\\clean_020.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "first_student",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2\\overlays\\stagev3_0003.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "old_root",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v1_val\\overlays\\v4_val_0004.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "roi_audit",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\phenotype_roi_basal_anchor_v1_val\\overlays\\v4_val_0004.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0002",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0002.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0023",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0023.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0039",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0039.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "01_input",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\01_input.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "02_features",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\02_features.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "03_teacher",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\03_teacher.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "04_heatmap",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\04_heatmap.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "05_cases",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\05_cases.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "background_failures",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_g1\\pilot\\human_review\\local_contrast_worst6.jpg",
+      "operation": "unchanged"
+    }
+  ]
+}

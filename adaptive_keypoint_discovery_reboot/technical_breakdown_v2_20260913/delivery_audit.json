@@ -1,0 +1,20 @@
+{
+  "pages": 35,
+  "figures": 36,
+  "visual_review": "all 35 PDF pages rendered and inspected; no blank/overflow continuation pages",
+  "files": [
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\DINOv2自适应关键点技术交接详解_修订版.docx",
+      "desktop": "C:\\Users\\F\\Desktop\\DINOv2自适应关键点技术交接详解_修订版.docx",
+      "sha256": "dbb94042b0fca67d5bb40f3a5b9b2fb7e697a5e63ac54661f1febf82db3458d6",
+      "bytes": 7137950
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_v2_20260913\\DINOv2自适应关键点技术交接详解_修订版.pdf",
+      "desktop": "C:\\Users\\F\\Desktop\\DINOv2自适应关键点技术交接详解_修订版.pdf",
+      "sha256": "764ae6db534ace4858e44d871d57580532ccfe5baffb7b33a9b291194009073d",
+      "bytes": 2965976
+    }
+  ],
+  "baseline_docx_sha256": "6e4c98b90d6f563ee06fe95481dd8bf71d063f235638fb00161224696e53b030"
+}

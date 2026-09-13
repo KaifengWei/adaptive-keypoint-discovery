@@ -1,0 +1,506 @@
+{
+  "sample": "v4_train_new_0003",
+  "bbox_diag": 338.42281246984516,
+  "accepted": [
+    {
+      "reference_index": 0,
+      "x_model": 310.0,
+      "y_model": 245.0,
+      "kind": "endpoint",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.943856115681285,
+      "presence_ratio": 0.7777777777777778,
+      "localization_error_bbox_diag": 0.004393832239611147,
+      "consensus_confidence": 0.61579001263233,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "brightness_075",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    },
+    {
+      "reference_index": 2,
+      "x_model": 415.0,
+      "y_model": 256.0,
+      "kind": "endpoint",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.9938297469983629,
+      "presence_ratio": 1.0,
+      "localization_error_bbox_diag": 0.0057229638888631855,
+      "consensus_confidence": 0.7904855332682054,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    },
+    {
+      "reference_index": 3,
+      "x_model": 291.0,
+      "y_model": 246.0,
+      "kind": "endpoint",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.9412775620159132,
+      "presence_ratio": 0.7777777777777778,
+      "localization_error_bbox_diag": 0.0019523095438260165,
+      "consensus_confidence": 0.6771083138329114,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    },
+    {
+      "reference_index": 4,
+      "x_model": 84.0,
+      "y_model": 270.0,
+      "kind": "endpoint",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.9886447873575894,
+      "presence_ratio": 1.0,
+      "localization_error_bbox_diag": 0.007019746048395108,
+      "consensus_confidence": 0.7466117181667553,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    },
+    {
+      "reference_index": 5,
+      "x_model": 248.0,
+      "y_model": 243.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.860231538132135,
+      "presence_ratio": 0.8888888888888888,
+      "localization_error_bbox_diag": 0.012300410401474579,
+      "consensus_confidence": 0.4675013010326426,
+      "observed_transforms": [
+        "identity",
+        "rotate_10",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    },
+    {
+      "reference_index": 11,
+      "x_model": 223.0,
+      "y_model": 261.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6314147225903757,
+      "presence_ratio": 0.7777777777777778,
+      "localization_error_bbox_diag": 0.0026021213922532626,
+      "consensus_confidence": 0.4425544949327264,
+      "observed_transforms": [
+        "identity",
+        "rotate_10",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 1
+    }
+  ],
+  "rejected": [
+    {
+      "reference_index": 1,
+      "x_model": 348.0,
+      "y_model": 249.0,
+      "kind": "endpoint",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.9967402205548997,
+      "presence_ratio": 0.4444444444444444,
+      "localization_error_bbox_diag": 0.0,
+      "consensus_confidence": 0.4429956535799554,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "brightness_075",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 6,
+      "x_model": 255.0,
+      "y_model": 259.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6359654992885646,
+      "presence_ratio": 0.4444444444444444,
+      "localization_error_bbox_diag": 0.0011607878848124739,
+      "consensus_confidence": 0.26982742388849046,
+      "observed_transforms": [
+        "identity",
+        "rotate_10",
+        "scale_090",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 7,
+      "x_model": 204.0,
+      "y_model": 248.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6311758811449634,
+      "presence_ratio": 0.6666666666666666,
+      "localization_error_bbox_diag": 0.022503722637026737,
+      "consensus_confidence": 0.1710525029373615,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "scale_090",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 8,
+      "x_model": 277.0,
+      "y_model": 257.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6344118008216214,
+      "presence_ratio": 0.6666666666666666,
+      "localization_error_bbox_diag": 0.0005698413252715827,
+      "consensus_confidence": 0.4134098652176101,
+      "observed_transforms": [
+        "identity",
+        "brightness_075",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 9,
+      "x_model": 104.0,
+      "y_model": 262.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6315918601230088,
+      "presence_ratio": 0.6666666666666666,
+      "localization_error_bbox_diag": 0.0,
+      "consensus_confidence": 0.42106124008200585,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "scale_090",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 10,
+      "x_model": 122.0,
+      "y_model": 258.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6315948609341452,
+      "presence_ratio": 0.7777777777777778,
+      "localization_error_bbox_diag": 0.008781573860398968,
+      "consensus_confidence": 0.34573436986833744,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 12,
+      "x_model": 131.0,
+      "y_model": 273.0,
+      "kind": "shape_corner",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.631037188698708,
+      "presence_ratio": 0.6666666666666666,
+      "localization_error_bbox_diag": 0.00885446957129214,
+      "consensus_confidence": 0.2952200191500131,
+      "observed_transforms": [
+        "identity",
+        "brightness_075",
+        "scale_090",
+        "scale_110",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 13,
+      "x_model": 147.0,
+      "y_model": 261.0,
+      "kind": "dino_distinctive",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6225324937230796,
+      "presence_ratio": 0.7777777777777778,
+      "localization_error_bbox_diag": 0.010927223414297502,
+      "consensus_confidence": 0.3127463444519535,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "scale_090",
+        "translate",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 14,
+      "x_model": 181.0,
+      "y_model": 257.0,
+      "kind": "dino_distinctive",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6245248892155195,
+      "presence_ratio": 0.8888888888888888,
+      "localization_error_bbox_diag": 0.027875348879989322,
+      "consensus_confidence": 0.182034129194643,
+      "observed_transforms": [
+        "identity",
+        "flip_horizontal",
+        "rotate_10",
+        "brightness_075",
+        "rotate_minus10",
+        "scale_090",
+        "scale_110",
+        "contrast_125"
+      ],
+      "accepted": 0
+    },
+    {
+      "reference_index": 15,
+      "x_model": 327.0,
+      "y_model": 249.0,
+      "kind": "dino_distinctive",
+      "coverage_roles": [],
+      "observed_coverage_roles": [],
+      "teacher_score": 0.6198773586244202,
+      "presence_ratio": 0.3333333333333333,
+      "localization_error_bbox_diag": 0.004969465261722997,
+      "consensus_confidence": 0.16937763533140032,
+      "observed_transforms": [
+        "identity",
+        "scale_090",
+        "contrast_125"
+      ],
+      "accepted": 0
+    }
+  ],
+  "archive_comparison": {
+    "archived_count": 6,
+    "reproduced_count": 6,
+    "max_coordinate_difference": 0.0
+  },
+  "graph_sample": "v4_val_0004",
+  "graph_removed_input_index": 1,
+  "graph_lost_path_pixels": 176,
+  "graph_diagnostics": [
+    {
+      "failure": "",
+      "input_point_count": 3,
+      "accepted_node_count": 3,
+      "rejected_point_count": 0,
+      "merged_duplicate_count": 0,
+      "edge_count": 2,
+      "learned_node_components": 1,
+      "maximum_projection_distance_px": 8.68569225796079
+    },
+    {
+      "failure": "fewer_than_two_accepted_nodes",
+      "input_point_count": 0,
+      "accepted_node_count": 0,
+      "rejected_point_count": 0,
+      "merged_duplicate_count": 0,
+      "edge_count": 0,
+      "learned_node_components": 0,
+      "maximum_projection_distance_px": 8.68569225796079
+    },
+    {
+      "failure": "",
+      "input_point_count": 2,
+      "accepted_node_count": 2,
+      "rejected_point_count": 0,
+      "merged_duplicate_count": 0,
+      "edge_count": 1,
+      "learned_node_components": 1,
+      "maximum_projection_distance_px": 8.68569225796079
+    }
+  ],
+  "source_images": [
+    {
+      "asset": "attention_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "contrast_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "cluster_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_baselines\\overlays\\clean_020.png",
+      "operation": "crop"
+    },
+    {
+      "asset": "g1_archive",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_clean_smoke6_g1prime\\overlays\\clean_020.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "first_student",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2\\overlays\\stagev3_0003.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "old_root",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v1_val\\overlays\\v4_val_0004.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "roi_audit",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\phenotype_roi_basal_anchor_v1_val\\overlays\\v4_val_0004.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0002",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0002.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0023",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0023.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "failure_0039",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0039.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "01_input",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\01_input.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "02_features",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\02_features.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "03_teacher",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\03_teacher.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "04_heatmap",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\04_heatmap.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "05_cases",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\technical_breakdown_20260913\\assets\\05_cases.png",
+      "operation": "unchanged"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0004",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_val\\overlays\\v4_val_0004.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_global_decoder_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "factor_0034",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v3_structure_coverage_val\\overlays\\v4_val_0034.png"
+    },
+    {
+      "asset": "background_failures",
+      "source": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\outputs_g1\\pilot\\human_review\\local_contrast_worst6.jpg",
+      "operation": "unchanged"
+    }
+  ]
+}
