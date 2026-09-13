@@ -1,0 +1,534 @@
+{
+  "source_files": [
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\AGENTS.md",
+      "sha256": "f39b5e258c6f546d1e96fc7bea5601ef776ba29b52c18eedf92bbfb47cd088c4",
+      "bytes": 5457
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\ACCOUNT_HANDOFF.md",
+      "sha256": "9d6fb53b98a1c8aabd6d21cb003c58fa844917e103207eef4046442fdf8f3b3d",
+      "bytes": 8940
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\PROJECT_STATE.md",
+      "sha256": "dad9149954861cddf170f12aeae174a2ee188a916b38990b62806bd337c3a8aa",
+      "bytes": 39967
+    },
+    {
+      "path": "C:\\Users\\F\\Desktop\\2.docx",
+      "sha256": "c5142443710f4bf0fc0571e53c864032ce14b7a161a1ee1264e320ca28810d68",
+      "bytes": 468388
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\adaptive_point_model.py",
+      "sha256": "6ab9d154fbad3471b08b4cc20e77cd3c035ea4a3359636cd25220b590f2fb942",
+      "bytes": 4969
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\analyze_pilot_data_quality.py",
+      "sha256": "7694c18f94ee9949ddcb7c2803fc4290ab0432c0d8d82381392be654df69b5d7",
+      "bytes": 4317
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\audit_dataset_images.py",
+      "sha256": "28e69de574de0122af3ef6face39205f335f62a34d76a4163c23468153bf9f95",
+      "bytes": 14744
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\audit_stage_clean_v4_fullplant_candidate.py",
+      "sha256": "5c917eb6bc8aac36ad857ffb1e7c4785367205892680c53f2b27d0c44d2dfbb2",
+      "bytes": 12301
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\audit_stage_source.py",
+      "sha256": "c1196f4e59058d5baee1698676dd199a1e9f2e233ea9c05f50f3303d4ce10db7",
+      "bytes": 4889
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\audit_v4_fullplant_val_regions.py",
+      "sha256": "8ba944dfd7879bba091f064651280ccef3b6ee17176f2c458cd6873193b88f16",
+      "bytes": 6479
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\build_clean_core20.py",
+      "sha256": "2fe2721e6344ad4fd00aeb13249e4272a65feb757d1d2c0345d1af0a7b8a8376",
+      "bytes": 5528
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\build_quality_control_subsets.py",
+      "sha256": "99d0ff164d17cf3b134b9267397a2ca15295881581dfec055bb7aa9a3a4a3dae",
+      "bytes": 6235
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\build_stage_clean_dataset.py",
+      "sha256": "cae32c71c94f594330c86188fc93b690e7d38a69cfae1f63069242736cf06895",
+      "bytes": 23421
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\build_stage_clean_v4_fullplant.py",
+      "sha256": "e06d68b368e6a9f0364690b509490659cbc0084bf4000777a7a44daec344d9e7",
+      "bytes": 21471
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluate_adaptive_point_detector.py",
+      "sha256": "6a4d08c8e952945cde0dd25947085203478c9396141569e30e2f453edacda073",
+      "bytes": 16230
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluate_phenotype_roi_basal_anchor_v1.py",
+      "sha256": "105026dfa5c52ca4c9014c225f532137805ee5d6e95f99be9bd6592e510ced57",
+      "bytes": 19240
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluate_point_conditioned_graph_v1.py",
+      "sha256": "f2a6779e82aef9b058431f2507c6c133bd367742cc55abc2ea3be4358e24d720",
+      "bytes": 24941
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluate_point_conditioned_organ_paths_v1.py",
+      "sha256": "85be231e52e386c2a916f234aef0503171ac42daf8523099e67064e8f17a6a07",
+      "bytes": 20775
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\finalize_stage_clean_v3.py",
+      "sha256": "7a8b016514b77eef43c0803f692aa236fbf7307047948fba43e8184d8f63aaea",
+      "bytes": 11348
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\g0_build_dataset.py",
+      "sha256": "b53b61dac5b9fe6b67924633859d8b09f3a4809497dad8ab640d5c3960deafc5",
+      "bytes": 26825
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\g1_dinov2_feasibility.py",
+      "sha256": "c12b509281a76131c42bb61ea461d0344ccc218a2e1b32032e3a59c7bdfd22af",
+      "bytes": 43211
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\g1_prime_phenotype_bridge.py",
+      "sha256": "027a364330888b403823c98ff77deb5e00db8792ad35e0831a45e97138292117",
+      "bytes": 30153
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\g1_prime_structural_support.py",
+      "sha256": "02dc72b1a6adbdcf545a11a30afa37d09a535a24d16d33fe4e54b5acea365ddd",
+      "bytes": 32850
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\generate_g1prime_pseudolabels.py",
+      "sha256": "2de6ff19c9c68fdc7eccf06a4e85603e4461af56f468da38af5b71a9163b48bf",
+      "bytes": 23142
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\make_g1_review_assets.py",
+      "sha256": "b0044171018e964490ed5f16a596b9a4a13a7493a4c499ca6c7d026340d138ea",
+      "bytes": 5238
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\make_v3_path_review_assets.py",
+      "sha256": "26033254b40f59d602b89ea86b468d25bead39bb51afdbe5903eee717e1c6350",
+      "bytes": 3116
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\make_v4_val_review_assets.py",
+      "sha256": "43dbf96137dade9d3f97dc4fe2cbc299d97fbbe84ccb7738bc5409d1d08d9a6d",
+      "bytes": 4298
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\phenotype_roi_basal_anchor.py",
+      "sha256": "d4dfedc3b3fa25c7a086d276d3e4f9ab9728ca7c9a28b2130cb7f678041db696",
+      "bytes": 16923
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\point_conditioned_graph.py",
+      "sha256": "3a733ee2fb4213938f92a0f91c969bffe2b4c8e23b82356f07fd03ebba9577ca",
+      "bytes": 8137
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\point_conditioned_organ_paths.py",
+      "sha256": "f960485eb6265122955ccc3ffa8a944c2fa66127f8c9c5b58683b46d3c3ab357",
+      "bytes": 17389
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\reevaluate_topology_from_points.py",
+      "sha256": "782f4265cbaeebafb28bc8eda87908ee6fe53d69c281628247bcda68f545cea8",
+      "bytes": 5968
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\run_clean_smoke6_baselines.py",
+      "sha256": "6cc3fe4f136fbee48bedb03b7d82e42a40d070f6f5533d4000282fd289d10027",
+      "bytes": 9699
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\run_clean_smoke6_g1prime.py",
+      "sha256": "e1a3a064f106e64fd8c9e0158bccbac6a9a78b316d5b7097040cb774c77517f5",
+      "bytes": 6924
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\test_phenotype_roi_basal_anchor.py",
+      "sha256": "9ba3089e6558b894d3a1db2abffb4ce48007ec990838995390fa471a771ac4ab",
+      "bytes": 4099
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\test_point_conditioned_graph.py",
+      "sha256": "95e08c1eba818264abcaee588523ab37820b21f46bc61338b4127668cf903685",
+      "bytes": 2994
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\test_point_conditioned_organ_paths.py",
+      "sha256": "04b68a5ce62b7f4f6b034aae2b6c9ccae679d8241c79bcf45df54c40f8c8d6c5",
+      "bytes": 7326
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\test_structure_coverage_teacher.py",
+      "sha256": "09fe62404ab3ffe994e82494d7cf544e916f01120e0491f073ae654c691cbf4c",
+      "bytes": 4041
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\test_topology_bridge.py",
+      "sha256": "eab198c48d563e67fc7bb3e372dee81694712a5f66f9cefd1175d89e3565c0ea",
+      "bytes": 1797
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\train_adaptive_point_detector.py",
+      "sha256": "e817a70730ca451085f3d5aba5bace52c8989ce2eff55dd7f59f5c79316eccea",
+      "bytes": 17827
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\A_B_C_D人工配对复核与因果分析_20260803.md",
+      "sha256": "2bea14b12ca68d462d858ea38f4173fde2a16c7d5c1f1168638ae13276d32f41",
+      "bytes": 9348
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\factorized_method_review_summary_20260803.md",
+      "sha256": "a651ba44a3212383b07abb366faf05f5d8c4cb9bd5c7acf3c00b686ce80e0fa2",
+      "bytes": 915
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\G0_G1阶段结果与停止结论.md",
+      "sha256": "f13c2c3140e80ec9c29465de6118d181ebb7e3a2b516f02b46827ecc9d72b91f",
+      "bytes": 6247
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\G1prime_V3阶段验证结论.md",
+      "sha256": "10f9a02cc84fb7b4450a054b0152caffe8b8f383eba1f2835a22d5e65d25cceb",
+      "bytes": 4020
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\G1_prime_6张冒烟结果与停止结论.md",
+      "sha256": "834e95786b28efdeb5ace4797100b0bd20c7e8992edd11142fd6dffccbdd1174",
+      "bytes": 6511
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\G1_运行说明_大白话版.md",
+      "sha256": "3f20abf17c8bacd0daf4332f753bb081f4afeb735efb9ab01539ed49decf96a0",
+      "bytes": 2544
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\README.md",
+      "sha256": "a003583def036dbf604724758761e1ff41eb23c92fe6529b4f0549d3dd453ae5",
+      "bytes": 14012
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\V4数据集构建与锁定说明_20260717.md",
+      "sha256": "3608fbd7e59593fa2a552011a02600e75be5d1900abc8d77f4507aac49d8c6b2",
+      "bytes": 4685
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\V4整株首轮训练与架构审计_20260718.md",
+      "sha256": "9ead181f7c4e4c55b95beb032928420470a3b1704f2cb901430fa2ebae080174",
+      "bytes": 5958
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\人工表型验证怎么做_大白话.md",
+      "sha256": "4702825f0ffcdeb4e0157aa27d2200442c398c9e14d31429baf86eeccf938479",
+      "bytes": 1702
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\人工路径审计与地上部基部重定义建议_20260722.md",
+      "sha256": "94a883024b333539f276a35b4dc9a293c084e14768ff1d2fb5d117fd3d2e94b7",
+      "bytes": 7964
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\关键点条件器官路径解码_v1验证报告_20260721.md",
+      "sha256": "71ab22554b70773bac787e0e5b04e8b742be608bd860296bd6278387a37b179d",
+      "bytes": 6442
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\关键点条件结构图重建_v1验证报告_20260721.md",
+      "sha256": "df6be698df8fee1f04d317af62534efb1ff62c04916ca5843b228d643768587d",
+      "bytes": 6725
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\四类方法关键技术摘要.md",
+      "sha256": "5dedb6afb754cd06f9046b286ded7025ebcdbbf24c7cf89ce796f821cb8b2ce9",
+      "bytes": 1047
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\地上部有效域路线B首轮训练与val对照报告_20260722.md",
+      "sha256": "e20494920dac574bc553f0dddc68a50831e57211596bf07e148bf8ec4881c70c",
+      "bytes": 6123
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\地上部表型有效域与基部过渡区_v1验证报告_20260722.md",
+      "sha256": "3dd13c7d986b74697b463301ecb9504fa9ec2dfe4c4b666505b9754bf0989730",
+      "bytes": 5277
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\干净背景核心集_smoke6结果与结论.md",
+      "sha256": "02b1b094bbe62e7ba763e751847727b7137c7b3390053afe1190af36d8b48a59",
+      "bytes": 4542
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\当前研究路线证据审计与下一阶段冻结计划_20260802.md",
+      "sha256": "cc6286f4540c4cfd649bf394eb35c3c4995251d939a66b020f94b764fdf7665e",
+      "bytes": 7896
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\数据质量归因分析.md",
+      "sha256": "197a6e399e4b45476ca20cc7a7c9cfe0cae2ca25fddc2f8bc61b61140951eb24",
+      "bytes": 4428
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\方案C独立人工路径复核结果_20260725.md",
+      "sha256": "d89fefdd8fed4d4077f27c89e6e9978b37aa5d4553765a4153ad500c55e02c9e",
+      "bytes": 3697
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\核心模型恢复训练与topology_v2评估_20260717.md",
+      "sha256": "10feae58062467cbb30dae05403f2ea79a47224ec060b52e5fe98f86a5dfd79f",
+      "bytes": 2711
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\结构覆盖增强方案C首轮训练与二维拆分结果_20260723.md",
+      "sha256": "7b52dcbdd40a52666edcb91803ee27ed8b79fe167a023ba32756c9feaad4b4c0",
+      "bytes": 4384
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\路线B人工路径复核与下一轮改进建议_20260723.md",
+      "sha256": "e9ef7f7ac754ba94d1ad9219bafefb0125f4903e027cbb9b80cc9bbc60bbff00",
+      "bytes": 5514
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\迁移到新RTX3090服务器_执行记录_20260801.md",
+      "sha256": "c3f7bcc2d2a6c494f28785d98fd3d538f37c267bfae224d3cc49362bb52b9e21",
+      "bytes": 5342
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\远程3090训练执行说明.md",
+      "sha256": "8483df8a0b46416eb3d4fa0e6ce4aa79b63a70cbb73a4a43b7eb9b1f2de8f515",
+      "bytes": 8446
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\远程核心训练首轮结果_20260717.md",
+      "sha256": "36346157b9f85d08d1b75eeba37d748ae5a71fff9ab8dca0e79a2e9d830c30fb",
+      "bytes": 3907
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_ablation_fixed_k.json",
+      "sha256": "96b8cb48931e19dcc7a5b83c21576a502edad88145d046e6985dde80b4c2d899",
+      "bytes": 982
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_ablation_geometry_teacher.json",
+      "sha256": "f30f675476fb13604e7ef79e5c551a8bdb14597f16c6216d7002d6d5c931df26",
+      "bytes": 995
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_ablation_no_consistency.json",
+      "sha256": "4359fb6fe691230cbc774adb9c135d498cd737cf27c6dba3cea10cd784923a38",
+      "bytes": 999
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_ablation_unfreeze_last2.json",
+      "sha256": "26615c1b4678038db3540db88caca72d6527ad71f36f217c3f4c807354bb88b1",
+      "bytes": 985
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_core_dinov2.json",
+      "sha256": "aeca4487de582aeaea4313c929f4e1c51ea7cd399ccc8fbe881e9243b86d0f15",
+      "bytes": 979
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_core_dinov2_v4_fullplant.json",
+      "sha256": "c12e0a375288f602b9d44ab5e3db3d5ec773d9864af75891d8d6140b4d74c015",
+      "bytes": 1035
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_core_dinov2_v4_phenotype_roi.json",
+      "sha256": "038437fe32495fca44ac9b639126c8cdc8c26462494fd8fd97ea001d7c3f7717",
+      "bytes": 1085
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_core_dinov2_v4_structure_coverage.json",
+      "sha256": "c0bca8f6834f54531e70914bb785cd0d4414bed79ab580200d6c885219ee7545",
+      "bytes": 1142
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\configs\\train_cpu_smoke3.json",
+      "sha256": "342d433067c6ad8be44ae6bdd4fcb03cb6f676dd6f71bd0a1e3cf5b2bd9c2594",
+      "bytes": 956
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\training_outputs\\core_dinov2_v4_phenotype_roi\\history.csv",
+      "sha256": "9ab8e3b42dbf555cd3af0daecc5b4db528a5d70e8d19e264a1b59c4b5875a1dc",
+      "bytes": 6710
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\training_outputs\\core_dinov2_v4_phenotype_roi\\dry_run.json",
+      "sha256": "dc266b3e7b5cbdeab3bfae27ad209137a157ce8504bf6141a8fa58f5d1544a3e",
+      "bytes": 494
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\training_outputs\\core_dinov2_v4_phenotype_roi\\resolved_config.json",
+      "sha256": "87929e7b5e318631d2b9dfa4ab87d981b30491144dbd0fb07fce59786b9a89b1",
+      "bytes": 1691
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\training_outputs\\core_dinov2_v4_phenotype_roi\\training_summary.json",
+      "sha256": "c32438386d7ca44d56853c4595d4489175e0ac4f5764bdc13befccfced27d936",
+      "bytes": 362
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\paths.jsonl",
+      "sha256": "fc407dbb20bc0c3d1df5dac799ed17b5fe5438c65aeb7ff08e1472d209cb56a2",
+      "bytes": 1098918
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\per_image.csv",
+      "sha256": "525c98faca53ed29587572da6664af693ad3cad874c228fb1adb260f0184ed3a",
+      "bytes": 7676
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\per_transform.csv",
+      "sha256": "6c91628c1764e70bf15659d2a1676fa75a0b4bd315db0793ec0e2feb097bd2d0",
+      "bytes": 20399
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\phenotypes.csv",
+      "sha256": "c959cfcfe7b17663220854c92c07e8efb58d96dcefee2e40b8319646a859282b",
+      "bytes": 14305
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\points.csv",
+      "sha256": "9a11bbcc7283333fca34c0e82a3931edbfa96cef8347ec952f450daecb1aa756",
+      "bytes": 17801
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\core_dinov2_v4_phenotype_roi_val\\summary.json",
+      "sha256": "c095165cc5a299d4548dbd596201a411b57b40b5be9d6bb820dd99dff63251d7",
+      "bytes": 714
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\edges.csv",
+      "sha256": "eee1c8e2cd2024332d6eae4b3eba7541a2ed4b11f425b1704e9b12fe18ec0659",
+      "bytes": 260364
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\failure_priority.csv",
+      "sha256": "78543f26b6e56b0e18cf164e12fe76986ce5eb27343e6f5a86d2709441ffeb27",
+      "bytes": 9452
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\leave_one_out.csv",
+      "sha256": "02da72fbe0d3cc2bf2f091707fbec36e140ead3d8c6401f0fc1b09b74d4198e8",
+      "bytes": 10494
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\manual_path_review_pending.csv",
+      "sha256": "6ebb48acaedfc8ddd180c396ed652e71ed23361ec34774aad1e3c3d004e32ec1",
+      "bytes": 2650
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\nodes.csv",
+      "sha256": "4f0caa5498476ba9ff383214b29ce8b863e8296791fbe6879bf97c46fa3f8872",
+      "bytes": 25293
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\per_image.csv",
+      "sha256": "80b4848fa679271c345ddaa62752d3f3c889e6e1785ec1a06cc1756d5f70de35",
+      "bytes": 9452
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\projection_threshold_sweep.csv",
+      "sha256": "0afd95e6de61b4d10124e1e621f1299815dd08d42d829dce6d5dcd8888ec0a44",
+      "bytes": 1402
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_graph_v2_phenotype_roi_val\\summary.json",
+      "sha256": "ed3e813733325b426e4205d88ec48fc3c3a23593bef8b2804de2e75364100831",
+      "bytes": 1503
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\candidate_phenotypes.csv",
+      "sha256": "4638d677146340eeb9be52ebdf02eec66823a99fbf208e94f6c4dafd07d20b37",
+      "bytes": 18008
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\manual_path_review_pending.csv",
+      "sha256": "3711f07798e58ac391255c811c80a85d9507978aee15a799247bcf36d2f9410c",
+      "bytes": 12342
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\manual_phenotype_reference_pending.csv",
+      "sha256": "07a8c798142e12d5c0d09b4c0f1d540a6bfc8618cc30d1a5f35e8f6341844433",
+      "bytes": 9929
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\paths.jsonl",
+      "sha256": "f977c048d0f231a34e68d58cf5dd52f7ae420918cc8aded635739b8c3d143f25",
+      "bytes": 1382717
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\per_image.csv",
+      "sha256": "f00ab3d964b4efb9c29302f558fe2b5a9ff7b3083e0073a3569f2a91ee54a363",
+      "bytes": 11318
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\summary.json",
+      "sha256": "4fdb3c12f87f5b6cf73adbe73476c2b4be07213b553dbf8a4919b3c2a6be52d1",
+      "bytes": 836
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\evaluation_outputs\\point_conditioned_organ_paths_v2_phenotype_roi_local_decoder_val\\terminal_branch_decisions.jsonl",
+      "sha256": "fc61aa1831e076497c29fe1a0d8c6ab3a400251c0a1a639cc181e610b8e9b5c6",
+      "bytes": 12867
+    },
+    {
+      "path": "D:\\kp\\adaptive_keypoint_discovery_reboot\\experiment\\phenotype_pilot_protocol\\第二阶段几何核验与双人共识导航_20260913.md",
+      "sha256": "ce341a8186217f9f1a7989a0417ca324a1618b466924229d1337a21151570052",
+      "bytes": 3513
+    }
+  ],
+  "metadata_only_inventory_extension_counts": {
+    "": 1,
+    ".md": 70,
+    ".csv": 153,
+    ".py": 52,
+    ".json": 75,
+    ".txt": 2,
+    ".sh": 5,
+    ".html": 10,
+    ".jpg": 539,
+    ".png": 2274,
+    ".sha256": 1,
+    ".jsonl": 22,
+    ".pyc": 26,
+    ".zip": 3,
+    ".cjs": 2,
+    ".js": 2,
+    ".css": 2,
+    ".xlsx": 1,
+    ".ndjson": 1,
+    ".log": 4,
+    ".pt": 2,
+    ".do_not_use": 1
+  },
+  "inventory_excludes": [
+    "runtime",
+    "third_party",
+    "technical_breakdown_20260913"
+  ],
+  "test_image_contents_read": 0
+}

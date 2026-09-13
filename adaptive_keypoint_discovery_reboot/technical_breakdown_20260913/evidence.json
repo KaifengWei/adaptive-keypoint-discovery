@@ -1,0 +1,310 @@
+{
+  "checkpoint_sha256": "bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2",
+  "samples": {
+    "v4_val_0004": {
+      "mapping": {
+        "scale": 0.32054455445544555,
+        "pad_x": 0.0,
+        "pad_y": 204.0,
+        "source_width": 1616.0,
+        "source_height": 339.0
+      },
+      "cpu_decoded_count": 3,
+      "saved_count": 3,
+      "max_ranked_coordinate_difference_model_px": 5.684341886080802e-14,
+      "probability_max": 0.7689491510391235,
+      "points": [
+        {
+          "x": 60.5859375,
+          "y": 242.34375,
+          "confidence": 0.7689491510391235
+        },
+        {
+          "x": 399.8671875,
+          "y": 270.6171875,
+          "confidence": 0.62757408618927
+        },
+        {
+          "x": 218.109375,
+          "y": 274.65625,
+          "confidence": 0.5535580515861511
+        }
+      ]
+    },
+    "v4_val_0002": {
+      "mapping": {
+        "scale": 0.3197530864197531,
+        "pad_x": 0.0,
+        "pad_y": 189.0,
+        "source_width": 1620.0,
+        "source_height": 438.0
+      },
+      "cpu_decoded_count": 3,
+      "saved_count": 3,
+      "max_ranked_coordinate_difference_model_px": 0.0,
+      "probability_max": 0.6842250823974609,
+      "points": [
+        {
+          "x": 76.7421875,
+          "y": 230.2265625,
+          "confidence": 0.6842250823974609
+        },
+        {
+          "x": 399.8671875,
+          "y": 274.65625,
+          "confidence": 0.5612257122993469
+        },
+        {
+          "x": 218.109375,
+          "y": 242.34375,
+          "confidence": 0.37827959656715393
+        }
+      ]
+    },
+    "v4_val_0034": {
+      "mapping": {
+        "scale": 0.31896551724137934,
+        "pad_x": 0.0,
+        "pad_y": 176.0,
+        "source_width": 1624.0,
+        "source_height": 519.0
+      },
+      "cpu_decoded_count": 5,
+      "saved_count": 5,
+      "max_ranked_coordinate_difference_model_px": 5.684341886080802e-14,
+      "probability_max": 0.6886123418807983,
+      "points": [
+        {
+          "x": 64.625,
+          "y": 298.890625,
+          "confidence": 0.6886123418807983
+        },
+        {
+          "x": 274.65625,
+          "y": 218.109375,
+          "confidence": 0.6778430938720703
+        },
+        {
+          "x": 399.8671875,
+          "y": 258.5,
+          "confidence": 0.4720074534416199
+        },
+        {
+          "x": 452.375,
+          "y": 258.5,
+          "confidence": 0.44436919689178467
+        },
+        {
+          "x": 444.296875,
+          "y": 246.3828125,
+          "confidence": 0.4376688599586487
+        }
+      ]
+    }
+  },
+  "test_images_read": 0,
+  "training": false,
+  "parameter_counts": {
+    "backbone": 22058112,
+    "trainable": 830401
+  },
+  "teacher_sample": {
+    "dataset_id": "v4_train_new_0003",
+    "image_path_at_generation": "/home/neaucs2/kp/adaptive-keypoint-discovery/adaptive_keypoint_discovery_reboot/experiment/data_stage_clean_v4_fullplant_candidate/images/train/v4_train_new_0003.png",
+    "image_relative_path": "images/train/v4_train_new_0003.png",
+    "stage_label": "unassigned",
+    "split": "train",
+    "input_domain": "phenotype_roi_v1",
+    "input_image_relative_path": "focused_inputs/images/train/v4_train_new_0003.png",
+    "teacher_variant": "full",
+    "consistency_filter_used": true,
+    "transforms": [
+      "identity",
+      "flip_horizontal",
+      "rotate_10",
+      "brightness_075",
+      "rotate_minus10",
+      "scale_090",
+      "scale_110",
+      "translate",
+      "contrast_125"
+    ],
+    "bbox_diagonal_model": 338.42281246984516,
+    "accepted_count": 6,
+    "rejected_count": 10,
+    "training_usable": 1,
+    "points": [
+      {
+        "reference_index": 0,
+        "x_model": 310.0,
+        "y_model": 245.0,
+        "kind": "endpoint",
+        "teacher_score": 0.943856115681285,
+        "presence_ratio": 0.7777777777777778,
+        "localization_error_bbox_diag": 0.004393832239611147,
+        "consensus_confidence": 0.61579001263233,
+        "observed_transforms": [
+          "identity",
+          "flip_horizontal",
+          "brightness_075",
+          "scale_090",
+          "scale_110",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p01",
+        "x_source": 967.1042471042471,
+        "y_source": 87.35135135135135,
+        "x_normalized": 0.5988261591976762,
+        "y_normalized": 0.3334021043944708
+      },
+      {
+        "reference_index": 2,
+        "x_model": 415.0,
+        "y_model": 256.0,
+        "kind": "endpoint",
+        "teacher_score": 0.9938297469983629,
+        "presence_ratio": 1.0,
+        "localization_error_bbox_diag": 0.0057229638888631855,
+        "consensus_confidence": 0.7904855332682054,
+        "observed_transforms": [
+          "identity",
+          "flip_horizontal",
+          "rotate_10",
+          "brightness_075",
+          "rotate_minus10",
+          "scale_090",
+          "scale_110",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p02",
+        "x_source": 1294.6718146718147,
+        "y_source": 121.66795366795367,
+        "x_normalized": 0.8016543744097924,
+        "y_normalized": 0.4643815025494415
+      },
+      {
+        "reference_index": 3,
+        "x_model": 291.0,
+        "y_model": 246.0,
+        "kind": "endpoint",
+        "teacher_score": 0.9412775620159132,
+        "presence_ratio": 0.7777777777777778,
+        "localization_error_bbox_diag": 0.0019523095438260165,
+        "consensus_confidence": 0.6771083138329114,
+        "observed_transforms": [
+          "identity",
+          "flip_horizontal",
+          "rotate_10",
+          "brightness_075",
+          "scale_110",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p03",
+        "x_source": 907.8301158301158,
+        "y_source": 90.47104247104247,
+        "x_normalized": 0.5621239107307219,
+        "y_normalized": 0.34530932240855905
+      },
+      {
+        "reference_index": 4,
+        "x_model": 84.0,
+        "y_model": 270.0,
+        "kind": "endpoint",
+        "teacher_score": 0.9886447873575894,
+        "presence_ratio": 1.0,
+        "localization_error_bbox_diag": 0.0070197460483951285,
+        "consensus_confidence": 0.7466117181667546,
+        "observed_transforms": [
+          "identity",
+          "flip_horizontal",
+          "rotate_10",
+          "brightness_075",
+          "rotate_minus10",
+          "scale_090",
+          "scale_110",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p04",
+        "x_source": 262.05405405405406,
+        "y_source": 165.34362934362935,
+        "x_normalized": 0.16226257216969292,
+        "y_normalized": 0.6310825547466768
+      },
+      {
+        "reference_index": 5,
+        "x_model": 248.0,
+        "y_model": 243.0,
+        "kind": "shape_corner",
+        "teacher_score": 0.860231538132135,
+        "presence_ratio": 0.8888888888888888,
+        "localization_error_bbox_diag": 0.012300410401474579,
+        "consensus_confidence": 0.4675013010326426,
+        "observed_transforms": [
+          "identity",
+          "rotate_10",
+          "brightness_075",
+          "rotate_minus10",
+          "scale_090",
+          "scale_110",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p05",
+        "x_source": 773.6833976833976,
+        "y_source": 81.11196911196912,
+        "x_normalized": 0.47906092735814093,
+        "y_normalized": 0.30958766836629437
+      },
+      {
+        "reference_index": 11,
+        "x_model": 223.0,
+        "y_model": 261.0,
+        "kind": "shape_corner",
+        "teacher_score": 0.6314147225903757,
+        "presence_ratio": 0.7777777777777778,
+        "localization_error_bbox_diag": 0.0026021213922532626,
+        "consensus_confidence": 0.4425544949327264,
+        "observed_transforms": [
+          "identity",
+          "rotate_10",
+          "brightness_075",
+          "rotate_minus10",
+          "scale_090",
+          "translate",
+          "contrast_125"
+        ],
+        "accepted": 1,
+        "point_id": "p06",
+        "x_source": 695.6911196911196,
+        "y_source": 137.26640926640925,
+        "x_normalized": 0.43076849516477994,
+        "y_normalized": 0.5239175926198827
+      }
+    ],
+    "phenotype_roi_diagnostics": {
+      "shoot_retention_ratio": 0.9781175444447295,
+      "green_shoot_retention_ratio": 0.9742117602028612,
+      "root_base_overlap_ratio": 0.013379369874838154,
+      "seed_detected": true,
+      "localization_source": "estimated_seed",
+      "retention_repair_used": false
+    }
+  },
+  "history_columns": [
+    "epoch",
+    "global_step",
+    "train_loss",
+    "validation_loss",
+    "validation_pseudo_label_f1",
+    "elapsed_seconds"
+  ]
+}
