@@ -4,7 +4,7 @@
 
 ## 当前该交给谁（2026-09-13）
 
-第一阶段13张真实人工JSON/CSV已校验归档。现在将 `../runtime/adjudication/semantic_first_20260906/geometry/` 整个文件夹交给原先的第二位测量者，打开其中的 `index.html` 逐结构判断候选路径。仅发送这个文件夹，不发送上一级目录、管理员映射、第一位测量者意见或模型结果。第一阶段原始文件不可覆盖；具体交接见 `../第一阶段语义核验与第二阶段交接_20260913.md`。
+第二位测量者两阶段13张真实人工JSON/CSV均已校验归档。当前由两位测量者共同查看 `../runtime/adjudication/semantic_first_20260906/consensus_readonly_20260913_v2/index.html`；须分发整个只读文件夹（含`images/`），不能只发HTML。它显示原图及两人独立意见，但不产生最终GT。原始导出、管理员映射、模拟测试文件不得随页分发；具体交接见 `../第二阶段几何核验与双人共识导航_20260913.md`。
 
 用户已完成的13张裁决完整保存在 `../runtime/adjudication/opinions/rater1_20260905/`，身份为“第一位测量者的独立裁决意见”，不作废，不要求用户重新画三轮。
 
@@ -27,6 +27,7 @@ python validate.py --package ../runtime/adjudication/semantic_first_20260906/sem
 # 收到真实人工JSON和同名CSV后执行；现在不能用测试文件代替真实结果。
 python build.py geometry --semantic-export ../runtime/adjudication/semantic_first_20260906/semantic/results/semantic_decisions.json
 python validate.py --package ../runtime/adjudication/semantic_first_20260906/geometry --export ../runtime/adjudication/semantic_first_20260906/geometry/results/geometry_decisions.json
+python build_consensus_review.py
 ```
 
 `build.py geometry` 强制检查完整13张、图片哈希、坐标范围、分类值、CSV/JSON一致性和已提交声明，并把第一步导出按SHA-256归档到管理员目录。它不能验证人在脑中是否认出了旧图，所以这仍是第二位测量者的独立意见，不称为独立第三方盲裁决。
