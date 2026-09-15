@@ -2,9 +2,15 @@
 
 这是人工参考的裁决工具，输入仅为13张既定分歧样本的标准化图像和三轮冻结人工记录。软件不调用任何模型，不生成最终GT，不改动描迹平滑、匹配或表型计算算法。
 
-## 当前该交给谁（2026-09-13）
+## 当前该交给谁（2026-09-15）
 
-第二位测量者两阶段13张真实人工JSON/CSV均已校验归档。当前由两位测量者共同查看 `../runtime/adjudication/semantic_first_20260906/consensus_readonly_20260913_v2/index.html`；须分发整个只读文件夹（含`images/`），不能只发HTML。它显示原图及两人独立意见，但不产生最终GT。原始导出、管理员映射、模拟测试文件不得随页分发；具体交接见 `../第二阶段几何核验与双人共识导航_20260913.md`。
+第二位测量者两阶段13张真实人工JSON/CSV均已校验归档。只读三栏页仍可用于快速并排查看证据；正式共同填写入口已改为：
+
+`../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2/index.html`
+
+必须分发整个 `joint_consensus_20260915_v2` 文件夹，不能只发HTML。页面保留未叠线原图、第一位测量者的整组选择和第二位测量者的逐结构选择，同时增加逐图、逐叶的共同决定。两人先处理7张“优先讨论”，再确认其余6张。13张全部提交后，下载 `joint_consensus_decisions.json` 和同名CSV，一起保存到包内 `results/`。
+
+该导出只是“双人共识记录，等待最终GT冻结”，不会修改候选曲线，也不会自动运行模型或冻结GT。原始导出、管理员映射、模拟测试文件不得随页分发；具体交接见 `../第二阶段几何核验与双人共识导航_20260913.md`。
 
 用户已完成的13张裁决完整保存在 `../runtime/adjudication/opinions/rater1_20260905/`，身份为“第一位测量者的独立裁决意见”，不作废，不要求用户重新画三轮。
 
@@ -28,6 +34,10 @@ python validate.py --package ../runtime/adjudication/semantic_first_20260906/sem
 python build.py geometry --semantic-export ../runtime/adjudication/semantic_first_20260906/semantic/results/semantic_decisions.json
 python validate.py --package ../runtime/adjudication/semantic_first_20260906/geometry --export ../runtime/adjudication/semantic_first_20260906/geometry/results/geometry_decisions.json
 python build_consensus_review.py
+python build_joint_consensus.py build
+
+# 收到双人共识JSON和同名CSV后执行：
+python build_joint_consensus.py validate --package ../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2 --export ../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2/results/joint_consensus_decisions.json
 ```
 
 `build.py geometry` 强制检查完整13张、图片哈希、坐标范围、分类值、CSV/JSON一致性和已提交声明，并把第一步导出按SHA-256归档到管理员目录。它不能验证人在脑中是否认出了旧图，所以这仍是第二位测量者的独立意见，不称为独立第三方盲裁决。
@@ -58,4 +68,4 @@ python build_consensus_review.py
 
 ## 验证
 
-`python -m unittest discover -s . -p test_build.py -v` 检查完整性门禁、裁剪不可作为完整路径、坐标边界以及几何阶段语义不可改写。`node dry_run.cjs` 使用Playwright和Edge，在系统临时目录中用模拟记录走完两阶段，不写入真实结果目录。需要通过 `NODE_PATH` 指向安装的Playwright；可用 `EDGE_PATH`、`PYTHON_EXE` 指定程序。
+`python -m unittest discover -s . -p "test*.py" -v` 检查两阶段门禁和双人共识约束。`node dry_run.cjs` 走完第二位测量者的两阶段流程；`node dry_run_joint_consensus.cjs` 在系统临时目录中模拟13张双人填写、一次修订、备份恢复及JSON/CSV导出，不写入真实 `results/`。浏览器演练需要通过 `NODE_PATH` 指向安装的Playwright；可用 `EDGE_PATH`、`PYTHON_EXE` 指定程序。
