@@ -8,7 +8,8 @@
 
 - [当前两阶段裁决与交接](../../phenotype_pilot_protocol/两阶段人工裁决实施与交接_20260906.md)
 - [裁决工具、填写说明与管理员命令](../../phenotype_pilot_protocol/adjudication_v2/README.md)
-- [当前双人共识填写入口](../../phenotype_pilot_protocol/runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2/index.html)（GitHub不含runtime图像，需发送整个文件夹）
+- [当前最终GT最小复核入口](../../phenotype_pilot_protocol/runtime/adjudication/semantic_first_20260906/minimal_gt_resolution_20260915_v1/index.html)（GitHub不含runtime图像，需发送整个文件夹）
+- [10张自动等效、3张人工确认的审计依据](../../phenotype_pilot_protocol/最终GT最小复核与自动等效审计_20260915.md)
 - [双人共识证据与交接说明](../../phenotype_pilot_protocol/第二阶段几何核验与双人共识导航_20260913.md)
 - [已批准的人工参考协议](../../phenotype_pilot_protocol/Phenotype-first人工参考协议_v2_已批准待实施_20260803.md)
 - [HTML平台设计说明](../../phenotype_pilot_protocol/模型盲人工GT_HTML平台设计说明_20260803.md)
@@ -28,7 +29,7 @@
 - 两轮原始导出和外置冻结清单均保留在Git忽略的runtime目录；
 - Rater 2第一轮16张30条已完成并冻结，三轮匿名匹配及裁决前可靠性已计算；
 - 用户13张A/B/C选择归档为Rater 1独立意见；Rater 2两阶段30个结构的语义与几何意见已经校验归档；
-- 当前正式门槛是两位测量者共同完成13张逐图、逐叶共识记录：7张优先讨论、6张质量确认；无完整候选则重描，无法一致则交第三位，之后才显式冻结最终GT；
+- 13张复审已压缩为10张无需再判和3张实际问题图；当前只需共同完成原复核第5、6、7张，必要时做一次重描或保留无法确定，之后才显式冻结最终GT；
 - 人工GT冻结前禁止运行Teacher-direct/B/D表型比较。
 
 ## 绝对不要做

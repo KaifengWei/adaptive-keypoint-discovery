@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>最终GT最小复核</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>最终GT最小复核</h1>
+  <button id="prev">上一张</button>
+  <b id="counter"></b>
+  <button id="next">下一张</button>
+  <label>放大
+    <select id="zoom"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select>
+  </label>
+  <button id="backup">备份进度</button>
+  <button id="restore">恢复进度</button>
+  <input id="restoreFile" type="file" accept=".json" hidden>
+  <button id="export" class="primary">完成3张并导出</button>
+</header>
+<main>
+  <section class="summary">
+    原13张中已有10张无需继续判高下：6张路径完全相同，4张差异小于已锁定的人工测量误差底线。
+    本页只保留3张真正影响叶片数量、身份或路径完整性的问题图。这里没有模型结果，也不需要选择A/B/C。
+  </section>
+  <section class="question">
+    <h2 id="questionTitle"></h2>
+    <p id="questionDetail"></p>
+  </section>
+  <section class="panels">
+    <article>
+      <h3>① 原图</h3>
+      <div class="viewport" id="rawPanel"></div>
+    </article>
+    <article>
+      <h3>② 只标出本图需要判断的结构</h3>
+      <div class="viewport" id="issuePanel"></div>
+      <p class="legend"><span class="blue"></span>没有争议的路径　<span class="red"></span>唯一需要判断的结构</p>
+    </article>
+  </section>
+  <section class="form-card">
+    <h2>请选择一个结论 <small id="status"></small></h2>
+    <div id="options" class="options"></div>
+    <label class="notes">补充说明（一般可不填；选择“无法确定”时必须填写）
+      <textarea id="notes" rows="3"></textarea>
+    </label>
+    <label class="confirm"><input id="confirmed" type="checkbox">我们已经对照原图共同确认以上选择</label>
+    <div class="actions">
+      <button id="submit" class="primary">提交本图</button>
+      <button id="revise">创建修订</button>
+    </div>
+    <p id="message"></p>
+    <div id="downloads"></div>
+  </section>
+  <p class="footer">红色线条只帮助定位问题，不表示它已经被接受。完成3张后仍需处理必要重描，随后才能显式冻结最终GT。</p>
+</main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

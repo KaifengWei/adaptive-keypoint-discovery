@@ -2,15 +2,15 @@
 
 这是人工参考的裁决工具，输入仅为13张既定分歧样本的标准化图像和三轮冻结人工记录。软件不调用任何模型，不生成最终GT，不改动描迹平滑、匹配或表型计算算法。
 
-## 当前该交给谁（2026-09-15）
+## 当前正式入口（2026-09-15简化后）
 
-第二位测量者两阶段13张真实人工JSON/CSV均已校验归档。只读三栏页仍可用于快速并排查看证据；正式共同填写入口已改为：
+第二位测量者两阶段13张真实人工JSON/CSV均已校验归档。经表型等效复审，6张完全一致、4张差异小于锁定的长度/分化角人工误差底线，真正需要人工确认的只有原复核第5、6、7张。正式填写入口改为：
 
-`../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2/index.html`
+`../runtime/adjudication/semantic_first_20260906/minimal_gt_resolution_20260915_v1/index.html`
 
-必须分发整个 `joint_consensus_20260915_v2` 文件夹，不能只发HTML。页面保留未叠线原图、第一位测量者的整组选择和第二位测量者的逐结构选择，同时增加逐图、逐叶的共同决定。两人先处理7张“优先讨论”，再确认其余6张。13张全部提交后，下载 `joint_consensus_decisions.json` 和同名CSV，一起保存到包内 `results/`。
+必须分发整个 `minimal_gt_resolution_20260915_v1` 文件夹，不能只发HTML。页面不再展示A/B/C，每张只提出一个实际问题：第5张确认3片或4片，第6张确认小结构是真叶还是毛边干扰，第7张确认争议短结构是否为独立叶片。完成3张后下载 `minimal_gt_resolution.json` 和同名CSV，一起保存到包内 `results/`。
 
-该导出只是“双人共识记录，等待最终GT冻结”，不会修改候选曲线，也不会自动运行模型或冻结GT。原始导出、管理员映射、模拟测试文件不得随页分发；具体交接见 `../第二阶段几何核验与双人共识导航_20260913.md`。
+此前的13张复杂填写包 `joint_consensus_20260915_v2` 已停止作为正式入口，只保留审计痕迹。自动等效依据、唯一代表路径规则和完整数值见 `../最终GT最小复核与自动等效审计_20260915.md`。新导出不会修改候选曲线，也不会自动运行模型或冻结GT。
 
 用户已完成的13张裁决完整保存在 `../runtime/adjudication/opinions/rater1_20260905/`，身份为“第一位测量者的独立裁决意见”，不作废，不要求用户重新画三轮。
 
@@ -36,8 +36,11 @@ python validate.py --package ../runtime/adjudication/semantic_first_20260906/geo
 python build_consensus_review.py
 python build_joint_consensus.py build
 
-# 收到双人共识JSON和同名CSV后执行：
-python build_joint_consensus.py validate --package ../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2 --export ../runtime/adjudication/semantic_first_20260906/joint_consensus_20260915_v2/results/joint_consensus_decisions.json
+# 当前推荐：生成只有3张问题图的最小复核包
+python build_minimal_gt_resolution.py build
+
+# 收到最小复核JSON和同名CSV后执行：
+python build_minimal_gt_resolution.py validate --package ../runtime/adjudication/semantic_first_20260906/minimal_gt_resolution_20260915_v1 --export ../runtime/adjudication/semantic_first_20260906/minimal_gt_resolution_20260915_v1/results/minimal_gt_resolution.json
 ```
 
 `build.py geometry` 强制检查完整13张、图片哈希、坐标范围、分类值、CSV/JSON一致性和已提交声明，并把第一步导出按SHA-256归档到管理员目录。它不能验证人在脑中是否认出了旧图，所以这仍是第二位测量者的独立意见，不称为独立第三方盲裁决。
@@ -68,4 +71,4 @@ python build_joint_consensus.py validate --package ../runtime/adjudication/seman
 
 ## 验证
 
-`python -m unittest discover -s . -p "test*.py" -v` 检查两阶段门禁和双人共识约束。`node dry_run.cjs` 走完第二位测量者的两阶段流程；`node dry_run_joint_consensus.cjs` 在系统临时目录中模拟13张双人填写、一次修订、备份恢复及JSON/CSV导出，不写入真实 `results/`。浏览器演练需要通过 `NODE_PATH` 指向安装的Playwright；可用 `EDGE_PATH`、`PYTHON_EXE` 指定程序。
+`python -m unittest discover -s . -p "test*.py" -v` 检查两阶段门禁、旧共识约束和最小复核导出。`node dry_run_minimal_gt_resolution.cjs` 在系统临时目录中模拟3张填写、一次修订、备份恢复及JSON/CSV导出，不写入真实 `results/`。浏览器演练需要通过 `NODE_PATH` 指向安装的Playwright；可用 `EDGE_PATH`、`PYTHON_EXE` 指定程序。

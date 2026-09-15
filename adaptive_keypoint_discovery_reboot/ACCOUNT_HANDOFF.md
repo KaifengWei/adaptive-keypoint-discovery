@@ -41,11 +41,15 @@
 - 旧关键点条件器官路径解码在 val 输出65条候选路径，40张人工审计暴露出系统性根须/基部干扰；地上部有效域已由用户40/40确认通过。路线B已完成216张train自动教师、80轮RTX3090训练和40张val-only评估：点数中位数4、重复性F1中位数0.917、纯颖果/根须接受节点为0，路径解码38/40并输出64条候选路径；路线B人工审核为路径pass/fail/未填=`30/8/2`、漏叶8、错连5、基部correct/wrong/uncertain=`33/4/3`，严格联合通过22/40。随后“增强自动教师的小叶终端与shoot侧基部覆盖，并用学习点置信度和局部尺度改进短枝解码”已获确认并实施为方案C，其混合结果与当前冻结决策见下条；人工表型参考仍为 `pending`；
 - 表型准确率尚未通过人工参考验证；
 - 跨作物迁移已经封存，不得主动扩展。
-- 人工复核协作规范与可复现打包脚本位于`experiment/manual_review_system/`。冻结A/B/C/D的40张中性配对审核已于2026-08-03完成：局部Decoder在两种Teacher下分别净恢复7/6片真叶且无真叶丢失，但引入假枝和错连；增强Teacher没有可证明净收益。B=`Route B Teacher + local decoder`为当前primary/minimum-sufficient Student candidate；D停止开发但保留一次冻结表型对照。phenotype-first protocol v2、MDC95、`phenotype-geometry-v1`和跨session Hungarian匹配规则均已测量前锁定。Teacher-direct与Student-B后续必须使用完全相同的冻结graph、局部decoder和几何算子，仅输入点来源不同；不得再修改B/D模型。模型盲HTML已生成并通过静态泄漏和两张非pilot图dry run。2026-09-05 Rater 1两轮与Rater 2第一轮共三轮人工GT均已完成并冻结：对应35、36、30条可测trace；原始导出和冻结清单位于Git忽略的runtime目录，不得发给同事或推送GitHub。匿名匹配与可靠性已完成：长度相对人工误差底线为3.72%，分化角为17.08%；13/16株触发预锁定分歧条件，已生成方法盲裁决页面。当前唯一门槛是完成13张裁决并冻结最终人工GT；此前禁止运行Teacher-direct/B/D表型比较，正式消融、五随机种子和V4 test继续后置。
+- 人工复核协作规范与可复现打包脚本位于`experiment/manual_review_system/`。冻结A/B/C/D的40张中性配对审核已于2026-08-03完成：局部Decoder在两种Teacher下分别净恢复7/6片真叶且无真叶丢失，但引入假枝和错连；增强Teacher没有可证明净收益。B=`Route B Teacher + local decoder`为当前primary/minimum-sufficient Student candidate；D停止开发但保留一次冻结表型对照。phenotype-first protocol v2、MDC95、`phenotype-geometry-v1`和跨session Hungarian匹配规则均已测量前锁定。Teacher-direct与Student-B后续必须使用完全相同的冻结graph、局部decoder和几何算子，仅输入点来源不同；不得再修改B/D模型。模型盲HTML已生成并通过静态泄漏和两张非pilot图dry run。2026-09-05 Rater 1两轮与Rater 2第一轮共三轮人工GT均已完成并冻结：对应35、36、30条可测trace；原始导出和冻结清单位于Git忽略的runtime目录，不得发给同事或推送GitHub。匿名匹配与可靠性已完成：长度相对人工误差底线为3.72%，分化角为17.08%。后续13张复杂共识已于2026-09-15压缩为10张自动一致/等效和第5、6、7张最小复核。当前唯一门槛是完成这3张、必要重描及显式最终GT冻结；此前禁止运行Teacher-direct/B/D表型比较，正式消融、五随机种子和V4 test继续后置。
 
 ### 2026-09-06 当前裁决接续
 
 用户13张A/B/C选择已完整归档为Rater 1独立意见，尚不是最终GT。当前工具与协议入口是`experiment/phenotype_pilot_protocol/adjudication_v2/README.md`和`第二阶段几何核验与双人共识导航_20260913.md`。第二位测量者两阶段13张/30结构的语义及几何JSON/CSV均已校验并按哈希归档；其中28结构选择具体候选、1结构需重描、1结构保留争议。两位测量者现在共同使用`runtime/adjudication/semantic_first_20260906/consensus_readonly_20260913_v2/index.html`对比原图、Rater 1整组意见与Rater 2逐结构意见；7张优先讨论、其余6张仍须质量确认。该页不生成最终GT，也不将Rater 1两轮算作两票。禁止用模拟结果推动冻结。共识与必要重描结束前继续不比较方法，不改模型，不读V4 test。runtime内的管理员映射、原始人工导出和旧意见不得推送GitHub或随公开文件分发。
+
+### 2026-09-15 最小复核接续
+
+用户确认停止使用13张复杂共识表。逐例按锁定的长度MDC95 3.72%和分化角MDC95 17.08°复审后，第1、2、4、8、12、13张为完整路径完全一致，第3、9、10、11张为表型等效；只剩原复核第5、6、7张存在叶片数量、身份或完整路径问题。当前正式入口为`runtime/adjudication/semantic_first_20260906/minimal_gt_resolution_20260915_v1/index.html`，每张只回答一个问题且不展示A/B/C。10张自动路径代表计划使用既有完整曲线medoid，不生成或拼接新线，计划SHA-256为`d52b21be3eb6051379daea4114cf30190acc291d2d4657d62d911ff829f1528c`。旧`joint_consensus_20260915_v2`只保留过程审计，不再填写。三张最小复核、必要重描和显式冻结完成前仍不得比较Teacher-direct/B/D、运行正式消融、五随机种子或V4 test。
 
 ## 三、账号切换后的推荐首条指令
 
