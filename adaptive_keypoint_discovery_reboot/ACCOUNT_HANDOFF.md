@@ -59,6 +59,10 @@
 
 用户明确以图像可见且可独立追踪的结构路径为主参考，而不是完整叶/农学叶龄；旧“仅完整叶主分析”只是历史推荐，现已被本次决定取代。16株固定V4 val pilot的私有GT已冻结：Core12/Diagnostic4，独立结构34条、完整可用几何33条。原第5/6/7张结构计数分别为3/1/3；第7张第3条存在性确定，但旧短路径候选曾被否决，长度和角度GT明确缺失。冻结文件在Git忽略的`experiment/phenotype_pilot_protocol/runtime/final_gt/phenotype_pilot_20260924_v1/`，`final_gt.json` SHA-256为`1b3018c83b2695951dfdf2adff10020f9c3e6e739babfe12ad235a88ae7b53b3`。公开审计与后续比较规则见`experiment/phenotype_pilot_protocol/最终GT冻结与后续比较入口_20260924.md`。下一步是**先**锁定并核对Teacher-direct/Student-B相同graph、局部decoder、几何算子，完成Teacher-direct/B/D的16株配对表型比较；再依据冻结评价规则选择后续充分训练与消融。模型和阈值不得依据GT逐图修改，V4 test继续锁定，表型准确率未报告为通过。
 
+### 2026-09-24 cv恢复与冻结方法pilot比较（覆盖上节“待比较”状态）
+
+`cv`重启后已通过RTX3090、CUDA和cuDNN检查。Teacher-direct按原Route B教师在40张V4 val生成点，仅用同一冻结graph/局部decoder解码；B/D读取历史冻结结果，不新训练。16株比较已完成，权威入口为`experiment/phenotype_pilot_protocol/冻结方法表型先导比较_20260924.md`；私有逐株JSON仅在Git忽略的`runtime/method_comparison/frozen_pilot_20260924_v5_final/`，SHA-256=`e585a628f740a3c5909a78850370bc7de0ee34dd2590420a6234545ba491ff74`。Core12 Teacher/B/D都匹配20/24条有几何GT，B/D的条件性长度误差略低，但配对CI跨零且差异不足以证明超过人工MDC95；Diagnostic4 Teacher匹配9/9、B/D各7/9。**没有最终方法赢家，也没有启动新训练、正式消融、五种子或V4 test。**Teacher-direct继续作强基线，B是待充分训练验证的最小学习型候选，D仅作冻结对照。下一任务先确认后续训练预算/早停与模型选择规则；不得用pilot GT逐图修补，也不得引用`runtime/method_comparison`中v1-v4临时计算。
+
 ## 三、账号切换后的推荐首条指令
 
 将下面文字原样发送给新账号中的 Codex：
