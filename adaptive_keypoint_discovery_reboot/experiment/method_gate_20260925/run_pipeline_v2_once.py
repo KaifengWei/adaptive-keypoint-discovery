@@ -20,6 +20,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 EXP = HERE.parent
 ROOT = EXP.parent
+GIT_ROOT = ROOT.parent
 sys.path.insert(0, str(EXP))
 import evaluate_point_conditioned_graph_v1 as graph_eval  # noqa: E402
 import g1_prime_phenotype_bridge as bridge  # noqa: E402
@@ -98,7 +99,7 @@ def committed_code_hashes() -> dict[str, str]:
         raise ValueError("Accepted preregistration commit is not an ancestor")
     code_hashes = {}
     for path in CODE_FILES:
-        relative = path.relative_to(ROOT).as_posix()
+        relative = path.relative_to(GIT_ROOT).as_posix()
         observed = sha(path)
         try:
             committed = hashlib.sha256(subprocess.check_output(
