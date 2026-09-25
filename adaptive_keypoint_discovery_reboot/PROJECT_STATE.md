@@ -110,6 +110,7 @@
 
 70. 2026-09-25 用户接受Student-B训练充分性审计的`CONVERGED`裁决，正式冻结第53轮`best.pt`，SHA-256=`bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2`，seed `20260718`，原182/34内部划分、80轮/3680记录步、最佳内部验证损失`0.28449777762095135`；不得再训练B。冻结Teacher/Student/同一graph+局部decoder与已锁定Core12+Diagnostic4的知识迁移审计完成：Teacher/Student点数为98/68，`0.025D`空间匹配44对；Core GT匹配20/24对20/24，Diagnostic为9/9对7/9。Diagnostic两条Student漏失均来自`v4_val_0002`：近基部候选距骨架9.87 px，超过原`0.025D=8.03 px`投影限，被拒后无shoot侧基部节点，decoder输出零路径；不是GT匹配造成。远程`cv` RTX3090按预锁定协议完成同机计时：内存中点生成中位数Teacher/Student为685.19/13.14 ms，端到端表型为720.26/42.33 ms，成对速度比中位数17.75×，每法每阶段N=160；Student RAM峰值反而较高。3种预锁定轻度扰动显示Core旋转Student更稳、Diagnostic结果混合，不称外部泛化。`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`依据表型先导+迁移+效率+稳健性选择**B：Student为快速learned surrogate / knowledge-distilled adaptive keypoint detector**，不宣称表型更准或难例完全等价；Teacher-direct保留强参照。唯一优化目标仍是冻结Teacher伪标签，checkpoint只按内部验证损失选择，独立人工GT只裁决科学价值。未训练、未修改冻结方法/GT/集合、未读V4 test；下一步先向用户汇报，**不得在本次直接预注册或运行V4 test**。
 71. 2026-09-25 用户接受`FINAL_METHOD_GATE=B`并要求在V4 test前只做冻结流水线瓶颈诊断。先将前述freeze、knowledge-transfer、efficiency/robustness与final gate研究提交推送至GitHub `main`=`3d82f80`。随后对冻结Teacher-direct/Student-B在40株V4 val的80次点条件graph/局部decoder重建，接受节点数和路径数与保存输出80/80一致；全部拒点为28（Teacher超距10、Student超距17及重复合并1）。16株pilot的漏配同时涉及候选缺失、近结构候选硬投影拒绝与已入图短枝被decoder剪去，故`BOTTLENECK=MIXED`。`v4_val_0002`和`0031`是不同植株、不同原始扫描帧上重复的“近基部点→硬拒绝→无基部→零路径”，但只有前者有冻结人工表型GT；可提出唯一一个不扫描新阈值的uncertainty-aware点—结构关联V2假设，**本轮未实现、未调参、未训练**。逐例和逐拒点证据唯一入口为`experiment/method_gate_20260925/FINAL_PIPELINE_BOTTLENECK_AUDIT.md`。Student-B epoch53、Gate B、Teacher/graph/decoder/GT与Core/Diagnostic均保持冻结；V4 test未读取、未预注册，下一步先向用户报告并等待后续单独授权。
+72. 2026-09-25 用户接受`BOTTLENECK=MIXED`并授权**唯一一个**final Pipeline V2 的预注册设计，本轮只完成`experiment/method_gate_20260925/PIPELINE_V2_PREREGISTRATION.md`：同一冻结Teacher-direct/Student-B共享一个基于原最近骨架投影、局部自动支持宽度和点到冻结ROI距离的连续关联分数，参数从既有`0.025D`参照尺度解析固定，不使用人工GT校准、热图峰宽假数据或逐图例外。已事前锁定40株val机制指标、16株Core12/Diagnostic4表型及负面代价、唯一正式运行与V1回退门槛。此前val失败启发了设计，val比较仅为开发裁决，不能冒充独立确证。**尚未实现或运行V2、未训练或修改冻结模型/解码器/GT，V4 test未读取、未预注册。**下一步等待用户另行授权实施一次正式V2；无论胜负，随后停止val方法开发并单独预注册V4 locked test。
 
 ## 五、训练门槛
 
@@ -126,6 +127,7 @@
 - 冻结A/B/C/D的40张中性配对审核、三轮人工描迹、裁决前可靠性及16株val pilot最终GT均已完成；34条结构中33条有完整几何，第7张短结构曲线不得伪造。同graph/局部decoder的Teacher-direct/B/D表型先导比较已完成，但Core12的20/24共同召回与不确定的配对长度收益不足以确定赢家。下一门槛是基于已冻结比较结果事前确认学习型B的充分训练/消融和最终选择规则；不能用16株GT逐图调参。五种子及V4 test继续后置，表型准确率未宣称通过。
 - **2026-09-25最新门槛，覆盖上一条旧“待充分训练”叙述：**Student-B第53轮已因`CONVERGED`冻结，禁止继续训练。完成Teacher→Student逐点知识迁移、同机效率及预锁定轻扰动审计；16株pilot的方法门槛选择B（快速learned surrogate，非表型准确率赢家）。先汇报给用户，随后才可**单独**预注册V4 test最终评价；test当前仍锁定，五种子与其他正式实验未获本任务授权。
 - **2026-09-25本次最新门槛，覆盖上条“随后可预注册test”的旧下一步：**用户接受Gate B，但明确先做`Final Pipeline Bottleneck Audit`并暂不预注册／读取V4 test。只读审计已完成，结论为`MIXED`；唯一可提出的Pipeline V2只是机制假设，尚未获实现授权。当前应先报告审计并停止，V4 test继续锁定。
+- **2026-09-25最新门槛，覆盖上条“仅机制假设”的旧下一步：**用户现已批准唯一final Pipeline V2的**预注册设计**，但本任务禁止正式实现/运行。公式、参数、一次运行、正负指标和回退规则见`experiment/method_gate_20260925/PIPELINE_V2_PREREGISTRATION.md`；需用户后续单独授权才可实现。V4 test继续锁定，当前不得预注册test。
 
 ## 六、设备与接续
 
