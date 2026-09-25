@@ -69,3 +69,9 @@
 - V3 数据集已经完成接触表复核，核心模型首轮训练已经执行；不得退回“尚未训练”的旧状态。
 - V4 train/val训练、关键点条件结构图、候选器官路径解码及三轮人工GT可靠性分析已经完成；Rater 2两阶段裁决也已归档。2026-09-24用户确认以可见独立结构路径而非完整叶/叶龄为GT纳入定义，16株val pilot最终GT已显式冻结（34条独立结构、33条有完整几何；原第7张短结构的曲线缺失，不得伪造）。同graph/局部decoder的Teacher-direct、Student-B、冻结Student-D的16株表型pilot比较已完成，但Core12三方法均匹配20/24条有几何路径，配对收益未证明超过人工测量误差，尚未选出最终方法。后续充分训练/选择规则须事前确认；不得据GT逐图修补模型/阈值、开放V4 test或宣称表型准确率已通过。私有GT及来源哈希见`experiment/phenotype_pilot_protocol/最终GT冻结与后续比较入口_20260924.md`，比较结果见`experiment/phenotype_pilot_protocol/冻结方法表型先导比较_20260924.md`。不得以Rater 1两轮充作两名独立专家，也不得把裁剪端点自动当作完整叶尖。
 - 不制作启动 ZIP；通过项目文件和版本控制/目录同步在设备间接续。
+
+## 2026-09-25 当前方法门槛（覆盖上方历史“待充分训练”状态）
+
+- Student-B 的第53轮`best.pt`已按`CONVERGED`裁决冻结为最终checkpoint；禁止继续训练Student-B，不得依据人工GT更换checkpoint或修改Teacher、Student架构、loss、阈值、NMS、phenotype ROI、点条件graph、局部decoder、phenotype geometry、GT、Core/Diagnostic集合。
+- 16株锁定V4 val pilot的Teacher→Student逐点审计、cv RTX3090同机效率和3种轻度扰动稳健性已完成；方法门槛结论为B：Student-B是快速learned surrogate/knowledge-distilled adaptive keypoint detector，**不是**已证明表型更准确的赢家。Teacher-direct仍为强参照；Diagnostic两条Student漏失路径必须如实报告。
+- 当前先向用户汇报`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`。V4 test继续锁定；只有在用户审阅本门槛后，才**单独预注册**V4 test最终评价协议，不能在本任务直接读取test或继续训练。

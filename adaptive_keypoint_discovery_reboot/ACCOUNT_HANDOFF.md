@@ -63,6 +63,10 @@
 
 `cv`重启后已通过RTX3090、CUDA和cuDNN检查。Teacher-direct按原Route B教师在40张V4 val生成点，仅用同一冻结graph/局部decoder解码；B/D读取历史冻结结果，不新训练。16株比较已完成，权威入口为`experiment/phenotype_pilot_protocol/冻结方法表型先导比较_20260924.md`；私有逐株JSON仅在Git忽略的`runtime/method_comparison/frozen_pilot_20260924_v5_final/`，SHA-256=`e585a628f740a3c5909a78850370bc7de0ee34dd2590420a6234545ba491ff74`。Core12 Teacher/B/D都匹配20/24条有几何GT，B/D的条件性长度误差略低，但配对CI跨零且差异不足以证明超过人工MDC95；Diagnostic4 Teacher匹配9/9、B/D各7/9。**没有最终方法赢家，也没有启动新训练、正式消融、五种子或V4 test。**Teacher-direct继续作强基线，B是待充分训练验证的最小学习型候选，D仅作冻结对照。下一任务先确认后续训练预算/早停与模型选择规则；不得用pilot GT逐图修补，也不得引用`runtime/method_comparison`中v1-v4临时计算。
 
+### 2026-09-25 最终Student-B冻结与方法门槛（覆盖上节“待充分训练”状态）
+
+用户接受`CONVERGED`审计后，Route B Student-B第53轮`best.pt`已登记为**final frozen Student-B**，checkpoint SHA-256=`bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2`；绝不继续训练或以人工GT改checkpoint。16株固定V4 val pilot的Teacher→Student逐点审计、cv RTX3090同机效率和预锁定3种轻度扰动均已完成，唯一入口为`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`。方法门槛选B：Student是端到端快约17.75×的学习型教师替代器，Core表型路径匹配与Teacher同为20/24，但Diagnostic为7/9对Teacher9/9，不能宣称Student表型更准或稀有结构不丢失。优化目标是冻结Teacher伪标签，checkpoint选择目标是182/34划分的内部验证loss，科学目标是独立人工表型GT；三者不混用。原始逐点GT关联、计时及稳健性文件在Git忽略的`runtime/method_gate_20260925/`，不得推送。现在应先向用户报告本门槛；V4 test仍锁定，后续评价协议必须**另行预注册**，不得直接运行或继续训练。
+
 ## 三、账号切换后的推荐首条指令
 
 将下面文字原样发送给新账号中的 Codex：

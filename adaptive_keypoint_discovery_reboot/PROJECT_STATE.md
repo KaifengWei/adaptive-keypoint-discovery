@@ -108,6 +108,8 @@
 
 69. 2026-09-24`cv`重启后SSH和RTX3090/CUDA/cuDNN检查通过；在锁定V4 `val` 40张上生成Route B的Teacher-direct点及同graph/局部decoder路径，只取既定16株解盲GT比较。所有方法结果均`test_images_read=0`，B/D直接读取既有冻结输出，未重训或调阈值。模型518画布路径已按原letterbox映射逆变换到标准化原图像素；一次未变换的临时计算无效，正式统计使用同一`phenotype-geometry-v1`重算GT与预测曲线。Core12有25条独立结构、24条有曲线；Teacher-direct/B/D均匹配20/24，预测路径24/22/21条，可能多检分别3–4/1–2/0–1条；匹配路径长度误差中位数4.39%/3.51%/3.45%，仅为条件性描述。Student-B减Teacher的11株共同匹配路径的每株平均误差差为−0.49百分点，10,000次植株聚类bootstrap 95%CI[−1.95,1.46]；Student-D减B为−0.08百分点，CI[−0.61,0.39]，均未证明超过3.72%人工长度MDC95。Diagnostic4中Teacher匹配9/9、B/D各7/9，不与Core混合。失败互补：Core `v4_val_0004` Teacher 0/2、B/D 2/2；`v4_val_0030` Teacher 3/3、B/D 1/3。最终方法未选定；Teacher为强基线，B仍只是待充分训练验证的最小学习型候选，D只保留冻结对照。权威私有比较SHA-256=`e585a628f740a3c5909a78850370bc7de0ee34dd2590420a6234545ba491ff74`，公开报告`experiment/phenotype_pilot_protocol/冻结方法表型先导比较_20260924.md`。正式训练、消融、五种子、V4 test仍未启动；下一步须事前锁定后续训练/选择规则并确认路线，不得用GT逐图修补。
 
+70. 2026-09-25 用户接受Student-B训练充分性审计的`CONVERGED`裁决，正式冻结第53轮`best.pt`，SHA-256=`bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2`，seed `20260718`，原182/34内部划分、80轮/3680记录步、最佳内部验证损失`0.28449777762095135`；不得再训练B。冻结Teacher/Student/同一graph+局部decoder与已锁定Core12+Diagnostic4的知识迁移审计完成：Teacher/Student点数为98/68，`0.025D`空间匹配44对；Core GT匹配20/24对20/24，Diagnostic为9/9对7/9。Diagnostic两条Student漏失均来自`v4_val_0002`：近基部候选距骨架9.87 px，超过原`0.025D=8.03 px`投影限，被拒后无shoot侧基部节点，decoder输出零路径；不是GT匹配造成。远程`cv` RTX3090按预锁定协议完成同机计时：内存中点生成中位数Teacher/Student为685.19/13.14 ms，端到端表型为720.26/42.33 ms，成对速度比中位数17.75×，每法每阶段N=160；Student RAM峰值反而较高。3种预锁定轻度扰动显示Core旋转Student更稳、Diagnostic结果混合，不称外部泛化。`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`依据表型先导+迁移+效率+稳健性选择**B：Student为快速learned surrogate / knowledge-distilled adaptive keypoint detector**，不宣称表型更准或难例完全等价；Teacher-direct保留强参照。唯一优化目标仍是冻结Teacher伪标签，checkpoint只按内部验证损失选择，独立人工GT只裁决科学价值。未训练、未修改冻结方法/GT/集合、未读V4 test；下一步先向用户汇报，**不得在本次直接预注册或运行V4 test**。
+
 ## 五、训练门槛
 
 - V3 自动处理图已经过接触表复核；正式集为 98 张。
@@ -121,6 +123,7 @@
 - 关键点条件器官路径解码已生成 65 条候选路径、代理表型 CSV、40 张叠加图、5 页接触表和可导出 CSV 的逐图 HTML；必须先完成真正人工复核，自动预审不得记为人工通过。
 - 路线B已在RTX3090完成216张train自动教师、80轮训练和40张val-only评估，并生成64条候选路径与新的逐图HTML；当前先复核8张自动优先样本，再补齐其余路径语义与人工表型参考，V4 test继续锁定。
 - 冻结A/B/C/D的40张中性配对审核、三轮人工描迹、裁决前可靠性及16株val pilot最终GT均已完成；34条结构中33条有完整几何，第7张短结构曲线不得伪造。同graph/局部decoder的Teacher-direct/B/D表型先导比较已完成，但Core12的20/24共同召回与不确定的配对长度收益不足以确定赢家。下一门槛是基于已冻结比较结果事前确认学习型B的充分训练/消融和最终选择规则；不能用16株GT逐图调参。五种子及V4 test继续后置，表型准确率未宣称通过。
+- **2026-09-25最新门槛，覆盖上一条旧“待充分训练”叙述：**Student-B第53轮已因`CONVERGED`冻结，禁止继续训练。完成Teacher→Student逐点知识迁移、同机效率及预锁定轻扰动审计；16株pilot的方法门槛选择B（快速learned surrogate，非表型准确率赢家）。先汇报给用户，随后才可**单独**预注册V4 test最终评价；test当前仍锁定，五种子与其他正式实验未获本任务授权。
 
 ## 六、设备与接续
 
