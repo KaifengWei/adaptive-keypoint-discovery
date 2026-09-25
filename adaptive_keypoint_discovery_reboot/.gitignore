@@ -4,3 +4,6 @@ experiment/phenotype_pilot_protocol/runtime/
 # Spreadsheet render/inspection support artifacts; the reviewed workbook itself is tracked.
 experiment/phenotype_pilot_protocol/outputs/*/preview_*.png
 experiment/phenotype_pilot_protocol/outputs/*/*.inspect.ndjson
+
+# Project-local ARIS-Code binary, upstream checkout, sessions and credentials.
+.aris/

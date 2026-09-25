@@ -1,6 +1,6 @@
 # PROJECT STATE
 
-更新时间：2026-09-24
+更新时间：2026-09-25
 
 ## 一、已锁定的研究口径
 
@@ -111,6 +111,7 @@
 70. 2026-09-25 用户接受Student-B训练充分性审计的`CONVERGED`裁决，正式冻结第53轮`best.pt`，SHA-256=`bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2`，seed `20260718`，原182/34内部划分、80轮/3680记录步、最佳内部验证损失`0.28449777762095135`；不得再训练B。冻结Teacher/Student/同一graph+局部decoder与已锁定Core12+Diagnostic4的知识迁移审计完成：Teacher/Student点数为98/68，`0.025D`空间匹配44对；Core GT匹配20/24对20/24，Diagnostic为9/9对7/9。Diagnostic两条Student漏失均来自`v4_val_0002`：近基部候选距骨架9.87 px，超过原`0.025D=8.03 px`投影限，被拒后无shoot侧基部节点，decoder输出零路径；不是GT匹配造成。远程`cv` RTX3090按预锁定协议完成同机计时：内存中点生成中位数Teacher/Student为685.19/13.14 ms，端到端表型为720.26/42.33 ms，成对速度比中位数17.75×，每法每阶段N=160；Student RAM峰值反而较高。3种预锁定轻度扰动显示Core旋转Student更稳、Diagnostic结果混合，不称外部泛化。`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`依据表型先导+迁移+效率+稳健性选择**B：Student为快速learned surrogate / knowledge-distilled adaptive keypoint detector**，不宣称表型更准或难例完全等价；Teacher-direct保留强参照。唯一优化目标仍是冻结Teacher伪标签，checkpoint只按内部验证损失选择，独立人工GT只裁决科学价值。未训练、未修改冻结方法/GT/集合、未读V4 test；下一步先向用户汇报，**不得在本次直接预注册或运行V4 test**。
 71. 2026-09-25 用户接受`FINAL_METHOD_GATE=B`并要求在V4 test前只做冻结流水线瓶颈诊断。先将前述freeze、knowledge-transfer、efficiency/robustness与final gate研究提交推送至GitHub `main`=`3d82f80`。随后对冻结Teacher-direct/Student-B在40株V4 val的80次点条件graph/局部decoder重建，接受节点数和路径数与保存输出80/80一致；全部拒点为28（Teacher超距10、Student超距17及重复合并1）。16株pilot的漏配同时涉及候选缺失、近结构候选硬投影拒绝与已入图短枝被decoder剪去，故`BOTTLENECK=MIXED`。`v4_val_0002`和`0031`是不同植株、不同原始扫描帧上重复的“近基部点→硬拒绝→无基部→零路径”，但只有前者有冻结人工表型GT；可提出唯一一个不扫描新阈值的uncertainty-aware点—结构关联V2假设，**本轮未实现、未调参、未训练**。逐例和逐拒点证据唯一入口为`experiment/method_gate_20260925/FINAL_PIPELINE_BOTTLENECK_AUDIT.md`。Student-B epoch53、Gate B、Teacher/graph/decoder/GT与Core/Diagnostic均保持冻结；V4 test未读取、未预注册，下一步先向用户报告并等待后续单独授权。
 72. 2026-09-25 用户接受`BOTTLENECK=MIXED`并授权**唯一一个**final Pipeline V2 的预注册设计，本轮只完成`experiment/method_gate_20260925/PIPELINE_V2_PREREGISTRATION.md`：同一冻结Teacher-direct/Student-B共享一个基于原最近骨架投影、局部自动支持宽度和点到冻结ROI距离的连续关联分数，参数从既有`0.025D`参照尺度解析固定，不使用人工GT校准、热图峰宽假数据或逐图例外。已事前锁定40株val机制指标、16株Core12/Diagnostic4表型及负面代价、唯一正式运行与V1回退门槛。此前val失败启发了设计，val比较仅为开发裁决，不能冒充独立确证。**尚未实现或运行V2、未训练或修改冻结模型/解码器/GT，V4 test未读取、未预注册。**下一步等待用户另行授权实施一次正式V2；无论胜负，随后停止val方法开发并单独预注册V4 locked test。
+73. 2026-09-25 已核对用户提供的ARIS-Code Windows v0.4.27压缩包与官方发布资产SHA-256一致，项目本地安装于Git忽略的`.aris/bin/aris.exe`；Codex项目本地安装ARIS `analyze-results`与`experiment-plan` Markdown技能并使用其流程整理证据。`aris doctor`显示CLI和Codex reviewer桥可用，但没有executor授权，故**未运行ARIS自动研究回合或独立跨模型实验裁决**。结果梳理位于`experiment/aris_review_20260925/RESULTS_AUDIT.md`，主张/实验映射位于`refine-logs/`，V4 val证据论文初稿位于`paper/自适应关键点发现_论文证据初稿_20260925.md`。本机复核冻结GT、Student-B checkpoint及权威方法比较JSON哈希均匹配；点条件图5项、器官路径6项、坐标逆变换2项、冻结诊断1项非训练回归测试通过。发现用户提供的全流程工作记录停在`2272e2a`、V2构想文字宽于正式预注册，且速度表未标明17.75×为配对比值中位数；该用户原始记录保持未修改，最新V2定义以已提交预注册为准。本项没有新模型性能结果，未训练、未改冻结组件、未实施V2、未读取或预注册V4 test；表型准确率仍为`pending`。
 
 ## 五、训练门槛
 
