@@ -1,6 +1,14 @@
 # PROJECT STATE
 
-更新时间：2026-09-25
+更新时间：2026-09-27
+
+## 当前唯一有效入口（覆盖下方历史阶段的“下一步”）
+
+V4 val method development permanently closed. Pipeline V1 and Student-B frozen. Awaiting model-blind V4 test GT. No test model inference has occurred.
+
+Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong automatic reference；Student-D仅secondary ablation。Pipeline V2阴性消融已永久回退V1。不再训练、修改模型/接口或开发V3，不读取用户额外秧苗图片。本轮仅完成`experiment/locked_test_final_20260927/V4_LOCKED_TEST_PREREGISTRATION.md`和模型盲GT静态协议/检查脚本；GT、test evaluator与首次test inference授权仍未完成，`test_model_reads=0`。
+
+异地仅使用`cv-public`：本轮已成功连接`neaucs2-OMEN`，RTX3090/CUDA synthetic smoke通过，B/D checkpoint哈希核验完成。远程Git版本落后且存在未跟踪实验文件，未强制覆盖同步；正式评价前仍须受控同步与hash验收。推荐两人各一轮40株（全部存在性与可测几何），不新增强制重复轮次，只处理实质分歧。
 
 ## 一、已锁定的研究口径
 
@@ -115,6 +123,8 @@
 
 74. 2026-09-25 用户接受提交`6824bd9`的唯一Pipeline V2预注册并授权一次正式实现/评价。V2仅新增learned point→冻结骨架的宽度/ROI距离加权关联；Teacher-direct和epoch53 Student-B共用原保存点、V1投影位置/同像素去重/测地图/局部decoder/表型几何。7项纯合成测试及40 val×2点源的V1回归`80/80`通过后，先将代码冻结在Git`6840291`并记录代码、输入与GT仅哈希；再一次性运行80个V2图—方法实例、425个保存点，全部输出在读GT之前封存。之后才读取冻结Core12/Diagnostic4 GT并按预注册裁决：**RESULT 3，V2明显恶化，回退并冻结Pipeline V1**。Teacher/Student的接受节点254→206/143→112，总路径96→54/76→43，零路径图1→8/2→11；四个方法×组的可测GT匹配全部下降（Teacher Core20→12、Diagnostic9→6；Student Core20→15、Diagnostic7→5），另有3个新的预定义基部偏离事件。8个原超距点虽经V2入图并参与路径，但未解除预设的跨帧基部/零路径失败，也未新增正确GT匹配。正式接口回到原`0.025D` Pipeline V1；V2阴性记录、冻结哈希和全量私有明细保留。权威入口为`experiment/method_gate_20260925/PIPELINE_V2_IMPLEMENTATION_AUDIT.md`、`PIPELINE_V2_V1_V2_COMPARISON.md`及`FINAL_PIPELINE_DECISION.md`。Student-B Gate B learned-surrogate定位和Teacher强参照均不变；不再调参、重跑V2、开发V3或重训。**V4 test未读取、未预注册；下一阶段只能另行预注册最终locked-test评价。**
 
+75. 2026-09-27用户批准进入V4 locked-test final evaluation的**预注册/静态协议阶段**。已锁定Teacher-direct与epoch53 Student-B为primary、冻结Student-D为secondary、同Pipeline V1/ROI/basal/local decoder/geometry；永久关闭V4 val方法开发和新训练。`experiment/locked_test_final_20260927/V4_LOCKED_TEST_PREREGISTRATION.md`登记基线Git`0ac2854`、B/D checkpoint SHA及Teacher/graph/decoder/geometry/参考evaluator和split清单哈希；远程D SHA=`b904eed30832d1a2c6cc20aca97e3d0140cc4444235c6a3b4b4b606bab17ce4a`。仅解析manifest元数据，220/40/40锁定身份及图像预期哈希在本机/远程一致、组/帧跨split交集0；test40株来自8个扫描帧/4个采集目录，因此预锁定plant-cluster主分析及frame-cluster敏感性分析，10,000 bootstrap、seed20260927/20260928。人工GT推荐两人各一轮全40株，不新增重复轮次；只在模型盲条件下解决实质分歧，无可靠几何时保留存在性/不确定状态，不造曲线。协议明定GT冻结/hash→test evaluator冻结→用户授权→首次40×3一次性推理；当前只提供stdlib静态checker和合成schema测试，不建真实测量包、不打开test像素、不运行模型。`cv-public`SSH、RTX3090/CUDA最小合成卷积已通过，但远程repo`45a44da`落后且有未跟踪目录，正式推理前需受控同步，不能宣称所有运行门槛已通过。**test_model_reads=0；GT和test evaluator均PENDING；用户额外秧苗数据未读取。**
+
 ## 五、训练门槛
 
 - V3 自动处理图已经过接触表复核；正式集为 98 张。
@@ -134,6 +144,8 @@
 - **2026-09-25最终方法开发门槛，覆盖上条“待V2授权”：**用户已授权且唯一一次正式V2已完成；按预注册安全先行规则裁决`RESULT 3`，**冻结Pipeline V1，停止val方法开发**。V2保留为阴性审计，不得继续调参、复跑或开发V3。Student-B epoch53和`FINAL_METHOD_GATE=B`不变。V4 test仍未读取、未预注册；后续仅可在用户另行确认后预注册locked-test最终评价。
 
 ## 六、设备与接续
+
+- **2026-09-27最新执行门槛：**仅完成locked-test预注册和静态检查；正式方法与V4 val永久冻结。按顺序准备模型盲test GT、冻结GT/hash、冻结test evaluator后，再等待首次test推理授权。禁止新训练；现有GPU就绪不是模型读取test的授权。
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 当前主远程恢复为`cv`（`neaucs2-OMEN`，RTX3090）。办公室内通过`cv`连接`192.168.2.169`；异地通过`cv-public`连接`101.43.203.197:25001`。公网入口由仅SSH的用户级FRP服务维持。
