@@ -10,6 +10,8 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 
 异地仅使用`cv-public`：已成功连接`neaucs2-OMEN`，RTX3090/CUDA synthetic smoke通过，B/D checkpoint哈希核验完成；先前远程版本差异已安全同步。`cv`内网与`cv-public`公网只是同一台设备的不同SSH入口，使用同一目录时看到同一份文件，不是两套远程代码。本轮只在本机进行测量包行政资产工作，不运行远程模型。正式测量入口是`experiment/phenotype_pilot_protocol/runtime/v4_test_single_rater_20260927/public/index.html`；40株由一名测量者完成，不安排第二人或test-specific共识/可靠性重估。
 
+测量页面已按用户反馈完成UI技术revision 01：默认按窗口宽高完整显示，换图重置缩放/滚动；缺描迹条件立即可见提示，用户主动选可测后进入描迹。图像/ID/顺序/manifest/mapping/原坐标schema/存储key未变，旧记录继续沿用，不清浏览器存储。当前public package SHA=`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；旧版本字节和hash链已私有保留。审计见`experiment/locked_test_final_20260927/V4_TEST_GT_UI_REVISION_01_AUDIT.md`。仅UI修复，不开放任何模型或GT方法变更。
+
 ## 一、已锁定的研究口径
 
 唯一主线是：无人工关键点定义与坐标标签时，模型能否从单株秧苗图像中自适应发现数量可变、位置稳定、能支撑表型计算的关键点。
@@ -128,6 +130,8 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 76. 2026-09-27用户确认如仅为先前工作未同步，则授权对齐远程代码版本。通过`cv-public`核实主机仍为`neaucs2-OMEN`、repo仍为`/home/neaucs2/kp/adaptive-keypoint-discovery`；原HEAD`45a44da`落后GitHub预注册节点`11e9134`共32个提交，tracked工作树无修改。incoming tracked文件与3个远程untracked文件重名：`run_frozen_diagnostics.py`与`phenotype_gt_geometry.py`字节相同；`phenotype_pilot_selection.csv`字节hash不同，但16株ID、全部CSV字段解析结果完全相同。仅将这3份原文件（总38,072字节）原样移存至`/home/neaucs2/kp/.sync-preserved/20260927_11e9134/`后，执行`merge --ff-only`；未reset、未删除/覆盖checkpoint、数据或私有实验记录。同步后远程完整冻结artifact/split/source静态检查PASS，B/D权重与预注册hash一致，13项合成测试PASS；预注册SHA仍为`31734d9dad03dc38d93a59cea8b55ea4eb22ac67854d3e506d813b34eef3b3d9`。已说明`cv`/`cv-public`只改变到同一服务器的网络入口，使用同一项目目录不涉及两份远程代码的同步。本轮仅版本同步及静态检查，未训练、未运行Teacher/Student、未读取test像素；`test_model_reads=0`，GT/test evaluator门槛保持关闭。
 
 77. 2026-09-27用户在模型推理前批准single-rater model-blind full-40人工GT来源行政修订，amendment先独立提交`e1d71d4`，SHA-256=`4329d946dc0f4902a6030a033f853b4d3887cf35ec0435fe773f0b83cfffa529`；原预注册SHA保持`31734d9dad03dc38d93a59cea8b55ea4eb22ac67854d3e506d813b34eef3b3d9`。新测量工具仅在两张纯合成fixture上完成12项schema测试、18项真实Edge交互/恢复/导出验收，console/page errors=0，之后冻结源码`9ccb73b`，才建立唯一正式包。40/40原标准化RGB逐字节复制，blind ID为20字符crypto随机且40/40唯一，public严格只含HTML/JS/blind manifest/40图片；泄漏扫描PASS。正式40株仅资产打开/header/hash检查，没有content QC/计数/排序/掩膜/自动点线或描迹，results初始为空。public package SHA=`2c60a58f8dca9a60d73d03e9f9360f9650be0c2d7d492f47e8e291ab1156ebc5`，private mapping与完整ledger保存在Git ignored runtime/admin。全40株存在性和所有measurable完整几何待用户完成；visible_unmeasurable/uncertain/non_target_structure保持原统计资格。提交即raw revision/SHA锁定，之后只允许留链的纯技术修订，不允许看模型改GT；不新估test inter-rater或以开发MDC95作equivalence margin。唯一入口为`experiment/locked_test_final_20260927/V4_TEST_GT_SINGLE_RATER_PACKAGE_AUDIT.md`。**test_model_reads=0、INFERENCE_GATE=CLOSED**；不训练、不运行Teacher/B/D、不读额外秧苗。下一阶段只能用户提交40株后依次raw validation→final GT freeze/hash→evaluator freeze→显式推理授权，本轮到此停止。
+
+78. 2026-09-27用户报告正式GT页竖长图缩放不一致与“继续描迹”无明显响应。定位为width-only fit/未重置scroll，以及必须先添加并主动选measurable但提示藏于图下的交互问题。源码`527748f`仅修改HTML/JS显示和明确引导，不预填状态；raw schema、GT定义、方法/模型和坐标存储规则不变。原12项schema与18项浏览器检查重跑PASS，新增横长/竖长合成图13项适配/提示/旧版兼容回归PASS；旧合成已提交记录的localStorage、revision chain和raw导出字节完全一致。通过后更新同一正式包HTML/JS，40图片、blind manifest/mapping/ID顺序和storage key不变，旧代码/ledger保留于private admin/ui_revision_01/previous。新package SHA=`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；正式40株只资产加载/泄漏验收PASS，无真实试画或内容分析。用户备份后刷新原页继续，不需要重标或清缓存。当前仍`test_model_reads=0`、`INFERENCE_GATE=CLOSED`，下一步仍仅等待全40株raw提交。完整技术修订见`experiment/locked_test_final_20260927/V4_TEST_GT_UI_REVISION_01_AUDIT.md`。
 
 ## 五、训练门槛
 

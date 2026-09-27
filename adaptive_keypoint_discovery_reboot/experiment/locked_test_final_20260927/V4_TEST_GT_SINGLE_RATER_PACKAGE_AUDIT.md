@@ -2,6 +2,8 @@
 
 日期：2026-09-27。状态：**正式测量包准备完毕；原始人工标注、final GT及final test evaluator仍PENDING；INFERENCE_GATE=CLOSED。**
 
+**后续技术修订登记：**用户报告缩放/描迹引导问题后，同一正式包已应用UI revision 01，详情见`V4_TEST_GT_UI_REVISION_01_AUDIT.md`。当前package SHA为`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；下文保留首次构建的原始审计与旧SHA。图片、manifest、mapping、ID顺序、raw schema和存储key均未改变。
+
 ## 1. 行政修订及方法边界
 
 唯一有效来源修订为同目录`V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md`，commit `e1d71d4dd08828f45d6d303e750523554402b2f6`。原协议`V4_LOCKED_TEST_PREREGISTRATION.md`保留原字节，不重写冻结历史；其人工来源相关要求由amendment正式覆盖。
