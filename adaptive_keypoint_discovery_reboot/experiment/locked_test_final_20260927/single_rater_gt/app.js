@@ -73,7 +73,26 @@
     if(show){r.items.forEach((t,i)=>{const c=colors[i%colors.length];if(t.points_px.length){add("polyline",{points:t.points_px.map(p=>p.join(",")).join(" "),fill:"none",stroke:c,"stroke-width":radius*.65});t.points_px.forEach((p,j)=>{if(j===0)return;add("circle",{cx:p[0],cy:p[1],r:radius,fill:j===t.points_px.length-1?"white":c,stroke:c,"stroke-width":radius*.4,"data-item":i,"data-point":j});});}else if(t.tip_xy)add("circle",{cx:t.tip_xy[0],cy:t.tip_xy[1],r:radius,fill:"white",stroke:c,"stroke-width":radius*.5,"data-item":i,"data-point":"tip"});});
       if(r.base_xy)add("circle",{cx:r.base_xy[0],cy:r.base_xy[1],r:radius*1.25,fill:"#333",stroke:"white","stroke-width":radius*.35});}
   }
-  function sizing(){const s=sample(),w=Math.max(200,$("viewport").clientWidth-2)*zoom;$("stage").style.width=w+"px";$("stage").style.height=w*s.height/s.width+"px";}
+  function sizing(){
+    const s=sample(),vp=$("viewport"),stage=$("stage");
+    const availableW=Math.max(1,vp.clientWidth-2),availableH=Math.max(1,vp.clientHeight-2);
+    const scale=Math.min(availableW/s.width,availableH/s.height)*zoom;
+    stage.style.width=s.width*scale+"px";stage.style.height=s.height*scale+"px";
+    stage.style.marginTop=Math.max(0,(availableH-s.height*scale)/2)+"px";
+    $("zoom-label").textContent=`全图 ${zoom.toFixed(2)}× · 原图 ${(scale*100).toFixed(1)}%`;
+  }
+  function fitView(){zoom=1;const vp=$("viewport");vp.scrollTop=0;vp.scrollLeft=0;sizing();vp.scrollTop=0;vp.scrollLeft=0;sizing();}
+  function startTrace(){
+    if(locked())return;
+    if(!rec().base_xy){mode="base";render();return say("请先点击原图设置共同地上部基点，再添加结构和选择状态。",true);}
+    if(!item()){mode="browse";render();return say(rec().items.length?"请先在右侧列表点选要描迹的结构。":"请先点击“2. 添加结构”，再在右侧选择结构状态。",true);}
+    if(item().visibility_status!=="measurable"){
+      mode="browse";render();
+      if(!item().visibility_status){$("state").classList.add("needs-input");$("state").focus({preventScroll:true});return say("当前结构尚未选择状态。请在右侧明确选择“可测”；页面不会替你默认判定。",true);}
+      return say("当前结构不是“可测”，按规则只记录存在性/原因，可用“仅记录可见尖端”定位，不描完整几何。",true);
+    }
+    mode="trace";render();say("描迹已开启：在原图沿中心线逐点点击，直到该结构的尖端。起点自动使用共同基点。");
+  }
   function render(){
     const r=rec(),t=item();$("blind").textContent=sample().blind_id;$("counter").textContent=`${position+1} / ${samples.length}`;$("status").textContent=`已锁定 ${Object.values(records).filter(x=>x.submitted).length} / ${samples.length}`;$("lock").textContent=r.submitted?`已提交锁定 · revision ${r.revision}`:technical()?"技术修订草稿":"未提交";
     $("prev").disabled=position===0||busy;$("next").disabled=position===samples.length-1||busy;
@@ -85,22 +104,22 @@
     $("details").hidden=!t;if(t){$("state").value=t.visibility_status;$("occlusion").value=t.occlusion;$("interpolation").value=t.interpolation_used;$("confidence").value=t.confidence;$("item-note").value=t.note;$("item-summary").textContent=`控制点 ${t.points_px.length}；尖端 ${t.tip_xy?t.tip_xy.map(x=>x.toFixed(1)).join(", "):"未记录"}`;}
     for(const id of ["state","occlusion","interpolation","confidence","item-note","image-note","checked"])$(id).disabled=locked()||technical();$("image-note").value=r.image_note;$("checked").checked=r.whole_plant_checked;draw();
   }
-  function go(n){position=n;selected=-1;mode="browse";undo=[];zoom=1;$("revision-panel").hidden=true;$("photo").src=sample().image_filename;sizing();render();save();say("");}
+  function go(n){position=n;selected=-1;mode="browse";undo=[];$("revision-panel").hidden=true;$("state").classList.remove("needs-input");$("photo").src=sample().image_filename;render();save();say("");fitView();}
   function xy(ev){const b=$("overlay").getBoundingClientRect(),s=sample();return [Math.max(0,Math.min(s.width,(ev.clientX-b.left)*s.width/b.width)),Math.max(0,Math.min(s.height,(ev.clientY-b.top)*s.height/b.height))];}
   $("overlay").addEventListener("pointerdown",e=>{if(locked())return;const el=e.target;if(el.dataset.point){remember();drag={i:Number(el.dataset.item),p:el.dataset.point};selected=drag.i;$("overlay").setPointerCapture(e.pointerId);return;}
     const p=xy(e),r=rec(),t=item();if(mode==="base"){remember();r.base_xy=p;for(const x of r.items)if(x.points_px.length)x.points_px[0]=clone(p);}
     else if(mode==="trace"){if(!t||t.visibility_status!=="measurable"||!r.base_xy)return say("先选择可测结构并设置共同基点",true);remember();if(!t.points_px.length)t.points_px=[clone(r.base_xy)];t.points_px.push(p);t.tip_xy=p;}
     else if(mode==="tip"){if(!t||t.visibility_status==="measurable")return say("可测结构的尖端为描迹最后一点；此工具仅定位非可测结构",true);remember();t.tip_xy=p;}
-    else return;save();render();});
+    else return;save();render();if(mode==="base")say("共同基点已设置。下一步：添加结构 → 在右侧选择状态；选择“可测”后即可描迹。");});
   $("overlay").addEventListener("pointermove",e=>{if(!drag)return;const t=rec().items[drag.i],p=xy(e);if(drag.p==="tip")t.tip_xy=p;else{t.points_px[Number(drag.p)]=p;if(Number(drag.p)===t.points_px.length-1)t.tip_xy=p;}draw();});
   $("overlay").addEventListener("pointerup",()=>{if(drag){drag=null;save();render();}});
   $("overlay").addEventListener("pointercancel",()=>{drag=null;save();render();});
-  $("base").onclick=()=>{mode="base";render();};$("trace").onclick=()=>{mode="trace";render();};$("tip").onclick=()=>{mode="tip";render();};
-  $("add").onclick=()=>{if(locked()||technical())return;remember();rec().items.push({trace_uuid:uuid(),visibility_status:"",points_px:[],tip_xy:null,occlusion:"none",interpolation_used:"no",confidence:"",note:""});selected=rec().items.length-1;mode="browse";save();render();};
+  $("base").onclick=()=>{mode="base";render();say("请在原图点击共同地上部基点；不要把颖果或根尖当作基点。");};$("trace").onclick=startTrace;$("tip").onclick=()=>{mode="tip";render();say("此工具只记录非可测结构的可见尖端，不生成几何路径。");};
+  $("add").onclick=()=>{if(locked()||technical())return;remember();rec().items.push({trace_uuid:uuid(),visibility_status:"",points_px:[],tip_xy:null,occlusion:"none",interpolation_used:"no",confidence:"",note:""});selected=rec().items.length-1;mode="browse";save();render();$("state").classList.add("needs-input");$("state").focus({preventScroll:true});say("已添加一条空结构。请在右侧选择状态；明确选择“可测”后可直接在图上描迹。其他状态只记存在性/原因。");};
   $("remove").onclick=()=>{if(locked()||technical()||selected<0)return;if(!confirm("删除尚未提交的当前结构？"))return;remember();rec().items.splice(selected,1);selected=-1;save();render();};
   $("undo").onclick=()=>{if(locked()||!undo.length)return;records[sample().blind_id]=undo.pop();selected=Math.min(selected,rec().items.length-1);save();render();};
   const fields={state:"visibility_status",occlusion:"occlusion",interpolation:"interpolation_used",confidence:"confidence","item-note":"note"};
-  for(const [id,f] of Object.entries(fields))$(id).addEventListener(id==="item-note"?"input":"change",()=>{if(locked()||technical()||!item())return;const t=item(),value=$(id).value;if(f==="visibility_status"&&value!=="measurable"&&t.points_px.length&&!confirm("此状态只保留存在性/定位；清除尚未提交的几何？")){render();return;}remember();t[f]=value;if(f==="visibility_status"&&value!=="measurable"){t.points_px=[];t.interpolation_used="no";}save();render();});
+  for(const [id,f] of Object.entries(fields))$(id).addEventListener(id==="item-note"?"input":"change",()=>{if(locked()||technical()||!item())return;const t=item(),value=$(id).value;if(f==="visibility_status"&&value!=="measurable"&&t.points_px.length&&!confirm("此状态只保留存在性/定位；清除尚未提交的几何？")){render();return;}remember();t[f]=value;if(f==="visibility_status"&&value!=="measurable"){t.points_px=[];t.interpolation_used="no";mode="browse";}save();render();if(f==="visibility_status"){$("state").classList.remove("needs-input");if(value==="measurable")startTrace();else say("此状态不描完整几何；请记录原因、信心，必要时用“仅记录可见尖端”定位。");}});
   $("image-note").oninput=()=>{if(locked()||technical())return;rec().image_note=$("image-note").value;save();};$("checked").onchange=()=>{if(locked()||technical())return;rec().whole_plant_checked=$("checked").checked;save();};
   $("submit").onclick=async()=>{if(locked())return;try{validate(rec(),sample());busy=true;render();const r=rec();r.items.forEach((t,i)=>t.gt_id=`GT${String(i+1).padStart(2,"0")}`);r.submitted_at=new Date().toISOString();r.previous_submission_sha256=r.history.length?r.history.at(-1).sha256:null;const snapshot=clone(r);delete snapshot.history;delete snapshot.submitted;const snapshot_json=JSON.stringify(snapshot);const h={snapshot_json,sha256:await sha(snapshot_json)};
       const candidate=clone(r);candidate.history.push(h);candidate.submitted=true;await checkHistory(candidate,sample());records[sample().blind_id]=candidate;undo=[];mode="browse";save();say("已锁定并保存 SHA-256："+h.sha256+"。请使用备份或全套导出进行持久保存。");}
@@ -108,7 +127,14 @@
   $("technical").onclick=()=>{$("revision-panel").hidden=false;};
   $("begin-revision").onclick=()=>{if(!rec().submitted)return;const reason=$("revision-reason").value.trim();if(!reason)return say("必须填写可核查的纯技术原因",true);const r=rec();r.submitted=false;r.revision++;r.technical_revision={kind:$("revision-kind").value,reason};delete r.submitted_at;delete r.previous_submission_sha256;undo=[];$("revision-panel").hidden=true;save();render();say("原快照和 hash 已保留；仅允许技术坐标修订，不允许重判状态/数量/身份。");};
   $("prev").onclick=()=>go(position-1);$("next").onclick=()=>go(position+1);
-  const changeZoom=f=>{zoom=Math.min(8,Math.max(.5,zoom*f));sizing();};$("zoom-in").onclick=()=>changeZoom(1.25);$("zoom-out").onclick=()=>changeZoom(.8);$("fit").onclick=()=>{zoom=1;sizing();};$("toggle").onclick=()=>{show=!show;$("toggle").textContent=show?"隐藏人工标记":"显示人工标记";draw();};$("viewport").addEventListener("wheel",e=>{e.preventDefault();changeZoom(e.deltaY<0?1.12:1/1.12);},{passive:false});window.addEventListener("resize",sizing);
+  const changeZoom=(f,cx,cy)=>{
+    const vp=$("viewport"),before=$("stage").getBoundingClientRect(),box=vp.getBoundingClientRect();
+    cx=cx??box.left+vp.clientWidth/2;cy=cy??box.top+vp.clientHeight/2;
+    const x=Math.max(0,Math.min(1,(cx-before.left)/before.width)),y=Math.max(0,Math.min(1,(cy-before.top)/before.height));
+    zoom=Math.min(12,Math.max(.5,zoom*f));sizing();const after=$("stage").getBoundingClientRect();
+    vp.scrollLeft+=after.left+x*after.width-cx;vp.scrollTop+=after.top+y*after.height-cy;
+  };
+  $("zoom-in").onclick=()=>changeZoom(1.25);$("zoom-out").onclick=()=>changeZoom(.8);$("fit").onclick=fitView;$("toggle").onclick=()=>{show=!show;$("toggle").textContent=show?"隐藏人工标记":"显示人工标记";draw();};$("viewport").addEventListener("wheel",e=>{e.preventDefault();changeZoom(e.deltaY<0?1.12:1/1.12,e.clientX,e.clientY);},{passive:false});window.addEventListener("resize",()=>{sizing();if(zoom===1)fitView();});
   function download(name,text,type="application/json"){const a=document.createElement("a");a.download=name;a.href=URL.createObjectURL(new Blob([text],{type}));a.textContent="下载 "+name;$("downloads").appendChild(a);return a;}
   async function backup(){const payload_json=JSON.stringify({schema_version:"blind-progress-v1",manifest_sha256:window.MANIFEST_SHA,position,records});const outer={payload_json,sha256:await sha(payload_json)};const a=download("annotation_progress.json",JSON.stringify(outer,null,2));a.click();}
   $("backup").onclick=()=>backup().catch(e=>say(e.message,true));$("restore").onclick=()=>$("restore-file").click();
