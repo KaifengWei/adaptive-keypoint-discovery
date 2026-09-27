@@ -4,7 +4,7 @@
 
 > 给定一幅秧苗图像，算法能否在没有人工关键点定义的情况下，根据当前植株的结构和形态，自主确定关键点的位置、数量及其稳定性？
 
-当前状态（2026-09-24）：V4为220/40/40，A/B/C/D路径复核、三轮人工描迹和裁决前可靠性已完成。用户确认以“图像中可见、可独立追踪的结构路径”而非完整叶/叶龄为GT口径；16株锁定`val` pilot的最终人工GT已冻结：34条独立结构，其中33条有完整几何路径，1条明确缺失曲线而不伪造。现可开始Teacher-direct、Student-B、冻结Student-D的**表型比较**，尚未证明哪个方法胜出；不因GT冻结直接启动正式训练或开放V4 test。当前入口见[最终GT冻结与后续比较入口](experiment/phenotype_pilot_protocol/最终GT冻结与后续比较入口_20260924.md)。
+当前状态（2026-09-27）：16株`val` pilot GT和方法比较已完成，Student-B epoch53已冻结为快速learned surrogate（Gate B，不宣称表型更准）；V2阴性开发裁决已永久回退V1，val方法开发和训练均关闭。V4为220/40/40；locked-test GT来源正式行政修订为**single-rater model-blind full-40**，合成验证后的唯一40株测量包已准备。等待用户完成全部存在性及可测几何，然后依次raw验证→final GT冻结/hash→evaluator冻结→显式推理授权；`test_model_reads=0`、`INFERENCE_GATE=CLOSED`。入口见[行政修订](experiment/locked_test_final_20260927/V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md)、[测量包审计](experiment/locked_test_final_20260927/V4_TEST_GT_SINGLE_RATER_PACKAGE_AUDIT.md)与[PROJECT_STATE](PROJECT_STATE.md)。
 
 ## 文件
 

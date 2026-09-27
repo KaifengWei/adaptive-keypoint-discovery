@@ -12,3 +12,6 @@
 *.jpg binary
 *.jpeg binary
 
+# Frozen measurement-platform bytes must survive cross-device checkout unchanged.
+adaptive_keypoint_discovery_reboot/experiment/locked_test_final_20260927/single_rater_gt/*.js text eol=lf
+adaptive_keypoint_discovery_reboot/experiment/locked_test_final_20260927/single_rater_gt/*.html text eol=lf

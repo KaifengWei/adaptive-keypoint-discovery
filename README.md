@@ -18,8 +18,8 @@
 
 ## 当前进度
 
-V4已固定为300张整株数据：220张train、40张val和40张locked test。点条件图已替代旧的完整骨架独立拓扑，地上部有效域用于排除颖果和根须干扰。冻结A/B/C/D的40张人工配对复核已经完成：局部叶宽尺度Decoder能够稳定恢复更多真叶路径，但伴随假枝和错连代价；结构覆盖增强Teacher没有证明净收益。因此停止修补C/D，B=`Route B Teacher + local decoder`作为当前primary/minimum-sufficient Student候选，D只保留一次冻结表型对照。B尚未被证明优于更简单的Teacher-direct。
+截至2026-09-27，V4固定为220 train / 40 val / 40 locked test。16株val pilot人工GT和冻结方法比较已完成；Student-B第53轮因CONVERGED正式冻结，方法门槛为B：快速learned surrogate，未证明表型优于Teacher-direct。唯一Pipeline V2开发裁决为明显恶化，永久回退并冻结V1；val方法开发和新训练均关闭，Teacher-direct为强参照，Student-D仅secondary对照。
 
-截至2026-09-13，phenotype-first pilot三轮人工描迹均已完成并归档：Rater 1两轮为35/36条，Rater 2第一轮30条。匿名匹配和裁决前可靠性已计算，长度相对MDC95为3.72%，分化角为17.08°；它们描述人工重复差异，不证明图像完整或真值正确。用户完成的13张A/B/C选择保留为Rater 1独立裁决意见。第二位测量者的两阶段13张独立语义与逐叶几何判断现已校验归档：30个结构中28个选定候选，1个需重描，1个保留争议。[双人共识导航](adaptive_keypoint_discovery_reboot/experiment/phenotype_pilot_protocol/第二阶段几何核验与双人共识导航_20260913.md)优先提示7张，另外6张仍须质量确认；最终GT尚未冻结。此前不运行Teacher-direct/B/D表型比较，不修改B/D模型，不启动正式消融、五随机种子或V4 test。
+当前V4 locked-test协议已正式行政修订为**single-rater model-blind full-40 GT**：一人完成全部40株存在性和所有可测几何，不进行test双人共识或重估inter-rater可靠性。两张纯合成图的平台验证通过后，唯一正式测量包已准备完成（40/40资产和泄漏检查PASS）。用户标注仍待完成，`test_model_reads=0`、`INFERENCE_GATE=CLOSED`；只有raw验证→GT冻结/hash→evaluator冻结→显式授权后才可第一次模型推理。完整登记见[单人GT行政修订](adaptive_keypoint_discovery_reboot/experiment/locked_test_final_20260927/V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md)、[测量包审计与本机入口](adaptive_keypoint_discovery_reboot/experiment/locked_test_final_20260927/V4_TEST_GT_SINGLE_RATER_PACKAGE_AUDIT.md)和[PROJECT_STATE](adaptive_keypoint_discovery_reboot/PROJECT_STATE.md)。私有测量包、映射和raw记录不进入Git。
 
 实验文件请从[`experiment/00_按时间线查看/`](adaptive_keypoint_discovery_reboot/experiment/00_按时间线查看/README.md)进入；原`experiment/`根目录保留为稳定执行层，避免物理移动破坏脚本路径和冻结复现性。

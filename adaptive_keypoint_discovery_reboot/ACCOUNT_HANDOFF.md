@@ -67,6 +67,10 @@
 
 用户接受`CONVERGED`审计后，Route B Student-B第53轮`best.pt`已登记为**final frozen Student-B**，checkpoint SHA-256=`bb2fb948f60d5f3159893fee27493618caa416728f4e1d8d395099df98d19aa2`；绝不继续训练或以人工GT改checkpoint。16株固定V4 val pilot的Teacher→Student逐点审计、cv RTX3090同机效率和预锁定3种轻度扰动均已完成，唯一入口为`experiment/method_gate_20260925/FINAL_METHOD_GATE.md`。方法门槛选B：Student是端到端快约17.75×的学习型教师替代器，Core表型路径匹配与Teacher同为20/24，但Diagnostic为7/9对Teacher9/9，不能宣称Student表型更准或稀有结构不丢失。优化目标是冻结Teacher伪标签，checkpoint选择目标是182/34划分的内部验证loss，科学目标是独立人工表型GT；三者不混用。原始逐点GT关联、计时及稳健性文件在Git忽略的`runtime/method_gate_20260925/`，不得推送。现在应先向用户报告本门槛；V4 test仍锁定，后续评价协议必须**另行预注册**，不得直接运行或继续训练。
 
+### 2026-09-27 locked-test人工来源行政修订（覆盖上节旧下一步）
+
+Student-B epoch53、Gate B learned-surrogate定位、Teacher-direct强参照和secondary Student-D均永久冻结。唯一V2已按预注册裁决明显恶化并回退V1，禁止V3和新训练；V4 val方法开发关闭。V4 locked-test原预注册已完成，其GT来源现由用户在任何test模型推理前正式批准改为single-rater model-blind full-40；新amendment与package audit位于`experiment/locked_test_final_20260927/`。两张纯合成图的12项schema和18项浏览器验证通过后，唯一40株匿名原图测量包已准备，位于Git ignored的`experiment/phenotype_pilot_protocol/runtime/v4_test_single_rater_20260927/public/`；private admin mapping不得随public移交或推送Git。等待用户提交全40株存在性和所有可测几何，之后依次raw验证→GT freeze/hash→evaluator freeze→显式推理授权。**test_model_reads=0，INFERENCE_GATE=CLOSED；不要因包已准备就运行Teacher/B/D，不新增第二测量者、共识或test inter-rater估计，不把开发MDC95当equivalence margin。**最新事实以`PROJECT_STATE.md`第77条及顶部为准。
+
 ## 三、账号切换后的推荐首条指令
 
 将下面文字原样发送给新账号中的 Codex：
