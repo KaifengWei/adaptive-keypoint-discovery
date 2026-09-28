@@ -1,14 +1,14 @@
 # PROJECT STATE
 
-更新时间：2026-09-27
+更新时间：2026-09-28
 
 ## 当前唯一有效入口（覆盖下方历史阶段的“下一步”）
 
-V4 locked-test GT protocol amended to single-rater model-blind full-40 annotation. Formal GT package prepared. Test model inference remains unopened.
+V4 locked-test single-rater model-blind full-40人工原始记录已提交、四文件交叉校验通过并按SHA归档；由冻结`phenotype-geometry-v1`派生的final GT现已冻结。**test evaluator仍PENDING，首次模型test inference仍未开放。**
 
-Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong automatic reference；Student-D仅secondary ablation。Pipeline V2阴性消融已永久回退V1，V4 val方法开发永久关闭。不再训练、修改模型/接口或开发V3，不读取用户额外秧苗图片。用户已正式批准人工GT来源改为单人模型盲全40株；原预注册保留，由`experiment/locked_test_final_20260927/V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md`正式覆盖人工来源部分，其余方法/统计/GT操作定义全部不变。测量包在合成验证后已准备完成，审计见同目录`V4_TEST_GT_SINGLE_RATER_PACKAGE_AUDIT.md`。raw annotation、final GT、test evaluator和首次test inference授权仍PENDING；`test_model_reads=0`，`INFERENCE_GATE=CLOSED`。
+Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong automatic reference；Student-D仅secondary ablation。Pipeline V2阴性消融已永久回退V1，V4 val方法开发永久关闭。不再训练、修改模型/接口或开发V3，不读取用户额外秧苗图片。用户已正式批准人工GT来源改为单人模型盲全40株；原预注册保留，由`experiment/locked_test_final_20260927/V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md`正式覆盖人工来源部分，其余方法/统计/GT操作定义全部不变。40株raw包含91条结构（88条可测、3条仅存在性）；私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`，公开审计见`experiment/locked_test_final_20260927/V4_TEST_SINGLE_RATER_GT_FREEZE_AUDIT.md`。`test_model_reads=0`，`INFERENCE_GATE=CLOSED`；下一步只冻结test evaluator，然后等待用户显式首次推理授权。
 
-异地仅使用`cv-public`：已成功连接`neaucs2-OMEN`，RTX3090/CUDA synthetic smoke通过，B/D checkpoint哈希核验完成；先前远程版本差异已安全同步。`cv`内网与`cv-public`公网只是同一台设备的不同SSH入口，使用同一目录时看到同一份文件，不是两套远程代码。本轮只在本机进行测量包行政资产工作，不运行远程模型。正式测量入口是`experiment/phenotype_pilot_protocol/runtime/v4_test_single_rater_20260927/public/index.html`；40株由一名测量者完成，不安排第二人或test-specific共识/可靠性重估。
+异地仅使用`cv-public`：已成功连接`neaucs2-OMEN`，RTX3090/CUDA synthetic smoke通过，B/D checkpoint哈希核验完成；先前远程版本差异已安全同步。`cv`内网与`cv-public`公网只是同一台设备的不同SSH入口，使用同一目录时看到同一份文件，不是两套远程代码。本轮只在本机进行人工GT技术核验与冻结，不运行远程模型。正式测量包入口是`experiment/phenotype_pilot_protocol/runtime/v4_test_single_rater_20260927/public/index.html`；40株由一名测量者完成，不安排第二人或test-specific共识/可靠性重估。
 
 测量页面已按用户反馈完成UI技术revision 01：默认按窗口宽高完整显示，换图重置缩放/滚动；缺描迹条件立即可见提示，用户主动选可测后进入描迹。图像/ID/顺序/manifest/mapping/原坐标schema/存储key未变，旧记录继续沿用，不清浏览器存储。当前public package SHA=`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；旧版本字节和hash链已私有保留。审计见`experiment/locked_test_final_20260927/V4_TEST_GT_UI_REVISION_01_AUDIT.md`。仅UI修复，不开放任何模型或GT方法变更。
 
@@ -133,6 +133,8 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 
 78. 2026-09-27用户报告正式GT页竖长图缩放不一致与“继续描迹”无明显响应。定位为width-only fit/未重置scroll，以及必须先添加并主动选measurable但提示藏于图下的交互问题。源码`527748f`仅修改HTML/JS显示和明确引导，不预填状态；raw schema、GT定义、方法/模型和坐标存储规则不变。原12项schema与18项浏览器检查重跑PASS，新增横长/竖长合成图13项适配/提示/旧版兼容回归PASS；旧合成已提交记录的localStorage、revision chain和raw导出字节完全一致。通过后更新同一正式包HTML/JS，40图片、blind manifest/mapping/ID顺序和storage key不变，旧代码/ledger保留于private admin/ui_revision_01/previous。新package SHA=`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；正式40株只资产加载/泄漏验收PASS，无真实试画或内容分析。用户备份后刷新原页继续，不需要重标或清缓存。当前仍`test_model_reads=0`、`INFERENCE_GATE=CLOSED`，下一步仍仅等待全40株raw提交。完整技术修订见`experiment/locked_test_final_20260927/V4_TEST_GT_UI_REVISION_01_AUDIT.md`。
 
+79. 2026-09-28用户提交全40株单人模型盲人工测量导出。`raw_annotations.json`、`sessions.csv`、`traces.csv`及`SHA256_LEDGER.json`完成逐字节哈希和逐条记录一致性校验，40/40株共40个不可变正式snapshot、91条结构（88 measurable、3 visible_unmeasurable），无技术修订。四原始文件已按字节归档至Git忽略的私有runtime/results；冻结适配器仅从人工记录、私有映射、锁定test metadata/原shoot mask及既有`phenotype-geometry-v1`生成40株final GT，40株各有一个确定性主路径；45个分化角可解析、3个明确缺失。私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`，`freeze_manifest.json` SHA-256=`9ce4dd58dbf9c7be9c466c5cbfae77bbeff2993a0154bc6121c6a281f3592aea`；公开细节见`experiment/locked_test_final_20260927/V4_TEST_SINGLE_RATER_GT_FREEZE_AUDIT.md`。没有看模型test输出或修改人工GT；**GT已冻结，test evaluator尚未冻结，test_model_reads=0、INFERENCE_GATE=CLOSED**。后续只允许先冻结评估器，再获用户显式授权后做唯一一次正式test推理。
+
 ## 五、训练门槛
 
 - V3 自动处理图已经过接触表复核；正式集为 98 张。
@@ -153,7 +155,7 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 
 ## 六、设备与接续
 
-- **2026-09-27最新执行门槛：**locked-test GT来源已行政修订为单人模型盲全40株；合成验证后的唯一正式包已准备。正式方法与V4 val永久冻结。等待用户提交40株raw，再验证/冻结GT与hash、冻结test evaluator、等待显式首次推理授权。禁止新训练；测量包准备和GPU就绪不是模型读取test的授权。
+- **2026-09-28最新执行门槛：**single-rater model-blind full-40人工GT已按原协议完成raw校验与final GT冻结；正式方法与V4 val永久冻结。当前先冻结test evaluator，之后仍须用户显式授权首次test推理。禁止新训练；GT冻结和GPU就绪均不是模型读取test的授权。
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 当前主远程恢复为`cv`（`neaucs2-OMEN`，RTX3090）。办公室内通过`cv`连接`192.168.2.169`；异地通过`cv-public`连接`101.43.203.197:25001`。公网入口由仅SSH的用户级FRP服务维持。
