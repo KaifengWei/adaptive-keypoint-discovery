@@ -8,6 +8,8 @@ V4 locked-test 已在用户显式授权后，于2026-09-29完成**首次且唯�
 
 同口径的历史V4 val四格效果页另存于本机私有`experiment/phenotype_pilot_protocol/runtime/v4_val_frozen_gallery_20260929/gallery_01/index.html`：40株标准化原图与Teacher-direct、Student-B、Student-D的既有Pipeline V1路径和候选点并排展示。输入路径与冻结pilot账本逐项哈希核对，原图40/40哈希核对，160张面板及浏览器检查通过；未重新运行模型或重算评价。val曾用于开发，不能当作独立最终test。
 
+应用户对白底杂边的质疑，现已完成20个独立扫描帧各一株的**V4 train探索性原背景配对诊断**，不读val/test/GT，不改冻结方法。Teacher-direct、Student-B、secondary Student-D在白底/原背景共120个实例均成功；路径数改变分别为7/3/2株，方向混合，不能宣称原背景整体更好。`v4_train_new_0089`存在明确的扫描器边沿残留及植株主体缺失，原train元数据已标`white_with_large_residual`；这是数据质量问题，不重开test或已冻结模型。完整规则、报告和私有20株×8面板效果页见`experiment/raw_background_diagnostic_20260929/RAW_BACKGROUND_TRAIN_DIAGNOSTIC.md`。原背景条件仍使用clean-derived冻结ROI/掩膜，仅检验ROI内RGB敏感性，不是完整无预处理管线。
+
 最终test表明，Teacher-direct逐株可测路径召回84.17%，Student-B为66.67%，B−Teacher配对差−17.50个百分点（95% CI −27.09至−8.75）；B减少额外预测且端到端同机中位快约18.72×，但不能宣称phenotype覆盖与Teacher等价。Student-D仅secondary，不因test重选主方法。三方法完整植株严格成功仅4/3/5株，基部失败29/28/25株；论文claim必须反映这些不足。Student-B epoch53继续冻结为learned surrogate；Teacher-direct为更强的表型结构恢复参考；Pipeline V1保持冻结，V2阴性消融不重开，V4 val开发永久关闭。40株单人模型盲GT包含91条结构（88条可测、3条仅存在性），私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`。不得再次训练、改GT/模型/接口或复跑V4 test。
 
 异地使用`cv-public`连接`neaucs2-OMEN`同一台RTX3090；远程代码已安全快进至正式运行脚本提交`d9c58ad`，未覆盖三个历史未跟踪val目录。本机和远程共享同一冻结方法哈希。正式预测/计时保存在Git忽略私有`experiment/phenotype_pilot_protocol/runtime/v4_locked_test_final_20260929/run_01/`；评价结果在同级`evaluation_01/`，不能用Github公开仓库替代其私有原始包。原测量包和单人GT保留，不安排test-specific第二测量者共识/可靠性重估。
@@ -141,6 +143,8 @@ V4 locked-test 已在用户显式授权后，于2026-09-29完成**首次且唯�
 81. 2026-09-29用户显式授权且执行唯一一次V4 locked-test。`cv-public`远程仓库受控快进；冻结方法源码、三份权重、evaluator、GT、40张test图像字节哈希/尺寸和manifest均在首次模型test读取前复核吻合。新增GT-blind一次性编排脚本提交`d9c58ad`，只复用冻结graph/decoder，纯合成一致性检查通过。Teacher/B/D各在独立进程完成40株一次推理，共120/120实例、0执行异常；预测包先以SHA`305974bdfdbe9734e9b53f2200f0e6003a3cada01489e1061ac34cfb71267375`封存，之后冻结evaluator才读取GT，评价账本SHA`76145183e356a96cd100edde7b3d50b44b1d86e80d32ebc9b57f920e3735ee19`。逐株宏平均可测召回Teacher/B/D=`84.17/66.67/74.17%`；B−Teacher配对差`−17.50个百分点`，95%CI`[−27.09,−8.75]`；B端到端约`18.72×`更快且额外预测更少，但漏检更重，不能宣称表型等价。严格完整植株仅`4/3/5`株，基部失败`29/28/25`株。Student-D始终secondary，Teacher-direct为更强表型结构参考，B保留快速learned surrogate定位；三份最终报告见`experiment/locked_test_final_20260927/`。**test_model_reads=120 formal method–plant instances；INFERENCE_GATE=PERMANENTLY_CLOSED_AFTER_AUTHORIZED_RUN**；不得第二轮V4 test或按test修改方法、权重、GT。
 
 82. 2026-09-29应用户查看各方法test效果的要求，仅从已封存SHA=`305974bd...267375`的预测包与原40株标准化RGB生成私有离线效果页`experiment/phenotype_pilot_protocol/runtime/v4_locked_test_final_20260929/effect_gallery_01/index.html`。每株原图+Teacher/B/D，共40×4=160幅；采用冻结inverse-letterbox将路径/模型点/基点坐标映回原图，0路径及被拒点原样显示，不修改预测或统计。浏览器逐株40/40图片加载、放大、导航与console验收通过；私有gallery manifest SHA=`c9bfc3eeed2c18fc3a8ac38f4124230e77de65b7bd171e67865298b9cc0d55bf`。该页不是GT、不是新评价、没有模型test重跑；原图与预测图不进入Git。
+
+83. 2026-09-29用户批准对原背景进行不触碰冻结test的探索性配对诊断。先按manifest身份哈希规则锁定V4 train的20个不同扫描帧各一株，从源扫描帧的原裁剪框重建高分辨率原背景RGB，并与既存白底图逐株尺寸配准；固定clean-derived ROI/三器官掩膜，只替换ROI内RGB。原图包和规则先封存，remote `cv-public` RTX3090及全部冻结权重/源码SHA复核通过；远程train manifest与本机字节哈希因文本格式不同，但220行顺序及全部字段解析相同，20株图像SHA相符。Teacher-direct/B/D各40次clean/raw实例，共120次，异常0、没有val/test/GT读取；路径数改变株数7/3/2，变化既有增加也有减少，不构成原背景整体更优证据。`v4_train_new_0089`清楚显示白底输出保留扫描器底边、未完整保留原植株，原数据质量字段为`white_with_large_residual`且人工审核`pending`；记录为数据缺陷，不改V4正式数据、模型或test结论。20株×8面板私有页和逐株统计已完成浏览器及SHA验证，公开说明见`experiment/raw_background_diagnostic_20260929/RAW_BACKGROUND_TRAIN_DIAGNOSTIC.md`。**test总历史正式读取仍为120，test inference gate永久关闭**。
 
 ## 五、训练门槛
 
