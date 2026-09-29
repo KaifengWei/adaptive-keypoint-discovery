@@ -4,11 +4,11 @@
 
 ## 当前唯一有效入口（覆盖下方历史阶段的“下一步”）
 
-V4 locked-test single-rater model-blind full-40人工原始记录已提交、四文件交叉校验通过并按SHA归档；由冻结`phenotype-geometry-v1`派生的final GT现已冻结。离线`V4_LOCKED_TEST_EVALUATOR`已独立实现、通过合成与历史已保存val结果验收并冻结，审计见`experiment/locked_test_final_20260927/V4_LOCKED_TEST_EVALUATOR_FREEZE_AUDIT.md`。**final GT=FROZEN；test evaluator=FROZEN；test_model_reads=0；INFERENCE_GATE=CLOSED_AWAITING_EXPLICIT_USER_AUTHORIZATION。**首次模型test inference仍未开放。
+V4 locked-test 已在用户显式授权后，于2026-09-29完成**首次且唯一一次**40株×3冻结方法的正式推理与离线评价；120/120个method–plant实例完成，2次/方法非test train warm-up，0执行错误，零路径未过滤。GT-blind预测包先封存，SHA-256=`305974bdfdbe9734e9b53f2200f0e6003a3cada01489e1061ac34cfb71267375`，之后才由冻结evaluator读取人工GT；评价账本SHA-256=`76145183e356a96cd100edde7b3d50b44b1d86e80d32ebc9b57f920e3735ee19`。**final GT=FROZEN；test evaluator=FROZEN；test_model_reads=120 formal method–plant instances；INFERENCE_GATE=PERMANENTLY_CLOSED_AFTER_AUTHORIZED_RUN。**完整审计、统计与裁决见`experiment/locked_test_final_20260927/V4_LOCKED_TEST_FINAL_RUN_AUDIT.md`、`V4_LOCKED_TEST_FINAL_RESULTS.md`、`V4_LOCKED_TEST_FINAL_DECISION.md`。
 
-Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong automatic reference；Student-D仅secondary ablation。Pipeline V2阴性消融已永久回退V1，V4 val方法开发永久关闭。不再训练、修改模型/接口或开发V3，不读取用户额外秧苗图片。用户已正式批准人工GT来源改为单人模型盲全40株；原预注册保留，由`experiment/locked_test_final_20260927/V4_LOCKED_TEST_GT_SINGLE_RATER_AMENDMENT.md`正式覆盖人工来源部分，其余方法/统计/GT操作定义全部不变。40株raw包含91条结构（88条可测、3条仅存在性）；私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`，公开审计见`experiment/locked_test_final_20260927/V4_TEST_SINGLE_RATER_GT_FREEZE_AUDIT.md`。`test_model_reads=0`，`INFERENCE_GATE=CLOSED`；下一步只冻结test evaluator，然后等待用户显式首次推理授权。
+最终test表明，Teacher-direct逐株可测路径召回84.17%，Student-B为66.67%，B−Teacher配对差−17.50个百分点（95% CI −27.09至−8.75）；B减少额外预测且端到端同机中位快约18.72×，但不能宣称phenotype覆盖与Teacher等价。Student-D仅secondary，不因test重选主方法。三方法完整植株严格成功仅4/3/5株，基部失败29/28/25株；论文claim必须反映这些不足。Student-B epoch53继续冻结为learned surrogate；Teacher-direct为更强的表型结构恢复参考；Pipeline V1保持冻结，V2阴性消融不重开，V4 val开发永久关闭。40株单人模型盲GT包含91条结构（88条可测、3条仅存在性），私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`。不得再次训练、改GT/模型/接口或复跑V4 test。
 
-异地仅使用`cv-public`：此前已成功连接`neaucs2-OMEN`，RTX3090/CUDA synthetic smoke通过，B/D checkpoint哈希核验完成；先前远程版本差异已安全同步。`cv`内网与`cv-public`公网只是同一台设备的不同SSH入口，使用同一目录时看到同一份文件，不是两套远程代码。本轮只在本机冻结离线test evaluator，不运行远程模型。正式测量包入口是`experiment/phenotype_pilot_protocol/runtime/v4_test_single_rater_20260927/public/index.html`；40株由一名测量者完成，不安排第二人或test-specific共识/可靠性重估。
+异地使用`cv-public`连接`neaucs2-OMEN`同一台RTX3090；远程代码已安全快进至正式运行脚本提交`d9c58ad`，未覆盖三个历史未跟踪val目录。本机和远程共享同一冻结方法哈希。正式预测/计时保存在Git忽略私有`experiment/phenotype_pilot_protocol/runtime/v4_locked_test_final_20260929/run_01/`；评价结果在同级`evaluation_01/`，不能用Github公开仓库替代其私有原始包。原测量包和单人GT保留，不安排test-specific第二测量者共识/可靠性重估。
 
 测量页面已按用户反馈完成UI技术revision 01：默认按窗口宽高完整显示，换图重置缩放/滚动；缺描迹条件立即可见提示，用户主动选可测后进入描迹。图像/ID/顺序/manifest/mapping/原坐标schema/存储key未变，旧记录继续沿用，不清浏览器存储。当前public package SHA=`83f0879cfd744eb161ea5d45b1b1b65a0e1d0437eb20ea6fb5c32ba03ca4844b`；旧版本字节和hash链已私有保留。审计见`experiment/locked_test_final_20260927/V4_TEST_GT_UI_REVISION_01_AUDIT.md`。仅UI修复，不开放任何模型或GT方法变更。
 
@@ -136,6 +136,8 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 79. 2026-09-28用户提交全40株单人模型盲人工测量导出。`raw_annotations.json`、`sessions.csv`、`traces.csv`及`SHA256_LEDGER.json`完成逐字节哈希和逐条记录一致性校验，40/40株共40个不可变正式snapshot、91条结构（88 measurable、3 visible_unmeasurable），无技术修订。四原始文件已按字节归档至Git忽略的私有runtime/results；冻结适配器仅从人工记录、私有映射、锁定test metadata/原shoot mask及既有`phenotype-geometry-v1`生成40株final GT，40株各有一个确定性主路径；45个分化角可解析、3个明确缺失。私有`final_gt.json` SHA-256=`8d3f33854075c841020bd063efdefe0550aaaa7b00c746639687ff35e00222ad`，`freeze_manifest.json` SHA-256=`9ce4dd58dbf9c7be9c466c5cbfae77bbeff2993a0154bc6121c6a281f3592aea`；公开细节见`experiment/locked_test_final_20260927/V4_TEST_SINGLE_RATER_GT_FREEZE_AUDIT.md`。没有看模型test输出或修改人工GT；**GT已冻结，test evaluator尚未冻结，test_model_reads=0、INFERENCE_GATE=CLOSED**。后续只允许先冻结评估器，再获用户显式授权后做唯一一次正式test推理。
 80. 2026-09-29用户正式接受第79条GT冻结，并仅授权冻结test evaluator。离线`V4_LOCKED_TEST_EVALUATOR.py`和合成验收测试已在独立代码提交`e4e21bd2dbdfed501e96b335ca12d2b88579a690`冻结，源码SHA-256=`07e6ad7b06dfe58019c85e1956e0e60de84333c6b203109074a2c8231d43e167`，测试SHA-256=`6cfe794cfca50004775fcdf620ccac0ae79c8218fd6546752f359f58c9f565af`。复用原几何/Hungarian/inverse-letterbox与Pipeline V1源码，未来预测输入必须是完整40×3保存结果，全部失败/NA保留；固定seed的10,000次plant/frame bootstrap和Teacher/B同GT交集配对均预先写死。9项合成/历史保存val测试通过，历史测试没有重跑模型；正式40株GT仅做SHA校验，真实V4 test图像/预测未用于验收。公开审计见`experiment/locked_test_final_20260927/V4_LOCKED_TEST_EVALUATOR_FREEZE_AUDIT.md`。**final GT=FROZEN；test evaluator=FROZEN；test_model_reads=0；INFERENCE_GATE=CLOSED_AWAITING_EXPLICIT_USER_AUTHORIZATION**。后续须用户另行授权第一次且唯一一次正式test推理，本轮停止。
 
+81. 2026-09-29用户显式授权且执行唯一一次V4 locked-test。`cv-public`远程仓库受控快进；冻结方法源码、三份权重、evaluator、GT、40张test图像字节哈希/尺寸和manifest均在首次模型test读取前复核吻合。新增GT-blind一次性编排脚本提交`d9c58ad`，只复用冻结graph/decoder，纯合成一致性检查通过。Teacher/B/D各在独立进程完成40株一次推理，共120/120实例、0执行异常；预测包先以SHA`305974bdfdbe9734e9b53f2200f0e6003a3cada01489e1061ac34cfb71267375`封存，之后冻结evaluator才读取GT，评价账本SHA`76145183e356a96cd100edde7b3d50b44b1d86e80d32ebc9b57f920e3735ee19`。逐株宏平均可测召回Teacher/B/D=`84.17/66.67/74.17%`；B−Teacher配对差`−17.50个百分点`，95%CI`[−27.09,−8.75]`；B端到端约`18.72×`更快且额外预测更少，但漏检更重，不能宣称表型等价。严格完整植株仅`4/3/5`株，基部失败`29/28/25`株。Student-D始终secondary，Teacher-direct为更强表型结构参考，B保留快速learned surrogate定位；三份最终报告见`experiment/locked_test_final_20260927/`。**test_model_reads=120 formal method–plant instances；INFERENCE_GATE=PERMANENTLY_CLOSED_AFTER_AUTHORIZED_RUN**；不得第二轮V4 test或按test修改方法、权重、GT。
+
 ## 五、训练门槛
 
 - V3 自动处理图已经过接触表复核；正式集为 98 张。
@@ -156,7 +158,7 @@ Student-B epoch53保持final frozen learned surrogate；Teacher-direct为strong 
 
 ## 六、设备与接续
 
-- **2026-09-29最新执行门槛：**single-rater model-blind full-40人工GT与离线test evaluator均已冻结；正式方法与V4 val永久冻结。当前只能等待用户审核冻结记录并显式授权首次test推理。禁止新训练；GT/evaluator冻结和GPU就绪均不是模型读取test的授权。`test_model_reads=0`，`INFERENCE_GATE=CLOSED_AWAITING_EXPLICIT_USER_AUTHORIZATION`。
+- **2026-09-29最新执行状态，覆盖此前所有“等待授权”的历史叙述：**用户已显式授权，唯一一次40×3正式V4 locked-test推理和评价已完成；预测和评价SHA见第81条及最终报告。`test_model_reads=120 formal method–plant instances`；`INFERENCE_GATE=PERMANENTLY_CLOSED_AFTER_AUTHORIZED_RUN`。禁止第二轮test、新训练、重标GT或按test修补模型/接口；接下来只能撰写并如实呈现这次冻结证据，未来第二代方法须新独立数据及另行预注册。
 
 - 本机：无 CUDA；用于数据、文档、静态检查和 CPU 冒烟。
 - 当前主远程恢复为`cv`（`neaucs2-OMEN`，RTX3090）。办公室内通过`cv`连接`192.168.2.169`；异地通过`cv-public`连接`101.43.203.197:25001`。公网入口由仅SSH的用户级FRP服务维持。
