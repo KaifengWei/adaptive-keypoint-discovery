@@ -36,7 +36,12 @@ def sha(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_plan(input_root: Path) -> tuple[list[dict], dict[str, dict]]:
+def read_csv_rows(path: Path) -> list[dict]:
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        return list(csv.DictReader(stream))
+
+
+def load_plan(input_root: Path) -> tuple[list[dict], dict[str, dict], dict]:
     manifest_path = input_root / "input_manifest.json"
     if sha(manifest_path) != INPUT_MANIFEST_SHA:
         raise RuntimeError("Paired raw input manifest hash mismatch")
@@ -46,14 +51,28 @@ def load_plan(input_root: Path) -> tuple[list[dict], dict[str, dict]]:
         raise RuntimeError("This run accepts only the frozen 20-train package")
     if len({r["dataset_id"] for r in records}) != 20 or len({r["source_frame_id"] for r in records}) != 20:
         raise RuntimeError("Frozen train identity/frame uniqueness failed")
-    if sha(DATASET / "manifests/train.csv") != package["train_manifest_sha256"]:
-        raise RuntimeError("Train manifest SHA mismatch")
+    remote_train_path = DATASET / "manifests/train.csv"
+    remote_train_sha = sha(remote_train_path)
+    manifest_evidence = {"runtime_manifest_sha256": remote_train_sha,
+                         "frozen_local_manifest_sha256": package["train_manifest_sha256"],
+                         "byte_equal": remote_train_sha == package["train_manifest_sha256"]}
+    if not manifest_evidence["byte_equal"]:
+        # Some cross-OS copies of this ignored CSV differ only in line endings.
+        # Never accept that on assertion alone: require the original bytes and
+        # exact ordered equality of every parsed row/field on the runtime host.
+        reference = input_root / "train_manifest_reference.csv"
+        if sha(reference) != package["train_manifest_sha256"]:
+            raise RuntimeError("Frozen local train manifest reference SHA mismatch")
+        if read_csv_rows(remote_train_path) != read_csv_rows(reference):
+            raise RuntimeError("Remote train manifest differs from frozen local CSV content")
+        manifest_evidence["parsed_rows_equal"] = True
+    else:
+        manifest_evidence["parsed_rows_equal"] = True
     if sha(HERE / "PROTOCOL.md") != package["protocol_sha256"]:
         raise RuntimeError("Preregistered protocol SHA mismatch")
     if sha(HERE / "prepare_inputs.py") != package["prepare_source_sha256"]:
         raise RuntimeError("Input preparation source SHA mismatch")
-    with (DATASET / "manifests/train.csv").open(encoding="utf-8-sig", newline="") as stream:
-        train = {r["dataset_id"]: r for r in csv.DictReader(stream)}
+    train = {r["dataset_id"]: r for r in read_csv_rows(remote_train_path)}
     for record in records:
         ident = record["dataset_id"]
         row = train.get(ident)
@@ -63,7 +82,7 @@ def load_plan(input_root: Path) -> tuple[list[dict], dict[str, dict]]:
         clean = DATASET / Path(row["relative_path"].replace("\\", "/"))
         if sha(raw) != record["raw_sha256"] or sha(clean) != record["clean_sha256"]:
             raise RuntimeError(f"Aligned raw/clean SHA mismatch: {ident}")
-    return records, train
+    return records, train, manifest_evidence
 
 
 def model_inputs(record: dict, train: dict, input_root: Path, frozen):
@@ -101,7 +120,7 @@ def model_inputs(record: dict, train: dict, input_root: Path, frozen):
 def run(method: str, input_root: Path, output_root: Path) -> None:
     if method not in METHODS:
         raise ValueError(method)
-    records, train = load_plan(input_root)
+    records, train, manifest_evidence = load_plan(input_root)
     # Import functions, not the once-only test CLI. Neither import reads test pixels.
     sys.path.insert(0, str(EXPERIMENT / "method_gate_20260925"))
     sys.path.insert(0, str(EXPERIMENT / "locked_test_final_20260927"))
@@ -153,6 +172,7 @@ def run(method: str, input_root: Path, output_root: Path) -> None:
     ledger = {"kind": "20-train frozen clean/raw paired exploratory diagnostic; no val/test/GT read",
               "method": method, "records": 40, "errors": errors,
               "input_manifest_sha256": INPUT_MANIFEST_SHA,
+              "train_manifest_equivalence": manifest_evidence,
               "runner_source_sha256": sha(Path(__file__)),
               "git_commit": evidence["git_commit"], "frozen_weights_sha256": evidence["method_weights_sha256"],
               "frozen_sources_sha256": evidence["pinned_source_sha256"],
@@ -166,7 +186,7 @@ def run(method: str, input_root: Path, output_root: Path) -> None:
 
 
 def preflight(input_root: Path) -> None:
-    records, train = load_plan(input_root)
+    records, train, manifest_evidence = load_plan(input_root)
     sys.path.insert(0, str(EXPERIMENT / "method_gate_20260925"))
     sys.path.insert(0, str(EXPERIMENT))
     import run_frozen_diagnostics as frozen
@@ -189,6 +209,7 @@ def preflight(input_root: Path) -> None:
                       "changed_pixel_fraction_min": min(changed_fractions),
                       "changed_pixel_fraction_median": float(np.median(changed_fractions)),
                       "changed_pixel_fraction_within_roi_median": float(np.median(changed_within_roi)),
+                      "train_manifest_equivalence": manifest_evidence,
                       "test_model_reads": 0}, ensure_ascii=False))
 
 
