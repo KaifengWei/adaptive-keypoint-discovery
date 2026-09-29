@@ -37,3 +37,5 @@ Student-D **只作为预定次要对照**：D−Teacher 可测召回差 −10.00
 同株 Teacher/B 端到端耗时比的中位数为 **18.72×** [16.54,24.24]（Teacher 较慢）；仅点生成比为 57.11× [47.37,78.42]。B 并非所有资源都更省：其 `max_memory_reserved` 为 200 MiB，Teacher 为 152 MiB；观察到的 B 进程 VmRSS 也更高。RAM 为 5 ms 轮询的观察峰值，可能漏掉更短的峰值，不能称精确硬件峰值。运行环境缺 xFormers，结果应按本机冻结环境解读，不外推到别的部署环境。
 
 预注册例图排序完整名单在私有 `preregistered_figure_rank.json`，不可替换个例：rank1最差 `v4_test_0025`，rank20典型 `v4_test_0022`，rank40相对最高 `v4_test_0021`。相对最高并不意味着已完整恢复。逐株/逐路径和 10,000 次置信区间原始统计保存在 `experiment/phenotype_pilot_protocol/runtime/v4_locked_test_final_20260929/evaluation_01/`；预测生产记录保存在同级 `run_01/`，两目录均为 Git 忽略的私有记录。封存 SHA 与执行顺序见 `V4_LOCKED_TEST_FINAL_RUN_AUDIT.md`。
+
+应用户要求，已从**封存预测**而非新模型运行制作本地离线并排效果页：`experiment/phenotype_pilot_protocol/runtime/v4_locked_test_final_20260929/effect_gallery_01/index.html`。40株各有无标注标准化原图、Teacher-direct、Student-B和Student-D共160幅原尺寸图，并有预注册rank1/20/40的三幅快速对照图；彩色线为解码路径、黄点为接受的模型点、灰叉为拒绝点、红框为预测基点。采用冻结inverse-letterbox源码映回原图；浏览器40/40页面资产、导航/放大及console检查通过。`gallery_manifest.json` SHA-256=`c9bfc3eeed2c18fc3a8ac38f4124230e77de65b7bd171e67865298b9cc0d55bf`。该私有可视化不构成新的评价或第二次test inference，也不代替冻结统计。
